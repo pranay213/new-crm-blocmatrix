@@ -1,0 +1,63 @@
+<mat-card
+  class="cardWithShadow"
+  style="
+    background: {{ newitem?.color }};
+    box-shadow: 5px 5px 0px 0px rgba(0, 0,0, 0.65);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(4px);
+    border: 5px solid rgba(255, 255, 255, 0.5);
+  "
+>
+  <div class="m-l-auto">
+    <mat-form-field
+      class="theme-select p-0 mr-0 outline-none"
+      id="selection-box"
+      appearance="outline"
+    >
+      <mat-select
+        formControlName="month.value"
+        value="{{ selectedValue }}"
+        (selectionChange)="setCategoryValue($event)"
+        style="font-size: 12px; font-family: 'Roboto Condensed'"
+      >
+        <mat-option
+          *ngFor="let month of monthsNames"
+          [value]="month.value"
+          style="font-size: 10px"
+        >
+          {{ month.viewValue }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <mat-card-content class="mb-2 mt-2">
+    <mat-card-subtitle
+      class="mat-body-1 font-bold f-w-600 h-[5vh]"
+      style="font-size: 15px; color: #000096 !important"
+      >{{ newitem?.name }}</mat-card-subtitle
+    >
+
+    <div class="d-flex align-items-center mb-2">
+      <h5 class="mat-subtitle-1 f-w-600">{{ newitem?.value }}</h5>
+      <button
+        mat-mini-fab
+        class="bg-white text-success shadow-none icon-27 mx-2"
+      >
+        <i-tabler name="arrow-up-left" class="icon-20"></i-tabler>
+      </button>
+      <div class="mat-body-1 f-w-600 m-l-12">+9%</div>
+    </div>
+  </mat-card-content>
+  <apx-chart
+    [series]="customerChart.series"
+    [dataLabels]="customerChart.dataLabels"
+    [chart]="customerChart.chart"
+    [legend]="customerChart.legend"
+    [colors]="customerChart.colors"
+    [stroke]="customerChart.stroke"
+    [tooltip]="customerChart.tooltip"
+    [plotOptions]="customerChart.plotOptions"
+    [responsive]="customerChart.responsive"
+    [xaxis]="customerChart.xaxis"
+  ></apx-chart>
+</mat-card>

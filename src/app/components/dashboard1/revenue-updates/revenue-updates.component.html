@@ -1,0 +1,93 @@
+<mat-card
+  class="cardWithShadow"
+  style="
+    box-shadow: 5px 5px 0px 0px rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(4px);
+    border: 5px solid rgba(255, 255, 255, 0.5);
+  "
+>
+  <mat-card-header>
+    <div class="d-flex w-100">
+      <div>
+        <mat-card-title>Players Data</mat-card-title>
+      </div>
+      <div class="mx-2 space-x-2">
+        <button
+          mat-raised-button
+          *ngFor="let items of months"
+          style="font-family: 'Roboto Condensed'"
+          (click)="btnClick(items.value)"
+          color="{{ items.value === selectedType ? 'primary' : '' }}"
+          class="my-2"
+        >
+          {{ items.value }}
+        </button>
+      </div>
+      <!-- <div class="m-l-auto">
+        <mat-form-field class="theme-select" appearance="outline">
+          <mat-select value="mar">
+            <mat-option *ngFor="let month of months" [value]="month.value">
+              {{ month.viewValue }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div> -->
+    </div>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="row">
+      <div class="col-sm-8">
+        <apx-chart
+          [series]="revenueChart.series"
+          [dataLabels]="revenueChart.dataLabels"
+          [chart]="revenueChart.chart"
+          [legend]="revenueChart.legend"
+          [xaxis]="revenueChart.xaxis"
+          [yaxis]="revenueChart.yaxis"
+          [grid]="revenueChart.grid"
+          [stroke]="revenueChart.stroke"
+          [tooltip]="revenueChart.tooltip"
+          [plotOptions]="revenueChart.plotOptions"
+        ></apx-chart>
+      </div>
+      <div class="col-sm-4">
+        <div class="d-flex align-items-center m-t-24">
+          <span
+            class="text-primary bg-light-primary rounded icon-40 d-flex align-items-center justify-content-center"
+          >
+            <i-tabler name="grid-dots" class="icon-20 d-flex"></i-tabler>
+          </span>
+
+          <div class="m-l-12">
+            <h5 class="mat-headline-5 m-b-4">100</h5>
+            <span class="mat-subtitle-2">Total Players</span>
+          </div>
+        </div>
+
+        <div class="d-flex m-t-32">
+          <i-tabler
+            name="circle-filled"
+            class="text-primary icon-12"
+          ></i-tabler>
+          <div class="m-l-12">
+            <span class="mat-subtitle-2">Total Recurring Players </span>
+            <h3 class="mat-headline-6 m-t-4">60</h3>
+          </div>
+        </div>
+
+        <div class="d-flex m-t-24">
+          <i-tabler name="circle-filled" class="text-accent icon-12"></i-tabler>
+          <div class="m-l-12">
+            <span class="mat-subtitle-2">Total New Players</span>
+            <h3 class="mat-headline-6 m-t-4">40</h3>
+          </div>
+        </div>
+
+        <!-- <button mat-flat-button color="primary" class="d-block w-100 m-t-32">
+          View Full Report
+        </button> -->
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
