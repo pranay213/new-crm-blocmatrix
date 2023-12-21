@@ -63,19 +63,46 @@ export class PlayerscompareComponent {
   ];
 
   dataPoints: any = {
-    todayPoints: [this.randomIntNumber(1, 100)],
-    yesterdayPoints: [this.randomIntNumber(1, 100)],
+    todayPoints: [0, this.randomIntNumber(1, 100), 0],
+    yesterdayPoints: [0, this.randomIntNumber(1, 100), 0],
     thisWeekPoints: [...Array(7)].map((_, i) => this.randomIntNumber(1, 100)),
     lastWeekPoints: [...Array(7)].map((_, i) => this.randomIntNumber(1, 100)),
     thisMonthPoints: [...Array(30)].map((_, i) => this.randomIntNumber(1, 100)),
     lastMonthPoints: [...Array(30)].map((_, i) => this.randomIntNumber(1, 100)),
   };
 
+  getNameFn(selectedType: any): any {
+    switch (selectedType) {
+      case 'Today Vs Yesterday':
+        return 'Today';
+        break;
+      case 'This Week Vs Last Week':
+        return 'This Week';
+        break;
+      case 'This Month Vs Last Month':
+        return 'This Month';
+        break;
+    }
+  }
+  getNameFn2(selectedType: any): any {
+    switch (selectedType) {
+      case 'Today Vs Yesterday':
+        return 'Yesterday';
+        break;
+      case 'This Week Vs Last Week':
+        return 'Last Week';
+        break;
+      case 'This Month Vs Last Month':
+        return 'Last Month';
+        break;
+    }
+  }
+
   dataPointsFn(selectedType: any) {
     switch (selectedType) {
       case 'Today Vs Yesterday':
         console.log('this.dataPoints.todayPoints', this.dataPoints.todayPoints);
-        return [...this.dataPoints.todayPoints, 0];
+        return this.dataPoints.todayPoints;
         break;
       case 'This Week Vs Last Week':
         return this.dataPoints.thisWeekPoints;
@@ -89,7 +116,7 @@ export class PlayerscompareComponent {
   dataPointsFn2(selectedType: any) {
     switch (selectedType) {
       case 'Today Vs Yesterday':
-        return [...this.dataPoints.yesterdayPoints, 0];
+        return this.dataPoints.yesterdayPoints;
         break;
 
       case 'This Week Vs Last Week':
@@ -105,25 +132,45 @@ export class PlayerscompareComponent {
   btnClick(value: any) {
     // alert('hi');
     this.selectedType = value;
-    console.log('value', value);
+    // console.log('value', value);
     this.revenueChart = {
       series: [
         {
+          name: this.getNameFn(this.selectedType) + ' New Players',
           data: this.dataPointsFn(this.selectedType),
+          group: this.getNameFn(this.selectedType),
+          // data: [11, 0],
+
           color: '#5DcdFF',
         },
         {
-          data: this.dataPointsFn2(this.selectedType),
+          name: this.getNameFn(this.selectedType) + ' Recurring Players',
+          data: this.dataPointsFn(this.selectedType),
+          group: this.getNameFn(this.selectedType),
+          // data: [20, 0],
           color: '#00f',
+        },
+        {
+          name: this.getNameFn2(this.selectedType) + ' New Players',
+          data: this.dataPointsFn2(this.selectedType),
+          group: this.getNameFn2(this.selectedType),
+          // data: [11, 0],
+          color: 'rgba(250, 137, 107,0.5)',
+        },
+        {
+          name: this.getNameFn2(this.selectedType) + ' Recurring Players',
+          data: this.dataPointsFn2(this.selectedType),
+          group: this.getNameFn2(this.selectedType),
+          // data: [20, 0],
+          color: '#763EBD',
         },
       ],
       chart: {
         type: 'bar',
-        height: 380,
-        toolbar: {
-          show: false,
-        },
+        height: 300,
+        stacked: true,
       },
+
       plotOptions: {
         bar: {
           horizontal: false,
@@ -133,18 +180,21 @@ export class PlayerscompareComponent {
           borderRadiusWhenStacked: 'all',
         },
       },
+
+      stroke: {
+        show: false,
+      },
       dataLabels: {
         enabled: false,
       },
-      stroke: {
-        show: true,
-        width: 2,
-        colors: ['transparent'],
+      legend: {
+        show: false,
       },
       grid: {
         borderColor: 'rgba(0,0,0,0.1)',
         strokeDashArray: 3,
         xaxis: {
+          show: false,
           lines: {
             show: false,
           },
@@ -152,6 +202,22 @@ export class PlayerscompareComponent {
       },
       yaxis: {
         show: false,
+      },
+      xaxis: {
+        show: false,
+        labels: {
+          show: false,
+        },
+        axisBorder: {
+          show: false,
+        },
+        axisTicks: {
+          show: false,
+        },
+      },
+      tooltip: {
+        theme: 'dark',
+        fillSeriesColor: false,
       },
     };
   }
@@ -160,23 +226,41 @@ export class PlayerscompareComponent {
     this.revenueChart = {
       series: [
         {
+          name: this.getNameFn(this.selectedType) + ' New Players',
           data: this.dataPointsFn(this.selectedType),
+          group: this.getNameFn(this.selectedType),
           // data: [11, 0],
+
           color: '#5DcdFF',
         },
         {
-          data: this.dataPointsFn2(this.selectedType),
+          name: this.getNameFn(this.selectedType) + ' Recurring Players',
+          data: this.dataPointsFn(this.selectedType),
+          group: this.getNameFn(this.selectedType),
           // data: [20, 0],
           color: '#00f',
+        },
+        {
+          name: this.getNameFn2(this.selectedType) + ' New Players',
+          data: this.dataPointsFn2(this.selectedType),
+          group: this.getNameFn2(this.selectedType),
+          // data: [11, 0],
+          color: 'rgba(250, 137, 107,0.5)',
+        },
+        {
+          name: this.getNameFn2(this.selectedType) + ' Recurring Players',
+          data: this.dataPointsFn2(this.selectedType),
+          group: this.getNameFn2(this.selectedType),
+          // data: [20, 0],
+          color: '#763EBD',
         },
       ],
       chart: {
         type: 'bar',
-        height: 380,
-        toolbar: {
-          show: false,
-        },
+        height: 300,
+        stacked: true,
       },
+
       plotOptions: {
         bar: {
           horizontal: false,
@@ -186,18 +270,21 @@ export class PlayerscompareComponent {
           borderRadiusWhenStacked: 'all',
         },
       },
+
+      stroke: {
+        show: false,
+      },
       dataLabels: {
         enabled: false,
       },
-      stroke: {
-        show: true,
-        width: 2,
-        colors: ['transparent'],
+      legend: {
+        show: false,
       },
       grid: {
         borderColor: 'rgba(0,0,0,0.1)',
         strokeDashArray: 3,
         xaxis: {
+          show: false,
           lines: {
             show: false,
           },
@@ -205,6 +292,22 @@ export class PlayerscompareComponent {
       },
       yaxis: {
         show: false,
+      },
+      xaxis: {
+        show: false,
+        labels: {
+          show: false,
+        },
+        axisBorder: {
+          show: false,
+        },
+        axisTicks: {
+          show: false,
+        },
+      },
+      tooltip: {
+        theme: 'dark',
+        fillSeriesColor: false,
       },
     };
   }

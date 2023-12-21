@@ -64,8 +64,8 @@ export class AppRevenueUpdatesComponent {
   ];
 
   dataPoints: any = {
-    todayPoints: [this.randomIntNumber(1, 100)],
-    yesterdayPoints: [this.randomIntNumber(1, 100)],
+    todayPoints: [0, this.randomIntNumber(1, 100), 0],
+    yesterdayPoints: [0, this.randomIntNumber(1, 100), 0],
     thisWeekPoints: [...Array(7)].map((_, i) => this.randomIntNumber(1, 100)),
     lastWeekPoints: [...Array(7)].map((_, i) => this.randomIntNumber(1, 100)),
     thisMonthPoints: [...Array(30)].map((_, i) => this.randomIntNumber(1, 100)),
@@ -118,9 +118,9 @@ export class AppRevenueUpdatesComponent {
         fontFamily: "'Plus Jakarta Sans', sans-serif;",
         foreColor: '#adb0bb',
         toolbar: {
-          show: false,
+          show: true,
         },
-        height: 380,
+        height: 300,
         stacked: true,
       },
 
@@ -156,16 +156,14 @@ export class AppRevenueUpdatesComponent {
         show: false,
       },
       xaxis: {
-        categories: [
-          '16/08',
-          '17/08',
-          '18/08',
-          '19/08',
-          '20/08',
-          '21/08',
-          '22/08',
-        ],
+        show: false,
+        labels: {
+          show: false,
+        },
         axisBorder: {
+          show: false,
+        },
+        axisTicks: {
           show: false,
         },
       },
@@ -199,9 +197,9 @@ export class AppRevenueUpdatesComponent {
         fontFamily: "'Plus Jakarta Sans', sans-serif;",
         foreColor: '#adb0bb',
         toolbar: {
-          show: false,
+          show: true,
         },
-        height: 380,
+        height: 300,
         stacked: true,
       },
 
@@ -237,16 +235,14 @@ export class AppRevenueUpdatesComponent {
         show: false,
       },
       xaxis: {
-        categories: [
-          '16/08',
-          '17/08',
-          '18/08',
-          '19/08',
-          '20/08',
-          '21/08',
-          '22/08',
-        ],
+        show: false,
+        labels: {
+          show: false,
+        },
         axisBorder: {
+          show: false,
+        },
+        axisTicks: {
           show: false,
         },
       },

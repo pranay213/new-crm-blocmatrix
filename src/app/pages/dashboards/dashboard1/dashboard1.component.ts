@@ -51,6 +51,7 @@ export class AppDashboard1Component implements OnInit {
 
   randomIntNumber: any = (min: any, max: any): any =>
     Math.floor(Math.random() * (max - min + 1) + min);
+
   cardslist: any;
 
   randomIntHours: any = (min: any, max: any): any => {
@@ -66,10 +67,22 @@ export class AppDashboard1Component implements OnInit {
         value: this.randomIntNumber(1, 100),
         // dataPoints: [10, 20, 30, 10, 50, 40],
         dataPoints: this.randomIntFromInterval(1, 100),
-        todayPoints: this.randomIntFromInterval(1, 100),
-        yesterdayPoints: this.randomIntFromInterval(1, 100),
-        lastweekPoints: this.randomIntFromInterval(1, 100),
-        lastmonthPoints: this.randomIntFromInterval(1, 100),
+        todayPoints: [...Array(24)].map((_, i) => this.randomIntNumber(1, 100)),
+        yesterdayPoints: [...Array(24)].map((_, i) =>
+          this.randomIntNumber(1, 100)
+        ),
+        thisweekPoints: [...Array(7)].map((_, i) =>
+          this.randomIntNumber(1, 100)
+        ),
+        lastweekPoints: [...Array(7)].map((_, i) =>
+          this.randomIntNumber(1, 100)
+        ),
+        thismonthPoints: [...Array(30)].map((_, i) =>
+          this.randomIntNumber(1, 100)
+        ),
+        lastmonthPoints: [...Array(30)].map((_, i) =>
+          this.randomIntNumber(1, 100)
+        ),
       },
       {
         name: 'GGR',
@@ -78,10 +91,22 @@ export class AppDashboard1Component implements OnInit {
         value: this.randomIntNumber(1, 100),
         // dataPoints: [2, 5, 6, 10, 50, 40],
         dataPoints: this.randomIntFromInterval(1, 100),
-        todayPoints: this.randomIntFromInterval(1, 100),
-        yesterdayPoints: this.randomIntFromInterval(1, 100),
-        lastweekPoints: this.randomIntFromInterval(1, 100),
-        lastmonthPoints: this.randomIntFromInterval(1, 100),
+        todayPoints: [...Array(24)].map((_, i) => this.randomIntNumber(1, 100)),
+        yesterdayPoints: [...Array(24)].map((_, i) =>
+          this.randomIntNumber(1, 100)
+        ),
+        thisweekPoints: [...Array(7)].map((_, i) =>
+          this.randomIntNumber(1, 100)
+        ),
+        lastweekPoints: [...Array(7)].map((_, i) =>
+          this.randomIntNumber(1, 100)
+        ),
+        thismonthPoints: [...Array(30)].map((_, i) =>
+          this.randomIntNumber(1, 100)
+        ),
+        lastmonthPoints: [...Array(30)].map((_, i) =>
+          this.randomIntNumber(1, 100)
+        ),
       },
       {
         name: 'Deposits',
@@ -90,10 +115,22 @@ export class AppDashboard1Component implements OnInit {
         value: this.randomIntNumber(1, 100),
         // dataPoints: [1, 20, 3, 10, 50, 40],
         dataPoints: this.randomIntFromInterval(1, 100),
-        todayPoints: this.randomIntFromInterval(1, 100),
-        yesterdayPoints: this.randomIntFromInterval(1, 100),
-        lastweekPoints: this.randomIntFromInterval(1, 100),
-        lastmonthPoints: this.randomIntFromInterval(1, 100),
+        todayPoints: [...Array(24)].map((_, i) => this.randomIntNumber(1, 100)),
+        yesterdayPoints: [...Array(24)].map((_, i) =>
+          this.randomIntNumber(1, 100)
+        ),
+        thisweekPoints: [...Array(7)].map((_, i) =>
+          this.randomIntNumber(1, 100)
+        ),
+        lastweekPoints: [...Array(7)].map((_, i) =>
+          this.randomIntNumber(1, 100)
+        ),
+        thismonthPoints: [...Array(30)].map((_, i) =>
+          this.randomIntNumber(1, 100)
+        ),
+        lastmonthPoints: [...Array(30)].map((_, i) =>
+          this.randomIntNumber(1, 100)
+        ),
       },
       {
         name: 'Withdrawal',
@@ -102,10 +139,22 @@ export class AppDashboard1Component implements OnInit {
         value: this.randomIntNumber(1, 100),
         // dataPoints: [6, 20, 4, 10, 8, 40],
         dataPoints: this.randomIntFromInterval(1, 100),
-        todayPoints: this.randomIntFromInterval(1, 100),
-        yesterdayPoints: this.randomIntFromInterval(1, 100),
-        lastweekPoints: this.randomIntFromInterval(1, 100),
-        lastmonthPoints: this.randomIntFromInterval(1, 100),
+        todayPoints: [...Array(24)].map((_, i) => this.randomIntNumber(1, 100)),
+        yesterdayPoints: [...Array(24)].map((_, i) =>
+          this.randomIntNumber(1, 100)
+        ),
+        thisweekPoints: [...Array(7)].map((_, i) =>
+          this.randomIntNumber(1, 100)
+        ),
+        lastweekPoints: [...Array(7)].map((_, i) =>
+          this.randomIntNumber(1, 100)
+        ),
+        thismonthPoints: [...Array(30)].map((_, i) =>
+          this.randomIntNumber(1, 100)
+        ),
+        lastmonthPoints: [...Array(30)].map((_, i) =>
+          this.randomIntNumber(1, 100)
+        ),
       },
       {
         name: 'FTDS',
@@ -114,10 +163,22 @@ export class AppDashboard1Component implements OnInit {
         value: this.randomIntNumber(1, 100),
         // dataPoints: [180, 20, 25, 10, 50, 9],
         dataPoints: this.randomIntFromInterval(1, 100),
-        todayPoints: this.randomIntFromInterval(1, 100),
-        yesterdayPoints: this.randomIntFromInterval(1, 100),
-        lastweekPoints: this.randomIntFromInterval(1, 100),
-        lastmonthPoints: this.randomIntFromInterval(1, 100),
+        todayPoints: [...Array(24)].map((_, i) => this.randomIntNumber(1, 100)),
+        yesterdayPoints: [...Array(24)].map((_, i) =>
+          this.randomIntNumber(1, 100)
+        ),
+        thisweekPoints: [...Array(7)].map((_, i) =>
+          this.randomIntNumber(1, 100)
+        ),
+        lastweekPoints: [...Array(7)].map((_, i) =>
+          this.randomIntNumber(1, 100)
+        ),
+        thismonthPoints: [...Array(30)].map((_, i) =>
+          this.randomIntNumber(1, 100)
+        ),
+        lastmonthPoints: [...Array(30)].map((_, i) =>
+          this.randomIntNumber(1, 100)
+        ),
       },
       {
         name: 'Live Players',
@@ -126,10 +187,22 @@ export class AppDashboard1Component implements OnInit {
         value: this.randomIntNumber(1, 100),
         // dataPoints: [10, 20, 30, 10, 50, 40],
         dataPoints: this.randomIntFromInterval(1, 100),
-        todayPoints: this.randomIntFromInterval(1, 100),
-        yesterdayPoints: this.randomIntFromInterval(1, 100),
-        lastweekPoints: this.randomIntFromInterval(1, 100),
-        lastmonthPoints: this.randomIntFromInterval(1, 100),
+        todayPoints: [...Array(24)].map((_, i) => this.randomIntNumber(1, 100)),
+        yesterdayPoints: [...Array(24)].map((_, i) =>
+          this.randomIntNumber(1, 100)
+        ),
+        thisweekPoints: [...Array(7)].map((_, i) =>
+          this.randomIntNumber(1, 100)
+        ),
+        lastweekPoints: [...Array(7)].map((_, i) =>
+          this.randomIntNumber(1, 100)
+        ),
+        thismonthPoints: [...Array(30)].map((_, i) =>
+          this.randomIntNumber(1, 100)
+        ),
+        lastmonthPoints: [...Array(30)].map((_, i) =>
+          this.randomIntNumber(1, 100)
+        ),
       },
       {
         name: 'New Players',
@@ -138,10 +211,22 @@ export class AppDashboard1Component implements OnInit {
         value: this.randomIntNumber(1, 100),
         // dataPoints: [10, 20, 30, 10, 50, 40],
         dataPoints: this.randomIntFromInterval(1, 100),
-        todayPoints: this.randomIntFromInterval(1, 100),
-        yesterdayPoints: this.randomIntFromInterval(1, 100),
-        lastweekPoints: this.randomIntFromInterval(1, 100),
-        lastmonthPoints: this.randomIntFromInterval(1, 100),
+        todayPoints: [...Array(24)].map((_, i) => this.randomIntNumber(1, 100)),
+        yesterdayPoints: [...Array(24)].map((_, i) =>
+          this.randomIntNumber(1, 100)
+        ),
+        thisweekPoints: [...Array(7)].map((_, i) =>
+          this.randomIntNumber(1, 100)
+        ),
+        lastweekPoints: [...Array(7)].map((_, i) =>
+          this.randomIntNumber(1, 100)
+        ),
+        thismonthPoints: [...Array(30)].map((_, i) =>
+          this.randomIntNumber(1, 100)
+        ),
+        lastmonthPoints: [...Array(30)].map((_, i) =>
+          this.randomIntNumber(1, 100)
+        ),
       },
       {
         name: 'Recurring Players',
@@ -150,10 +235,22 @@ export class AppDashboard1Component implements OnInit {
         value: this.randomIntNumber(1, 100),
         // dataPoints: [10, 20, 30, 10, 50, 40],
         dataPoints: this.randomIntFromInterval(1, 100),
-        todayPoints: this.randomIntFromInterval(1, 100),
-        yesterdayPoints: this.randomIntFromInterval(1, 100),
-        lastweekPoints: this.randomIntFromInterval(1, 100),
-        lastmonthPoints: this.randomIntFromInterval(1, 100),
+        todayPoints: [...Array(24)].map((_, i) => this.randomIntNumber(1, 100)),
+        yesterdayPoints: [...Array(24)].map((_, i) =>
+          this.randomIntNumber(1, 100)
+        ),
+        thisweekPoints: [...Array(7)].map((_, i) =>
+          this.randomIntNumber(1, 100)
+        ),
+        lastweekPoints: [...Array(7)].map((_, i) =>
+          this.randomIntNumber(1, 100)
+        ),
+        thismonthPoints: [...Array(30)].map((_, i) =>
+          this.randomIntNumber(1, 100)
+        ),
+        lastmonthPoints: [...Array(30)].map((_, i) =>
+          this.randomIntNumber(1, 100)
+        ),
       },
       {
         name: 'Affiliate Count',
@@ -162,10 +259,22 @@ export class AppDashboard1Component implements OnInit {
         value: this.randomIntNumber(1, 100),
         // dataPoints: [10, 20, 30, 10, 50, 40],
         dataPoints: this.randomIntFromInterval(1, 100),
-        todayPoints: this.randomIntFromInterval(1, 100),
-        yesterdayPoints: this.randomIntFromInterval(1, 100),
-        lastweekPoints: this.randomIntFromInterval(1, 100),
-        lastmonthPoints: this.randomIntFromInterval(1, 100),
+        todayPoints: [...Array(24)].map((_, i) => this.randomIntNumber(1, 100)),
+        yesterdayPoints: [...Array(24)].map((_, i) =>
+          this.randomIntNumber(1, 100)
+        ),
+        thisweekPoints: [...Array(7)].map((_, i) =>
+          this.randomIntNumber(1, 100)
+        ),
+        lastweekPoints: [...Array(7)].map((_, i) =>
+          this.randomIntNumber(1, 100)
+        ),
+        thismonthPoints: [...Array(30)].map((_, i) =>
+          this.randomIntNumber(1, 100)
+        ),
+        lastmonthPoints: [...Array(30)].map((_, i) =>
+          this.randomIntNumber(1, 100)
+        ),
       },
       {
         name: 'Total Players',
@@ -174,10 +283,22 @@ export class AppDashboard1Component implements OnInit {
         value: this.randomIntNumber(1, 100),
         // dataPoints: [10, 20, 30, 10, 50, 40],
         dataPoints: this.randomIntFromInterval(1, 100),
-        todayPoints: this.randomIntFromInterval(1, 100),
-        yesterdayPoints: this.randomIntFromInterval(1, 100),
-        lastweekPoints: this.randomIntFromInterval(1, 100),
-        lastmonthPoints: this.randomIntFromInterval(1, 100),
+        todayPoints: [...Array(24)].map((_, i) => this.randomIntNumber(1, 100)),
+        yesterdayPoints: [...Array(24)].map((_, i) =>
+          this.randomIntNumber(1, 100)
+        ),
+        thisweekPoints: [...Array(7)].map((_, i) =>
+          this.randomIntNumber(1, 100)
+        ),
+        lastweekPoints: [...Array(7)].map((_, i) =>
+          this.randomIntNumber(1, 100)
+        ),
+        thismonthPoints: [...Array(30)].map((_, i) =>
+          this.randomIntNumber(1, 100)
+        ),
+        lastmonthPoints: [...Array(30)].map((_, i) =>
+          this.randomIntNumber(1, 100)
+        ),
       },
     ];
   }

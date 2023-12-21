@@ -37,16 +37,36 @@ export interface customerChart {
   templateUrl: './customers.component.html',
 })
 export class AppCustomersComponent implements OnInit {
+  categorypoints: any = {};
   monthsNames: any = [
     { value: 'Today', viewValue: 'Today' },
     { value: 'Yesterday', viewValue: 'Yesterday' },
-    { value: 'Last week', viewValue: 'Last week' },
-    { value: 'Last month', viewValue: 'Last month' },
+    { value: 'This Week', viewValue: 'This Week' },
+    { value: 'Last Week', viewValue: 'Last Week' },
+    { value: 'This Month', viewValue: 'This Month' },
+    { value: 'Last Month', viewValue: 'Last Month' },
   ];
   @Input() newitem: any = {};
   name: string = '';
   color: string = '';
   selectedValue = 'Today';
+
+  selectedPoints(type: any) {
+    if (type === 'Today') {
+      console.log('TodayPoints', this.newitem);
+      return this.newitem?.todayPoints;
+    } else if (type === 'Yesterday') {
+      return this.newitem?.yesterdayPoints;
+    } else if (type === 'This Week') {
+      return this.newitem?.thisweekPoints;
+    } else if (type === 'Last Week') {
+      return this.newitem?.lastweekPoints;
+    } else if (type === 'This Month') {
+      return this.newitem?.thismonthPoints;
+    } else if (type === 'Last Month') {
+      return this.newitem?.lastmonthPoints;
+    } else return this.newitem?.dataPoints;
+  }
 
   setCategoryValue(event: any) {
     this.selectedValue = event.value;
@@ -90,15 +110,7 @@ export class AppCustomersComponent implements OnInit {
       },
 
       xaxis: {
-        type: 'datetime',
-        categories: [
-          '2018-09-19T00:00:00.000Z',
-          '2018-09-19T01:30:00.000Z',
-          '2018-09-19T02:30:00.000Z',
-          '2018-09-19T03:30:00.000Z',
-          '2018-09-19T04:30:00.000Z',
-          '2018-09-19T04:30:00.000Z',
-        ],
+        show: false,
       },
       tooltip: {
         theme: 'dark',
@@ -107,17 +119,6 @@ export class AppCustomersComponent implements OnInit {
     };
   }
 
-  selectedPoints(type: any) {
-    if (type === 'Today') {
-      return this.newitem?.todayPoints;
-    } else if (type === 'Yesterday') {
-      return this.newitem?.yesterdayPoints;
-    } else if (type === 'Last week') {
-      return this.newitem?.lastweekPoints;
-    } else if (type === 'Last month') {
-      return this.newitem?.lastmonthPoints;
-    } else return this.newitem?.dataPoints;
-  }
   @ViewChild('chart') chart: ChartComponent = Object.create(null);
   public customerChart!: Partial<customerChart> | any;
 
@@ -161,11 +162,13 @@ export class AppCustomersComponent implements OnInit {
       markers: {
         size: 0,
       },
+
+      xaxis: {
+        show: false,
+      },
       tooltip: {
         theme: 'dark',
-        x: {
-          show: false,
-        },
+        fillSeriesColor: false,
       },
     };
   }
