@@ -8,12 +8,16 @@
   "
 >
   <mat-card-header>
-    <div class="d-flex w-100">
-      <div>
-        <mat-card-title>Players Data</mat-card-title>
+    <div class="d-flex flex-col w-100 mb-5">
+      <div class="w-full my-2">
+        <mat-card-title
+          class="text-[#000096] text-xl"
+          style="font-family: 'Roboto Condensed'"
+          >Players Data</mat-card-title
+        >
       </div>
-      <div class="mx-2 space-x-2">
-        <button
+      <div class="mx-2 space-x-2 flex flex-row items-center">
+        <!-- <button
           mat-raised-button
           *ngFor="let items of months"
           style="font-family: 'Roboto Condensed'"
@@ -22,7 +26,33 @@
           class="my-2"
         >
           {{ items.value }}
-        </button>
+        </button> -->
+        <div class="w-4/5">
+          <button
+            type="button"
+            *ngFor="let items of months"
+            style="font-family: 'Roboto Condensed'; font-size: 11px"
+            (click)="btnClick(items.value)"
+            [ngClass]="
+              items.value === selectedType
+                ? 'bg-[#5DcdFF] px-2 rounded-sm text-[#fff] '
+                : 'px-2'
+            "
+          >
+            {{ items.value }}
+          </button>
+        </div>
+        <div class="1/5 flex flex-row items-center justify-center">
+          <button
+            mat-raised-button
+            style="font-family: 'Roboto Condensed'"
+            (click)="selectFN('compare')"
+            color="primary"
+            class="w-[100px]"
+          >
+            {{ "Compare" }}
+          </button>
+        </div>
       </div>
       <!-- <div class="m-l-auto">
         <mat-form-field class="theme-select" appearance="outline">

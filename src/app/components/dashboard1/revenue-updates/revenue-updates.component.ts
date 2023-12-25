@@ -1,4 +1,10 @@
-import { Component, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import {
   ApexChart,
   ChartComponent,
@@ -17,7 +23,7 @@ import {
 } from 'ng-apexcharts';
 import { MaterialModule } from '../../../material.module';
 import { TablerIconsModule } from 'angular-tabler-icons';
-import { NgForOf } from '@angular/common';
+import { NgClass, NgForOf } from '@angular/common';
 
 interface month {
   value: string;
@@ -42,15 +48,25 @@ export interface revenueChart {
 @Component({
   selector: 'app-revenue-updates',
   standalone: true,
-  imports: [NgApexchartsModule, MaterialModule, TablerIconsModule, NgForOf],
+  imports: [
+    NgApexchartsModule,
+    MaterialModule,
+    TablerIconsModule,
+    NgForOf,
+    NgClass,
+  ],
   templateUrl: './revenue-updates.component.html',
 })
 export class AppRevenueUpdatesComponent {
   @ViewChild('chart') chart: ChartComponent = Object.create(null);
+  @Output() selectEvent = new EventEmitter<string>();
 
   public revenueChart!: Partial<revenueChart> | any;
   selectedType: any = 'Today';
 
+  selectFN(value: any) {
+    this.selectEvent.emit(value);
+  }
   randomIntNumber: any = (min: any, max: any): any =>
     Math.floor(Math.random() * (max - min + 1) + min);
 

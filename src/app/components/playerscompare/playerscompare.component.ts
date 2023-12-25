@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
 import {
   ApexChart,
   ChartComponent,
@@ -16,7 +16,7 @@ import {
   NgApexchartsModule,
 } from 'ng-apexcharts';
 import { TablerIconsModule } from 'angular-tabler-icons';
-import { NgForOf } from '@angular/common';
+import { NgClass, NgForOf } from '@angular/common';
 import { MaterialModule } from 'src/app/material.module';
 
 interface month {
@@ -42,12 +42,23 @@ export interface revenueChart {
 @Component({
   selector: 'app-playerscompare',
   standalone: true,
-  imports: [NgApexchartsModule, MaterialModule, TablerIconsModule, NgForOf],
+  imports: [
+    NgApexchartsModule,
+    MaterialModule,
+    TablerIconsModule,
+    NgForOf,
+    NgClass,
+  ],
   templateUrl: './playerscompare.component.html',
 })
 export class PlayerscompareComponent {
   @ViewChild('chart') chart: ChartComponent = Object.create(null);
   selectedType: any = 'Today Vs Yesterday';
+  @Output() selectEvent = new EventEmitter<string>();
+
+  selectFN(value: any) {
+    this.selectEvent.emit(value);
+  }
 
   public revenueChart!: Partial<revenueChart> | any;
   randomIntNumber: any = (min: any, max: any): any =>
