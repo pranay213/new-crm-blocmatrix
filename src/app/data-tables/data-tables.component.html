@@ -1,0 +1,178 @@
+<!-- <div
+  class="mat-elevation-z8"
+  style="
+    box-shadow: 5px 5px 0px 0px rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(4px);
+    border: 5px solid rgba(255, 255, 255, 0.5);
+  "
+>
+  <mat-card-header>
+    <div class="d-flex flex-col w-100 mb-2">
+      <div class="w-full my-0">
+        <mat-card-title
+          class="text-[#000096] font-bold"
+          style="
+            font-family: 'Roboto Condensed';
+            font-weight: 600;
+            font-size: 18px;
+          "
+          >{{ title }}</mat-card-title
+        >
+      </div>
+    </div>
+  </mat-card-header>
+
+  <div class="relative overflow-x-auto">
+    <table
+      class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 h-[46vh]"
+    >
+      <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+        <tr class="border">
+          <th
+            scope="col"
+            class="text-[10px] h-[40px] px-2 text-[#000096]"
+            *ngFor="let item of tablesHeadings"
+          >
+            {{ item }}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          class="bg-white border-b dark:bg-gray-800"
+          *ngFor="let item of tableData"
+        >
+          <td
+            class="text-[10px] px-2 text-black text-center"
+            *ngFor="let heads of tablesHeadings"
+          >
+            {{ item[heads] }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <mat-paginator
+    [pageSizeOptions]="[5]"
+    showFirstLastButtons
+    aria-label="Select page of periodic elements"
+  >
+  </mat-paginator>
+</div> -->
+
+<div
+  class="mat-elevation-z8 table-responsive"
+  style="
+    box-shadow: 5px 5px 0px 0px rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(4px);
+    border: 5px solid rgba(255, 255, 255, 0.5);
+  "
+>
+  <mat-card-header>
+    <div class="d-flex flex-col w-100 mb-2">
+      <div class="w-full my-0 flex flex-row">
+        <mat-card-title
+          class="text-[#000096] font-bold"
+          style="
+            font-family: 'Roboto Condensed';
+            font-weight: 600;
+            margin: 10px 0;
+            font-size: 20px;
+          "
+          >{{ title }}
+          <button
+            mat-raised-button
+            color="primary"
+            class="mx-5"
+            *ngIf="chart"
+            (click)="selectedTypeFn()"
+          >
+            {{ selectedType === "Table" ? "Chart" : "Table" }}
+          </button>
+        </mat-card-title>
+
+        <div></div>
+        <div class="m-l-auto">
+          <mat-form-field
+            class="theme-select p-0 mr-0 outline-none"
+            id="selection-box"
+            appearance="outline"
+          >
+            <mat-select
+              formControlName="month.value"
+              value="{{ selectedValue }}"
+              (selectionChange)="setCategoryValue($event)"
+              style="font-size: 12px; font-family: 'Roboto Condensed'"
+            >
+              <mat-option
+                *ngFor="let month of monthsNames"
+                [value]="month.value"
+                style="font-size: 10px"
+              >
+                {{ month.viewValue }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </mat-card-header>
+
+  <div class="h-[100%]">
+    <div class="{{ selectedType === 'Table' ? '' : 'hidden' }}">
+      <table mat-table [dataSource]="tableData" class="w-full -mt-3">
+        <!-- Position Column -->
+        <ng-container [matColumnDef]="item" *ngFor="let item of tablesHeadings">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            style="
+              font-family: 'Roboto Condensed';
+              background-color: #ecf2ff;
+              color: #000096;
+              font-weight: 500;
+            "
+          >
+            {{ item }}
+          </th>
+          <td
+            mat-cell
+            *matCellDef="let element"
+            style="
+              font-family: 'Roboto Condensed';
+              text-align: center;
+              font-size: 13px;
+            "
+          >
+            {{ element[item] }}
+          </td>
+        </ng-container>
+
+        <tr
+          mat-header-row
+          *matHeaderRowDef="tablesHeadings"
+          style="font-family: 'Roboto Condensed'"
+        ></tr>
+        <tr
+          mat-row
+          *matRowDef="let row; columns: tablesHeadings"
+          style="font-family: 'Roboto Condensed'"
+        ></tr>
+      </table>
+
+      <mat-paginator
+        [pageSizeOptions]="[5]"
+        showFirstLastButtons
+        aria-label="Select page of periodic elements"
+        style="font-family: 'Roboto Condensed'"
+      >
+      </mat-paginator>
+    </div>
+    <div *ngIf="selectedType === 'Chart'" class="py-10">
+      <app-doughnut-pie [chartPoints]="tableData"></app-doughnut-pie>
+    </div>
+  </div>
+</div>

@@ -1,38 +1,51 @@
 <!-- <app-top-cards></app-top-cards> -->
-<div class="row">
+<div class="">
+  <app-cards-new></app-cards-new>
+</div>
+<div class="row mx-auto">
   <div
     *ngFor="let item of cardslist"
-    class="mx-1 lg:mx-4 w-full lg:w-1/6"
-    style="height: 20%"
+    class="w-full lg:w-1/6 mx-auto"
+    style="height: 10% !important"
   >
     <app-customers [newitem]="item"></app-customers>
   </div>
 </div>
 <div class="row">
   <div class="col-lg-6">
-    <app-revenue-updates></app-revenue-updates>
+    <app-revenue-updates
+      *ngIf="selected === 'data'"
+      (selectEvent)="selectedFn($event)"
+    ></app-revenue-updates>
+    <app-playerscompare
+      *ngIf="selected === 'compare'"
+      (selectEvent)="selectedFn($event)"
+    ></app-playerscompare>
   </div>
   <div class="col-lg-6">
-    <app-playerscompare></app-playerscompare>
+    <app-data-tables
+      [title]="'Top Games'"
+      [tableData]="topGamesData"
+      [tablesHeadings]="displayedColumns"
+    ></app-data-tables>
   </div>
   <div class="col-lg-6">
-    <app-revenue-updates></app-revenue-updates>
+    <app-data-tables
+      [title]="'Top Depositors'"
+      [tableData]="topDepositorData"
+      [tablesHeadings]="displayedColumns2"
+    ></app-data-tables>
   </div>
   <div class="col-lg-6">
-    <app-playerscompare></app-playerscompare>
+    <app-data-tables
+      [title]="'Payment Gateways'"
+      [tableData]="paymentGateways"
+      [tablesHeadings]="displayedColumns3"
+      [chart]="true"
+      [piePoints]="piePoints"
+    ></app-data-tables>
   </div>
-  <div class="col-lg-6">
-    <app-revenue-updates></app-revenue-updates>
-  </div>
-  <div class="col-lg-6">
-    <app-playerscompare></app-playerscompare>
-  </div>
-  <div class="col-lg-6">
-    <app-revenue-updates></app-revenue-updates>
-  </div>
-  <div class="col-lg-6">
-    <app-playerscompare></app-playerscompare>
-  </div>
+
   <!-- <div class="col-lg-4">
     <div class="row">
       <div class="col-12 col-sm-6 col-lg-12">

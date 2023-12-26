@@ -1,5 +1,4 @@
-<div class="row">
-  <div class="col-lg-6">
+<!-- <div class="col-lg-6">
     <mat-card class="cardWithShadow theme-card">
       <mat-card-header>
         <mat-card-title class="m-b-0">Doughnut</mat-card-title>
@@ -17,24 +16,14 @@
         </apx-chart>
       </mat-card-content>
     </mat-card>
-  </div>
-  <div class="col-lg-6">
-    <mat-card class="cardWithShadow theme-card">
-      <mat-card-header>
-        <mat-card-title class="m-b-0">Pie</mat-card-title>
-      </mat-card-header>
-      <mat-card-content class="b-t-1">
-        <apx-chart
-          [series]="doughnutChartOptions.series"
-          [chart]="doughnutChartOptions.chart"
-          [dataLabels]="doughnutChartOptions.dataLabels"
-          [plotOptions]="doughnutChartOptions.plotOptions"
-          [legend]="doughnutChartOptions.legend"
-          [colors]="doughnutChartOptions.colors"
-          [tooltip]="doughnutChartOptions.tooltip"
-        >
-        </apx-chart>
-      </mat-card-content>
-    </mat-card>
-  </div>
+  </div> -->
+
+<div class="flex items-center justify-center h-[100%] py-8">
+  <apx-chart
+    [series]="chartOptions.series"
+    [chart]="chartOptions.chart"
+    [labels]="chartOptions.labels"
+    [responsive]="chartOptions.responsive"
+  >
+  </apx-chart>
 </div>

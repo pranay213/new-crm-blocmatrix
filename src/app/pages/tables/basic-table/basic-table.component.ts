@@ -23,7 +23,7 @@ const PRODUCT_DATA: productsData[] = [
     position: 'Web Designer',
     productName: 'Elite Admin',
     budget: 3.9,
-    priority: 'low'
+    priority: 'low',
   },
   {
     id: 2,
@@ -32,7 +32,7 @@ const PRODUCT_DATA: productsData[] = [
     position: 'Project Manager',
     productName: 'Real Homes Theme',
     budget: 24.5,
-    priority: 'medium'
+    priority: 'medium',
   },
   {
     id: 3,
@@ -41,7 +41,7 @@ const PRODUCT_DATA: productsData[] = [
     position: 'Project Manager',
     productName: 'MedicalPro Theme',
     budget: 12.8,
-    priority: 'high'
+    priority: 'high',
   },
   {
     id: 4,
@@ -50,7 +50,7 @@ const PRODUCT_DATA: productsData[] = [
     position: 'Frontend Engineer',
     productName: 'Hosting Press HTML',
     budget: 2.4,
-    priority: 'critical'
+    priority: 'critical',
   },
 ];
 
@@ -162,55 +162,53 @@ export interface Element {
 }
 
 const BASIC_DATA: Element[] = [
-  { 
+  {
     imgSrc: 'assets/images/profile/user-1.jpg',
     name: 'Micheal Doe',
     post: 'Web Designer',
     pname: 'Elite Admin',
     status: 'Active',
     color: 'success',
-    budget: '3.9'
-   },
-   { 
+    budget: '3.9',
+  },
+  {
     imgSrc: 'assets/images/profile/user-2.jpg',
     name: 'Andrew McDownland',
     post: 'Project Manager',
     pname: 'Real Homes WP Theme',
     status: 'Pending',
     color: 'warning',
-    budget: '3.9'
-   },
-   { 
+    budget: '3.9',
+  },
+  {
     imgSrc: 'assets/images/profile/user-3.jpg',
     name: 'Christopher Jamil',
     post: 'Frontend Engineer',
     pname: 'MedicalPro WP Theme',
     status: 'Cancel',
     color: 'error',
-    budget: '3.9'
-   },
-   { 
+    budget: '3.9',
+  },
+  {
     imgSrc: 'assets/images/profile/user-4.jpg',
     name: 'Mathew Anderson',
     post: 'Content Writer',
     pname: 'Hosting Press HTML',
     status: 'Completed',
     color: 'primary',
-    budget: '3.9'
-   },
+    budget: '3.9',
+  },
 ];
-
 
 @Component({
   selector: 'app-basic-table',
   standalone: true,
-  imports:[MaterialModule, CommonModule],
+  imports: [MaterialModule, CommonModule],
   templateUrl: './basic-table.component.html',
 })
 export class AppBasicTableComponent implements OnInit {
-
   // table 4
-  
+
   displayedColumns4 = ['name', 'pname', 'status', 'budget'];
   dataSource4 = new MatTableDataSource<Element>(BASIC_DATA);
 
@@ -236,5 +234,3 @@ export class AppBasicTableComponent implements OnInit {
 
   ngOnInit(): void {}
 }
-
-

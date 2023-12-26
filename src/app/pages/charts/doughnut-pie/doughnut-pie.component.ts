@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, Input } from '@angular/core';
 import {
   ApexAxisChartSeries,
   ApexChart,
@@ -41,75 +41,39 @@ export type ChartOptions = {
   templateUrl: './doughnut-pie.component.html',
 })
 export class AppDoughnutpieChartComponent {
+  @Input() chartPoints: any;
   @ViewChild('chart') chart: ChartComponent = Object.create(null);
   public doughnutChartOptions: Partial<ChartOptions> | any;
-  public pieChartOptions: Partial<ChartOptions> | any;
+  public chartOptions: any;
 
   constructor() {
-    //doughnut chart.
-    this.doughnutChartOptions = {
-      series: [45, 15, 27, 18, 35],
+    this.chartOptions = {
+      series: [44, 55, 13, 43, 22],
       chart: {
-        id: 'donut-chart',
+        width: 400,
         type: 'donut',
-        height: 350,
-        fontFamily: "'Plus Jakarta Sans', sans-serif",
-        foreColor: '#adb0bb',
+        fontFamily: "'Roboto Condensed'",
       },
-      dataLabels: {
-        enabled: false,
-      },
-      plotOptions: {
-        pie: {
-          donut: {
-            size: '70px',
+      labels: [
+        'Payment Gateway A',
+        'Payment Gateway B',
+        'Payment Gateway C',
+        'Payment Gateway D',
+        'Payment Gateway E',
+      ],
+      responsive: [
+        {
+          breakpoint: 480,
+          options: {
+            chart: {
+              width: 200,
+            },
+            legend: {
+              position: 'bottom',
+            },
           },
         },
-      },
-      legend: {
-        show: true,
-        position: 'bottom',
-        width: '50px',
-      },
-      colors: ['#5D87FF', '#ECF2FF', '#49BEFF', '#E8F7FF', '#FFAE1F'],
-      tooltip: {
-        theme: 'dark',
-        fillSeriesColor: false,
-      },
-    };
-
-     //pie chart.
-     this.pieChartOptions = {
-      series: [45, 15, 27, 18, 35],
-      chart: {
-        id: 'pie-chart',
-        type: 'pie',
-        height: 350,
-        fontFamily: "'Plus Jakarta Sans', sans-serif",
-        foreColor: '#adb0bb',
-        toolbar: {
-          show: false,
-        },
-      },
-      dataLabels: {
-        enabled: false,
-      },
-      plotOptions: {
-        pie: {
-          donut: {
-            size: '70px',
-          },
-        },
-      },
-      legend: {
-        show: true,
-        position: 'bottom',
-        width: '50px',
-      },
-      colors: ['#5D87FF', '#ECF2FF', '#49BEFF', '#E8F7FF', '#FFAE1F'],
-      tooltip: {
-        fillSeriesColor: false,
-      },
+      ],
     };
   }
 }
