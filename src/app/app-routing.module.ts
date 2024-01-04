@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { BlankComponent } from './layouts/blank/blank.component';
 import { FullComponent } from './layouts/full/full.component';
+import { MarketerDashboardComponent } from './pages/marketer-dashboard/marketer-dashboard.component';
+import { AppBasicTableComponent } from './pages/tables/basic-table/basic-table.component';
 
 const routes: Routes = [
   {
@@ -63,6 +65,17 @@ const routes: Routes = [
           import('./pages/theme-pages/theme-pages.module').then(
             (m) => m.ThemePagesModule
           ),
+      },
+    ],
+  },
+  {
+    path: 'marketer-dashboard',
+    title: 'Marketer Dashboard',
+    component: FullComponent,
+    children: [
+      {
+        path: '',
+        component: MarketerDashboardComponent,
       },
     ],
   },

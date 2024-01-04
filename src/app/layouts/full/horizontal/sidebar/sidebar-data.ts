@@ -10,14 +10,14 @@ export const navItems: NavItem[] = [
     route: 'dashboards',
     children: [
       {
-        displayName: 'Analytical',
+        displayName: 'Dashboard',
         iconName: 'point',
         route: 'dashboards/dashboard1',
       },
       {
-        displayName: 'eCommerce',
+        displayName: 'Marketer Dashboard',
         iconName: 'point',
-        route: 'dashboards/dashboard2',
+        route: 'marketer-dashboard',
       },
     ],
   },
@@ -95,7 +95,8 @@ export const navItems: NavItem[] = [
           {
             displayName: 'Detail',
             iconName: 'point',
-            route: 'apps/blog/detail/Early Black Friday Amazon deals: cheap TVs, headphones, laptops',
+            route:
+              'apps/blog/detail/Early Black Friday Amazon deals: cheap TVs, headphones, laptops',
           },
         ],
       },
