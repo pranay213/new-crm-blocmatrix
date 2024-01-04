@@ -83,9 +83,33 @@
       border: 5px solid rgba(255, 255, 255, 0.5);
     "
   >
-    <h4 class="uppercase font-bold font-roboto text-2xl my-5 text-[#000096]">
-      Deposit Amount
-    </h4>
+    <div class="flex flex-row">
+      <h4 class="uppercase font-bold font-roboto text-2xl my-5 text-[#000096]">
+        Deposit Amount
+      </h4>
+      <div class="m-l-auto flex items-center justify-center">
+        <mat-form-field
+          class="theme-select p-0 mr-0 outline-none"
+          id="selection-box"
+          appearance="outline"
+        >
+          <mat-select
+            formControlName="month.value"
+            value="{{ selectedValue }}"
+            (selectionChange)="setCategoryValue($event)"
+            style="font-size: 12px; font-family: 'Roboto Condensed'"
+          >
+            <mat-option
+              *ngFor="let month of monthsNames"
+              [value]="month.value"
+              style="font-size: 10px"
+            >
+              {{ month.viewValue }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
 
     <div class="table-responsive m-t-30">
       <table mat-table [dataSource]="dataSource" class="w-100">

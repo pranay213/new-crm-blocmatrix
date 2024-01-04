@@ -9,6 +9,7 @@ import { WhatsappComponent } from 'src/app/icons/whatsapp/whatsapp.component';
 import { SendComponent } from 'src/app/icons/send/send.component';
 import { EmailComponent } from 'src/app/icons/email/email.component';
 import { SmsComponent } from 'src/app/icons/sms/sms.component';
+import { MaterialModule } from 'src/app/material.module';
 
 export interface PeriodicElement {
   day: string;
@@ -91,9 +92,27 @@ const ELEMENT_DATA: PeriodicElement[] = [
     SendComponent,
     EmailComponent,
     SmsComponent,
+    MaterialModule,
   ],
 })
 export class MarketerDashboardComponent {
+  setCategoryValue(event: any) {
+    this.selectedValue = event.value;
+  }
+
+  categorypoints: any = {};
+  monthsNames: any = [
+    { value: '100$', viewValue: '100$' },
+    { value: '1000$', viewValue: '1000$' },
+    { value: '2500$', viewValue: '2500$' },
+    { value: '5000$', viewValue: '5000$' },
+    { value: '10000$', viewValue: '10000$' },
+    { value: '100000$', viewValue: '100000$' },
+  ];
+
+  name: string = '';
+  color: string = '';
+  selectedValue = '100$';
   period: any = [
     'Today',
     'Yesterday',
