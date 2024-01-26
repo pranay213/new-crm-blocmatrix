@@ -34,6 +34,7 @@ import { MatButtonModule } from '@angular/material/button';
 // import { MarketerDashboardModule } from './pages/marketer-dashboard.module';
 import { NgHttpLoaderModule } from 'ng-http-loader';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { PreloaderComponent } from './preloader/preloader.component';
 
 export function HttpLoaderFactory(http: HttpClient): any {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -67,6 +68,7 @@ export function HttpLoaderFactory(http: HttpClient): any {
     MatButtonModule,
     // NgHttpLoaderModule.forRoot(),
     NgxSpinnerModule.forRoot({ type: 'ball-scale-multiple' }),
+    PreloaderComponent,
   ],
   exports: [TablerIconsModule],
   bootstrap: [AppComponent],

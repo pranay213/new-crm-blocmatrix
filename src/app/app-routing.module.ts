@@ -115,8 +115,18 @@ const routes: Routes = [
     },
     children: [
       {
-        path: '',
+        path: 'players',
         component: InternalpageComponent,
+        data: {
+          title: 'Live Players',
+        },
+      },
+      {
+        path: 'deposits',
+        component: InternalpageComponent,
+        data: {
+          title: 'Live Deposits',
+        },
       },
     ],
   },

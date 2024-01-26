@@ -30,6 +30,10 @@ export class ApiService {
   checkConnection() {
     return this.http.get(`${this.apiUrl}`);
   }
+
+  userName() {
+    return localStorage.getItem(AppConstants.BRM_USER_NAME);
+  }
   loginUser(Username: string, Password: string) {
     // console.log('coming');
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' });

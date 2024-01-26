@@ -1,0 +1,459 @@
+$white: #FFFFFF;
+$light: #f2ece4;
+$dark: #c69;
+$animation-time: 10s;
+$roll-dice-time: $animation-time/4.5;
+
+body,
+html {
+    height: 100%;
+}
+
+body {
+    background-color: $light;
+}
+
+.container {
+    height: 100%;
+}
+
+.centering-block {
+    text-align: center;
+}
+
+.centering-block:before {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+    margin-right: -0.25em;
+}
+
+.centered {
+    display: inline-block;
+    vertical-align: middle;
+    width: 300px;
+}
+
+.loader {
+    display: inline-block;
+    position: relative;
+    width: 80px;
+    animation: roll_dice $roll-dice-time infinite ease-in;
+
+    .square {
+        background-color: $white;
+        width: 20px;
+        height: 20px;
+        display: inline-block;
+        opacity: 1;
+        transition: background-color 0.25s;
+    }
+
+
+
+    .row {
+        width: 68px;
+        margin: 20px auto;
+    }
+
+    .square_one {
+        animation: square_one $animation-time infinite;
+    }
+
+    .square_two {
+        animation: square_two $animation-time infinite;
+    }
+
+    .square_three {
+        animation: square_three $animation-time infinite;
+    }
+
+    .square_four {
+        animation: square_four $animation-time infinite;
+    }
+
+    .square_five {
+        animation: square_five $animation-time infinite;
+    }
+
+    .square_six {
+        animation: square_six $animation-time infinite;
+    }
+
+    .square_seven {
+        animation: square_seven $animation-time infinite;
+    }
+
+    .square_eight {
+        animation: square_eight $animation-time infinite;
+    }
+
+    .square_nine {
+        animation: square_nine $animation-time infinite;
+    }
+}
+
+@keyframes roll_dice {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    25% {
+        transform: rotate(180deg);
+    }
+
+    50% {
+        transform: rotate(180deg);
+    }
+
+    75% {
+        transform: rotate(360deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes square_one {
+    0% {
+        background-color: $white;
+    }
+
+    12.5% {
+        background-color: $white;
+    }
+
+    25% {
+        background-color: $dark;
+    }
+
+    37.5% {
+        background-color: $white;
+    }
+
+    50% {
+        background-color: $dark;
+    }
+
+    62.5% {
+        background-color: $dark;
+    }
+
+    75% {
+        background-color: $dark;
+    }
+
+    87.5% {
+        background-color: $light;
+    }
+
+    100% {
+        background-color: $white;
+    }
+}
+
+@keyframes square_two {
+    0% {
+        background-color: $white;
+    }
+
+    12.5% {
+        background-color: $white;
+    }
+
+    25% {
+        background-color: $white;
+    }
+
+    37.5% {
+        background-color: $white;
+    }
+
+    50% {
+        background-color: $white;
+    }
+
+    62.5% {
+        background-color: $white;
+    }
+
+    75% {
+        background-color: $white;
+    }
+
+    87.5% {
+        background-color: $light;
+    }
+
+    100% {
+        background-color: $white;
+    }
+}
+
+@keyframes square_three {
+    0% {
+        background-color: $white;
+    }
+
+    12.5% {
+        background-color: $white;
+    }
+
+    25% {
+        background-color: $white;
+    }
+
+    37.5% {
+        background-color: $dark;
+    }
+
+    50% {
+        background-color: $dark;
+    }
+
+    62.5% {
+        background-color: $dark;
+    }
+
+    75% {
+        background-color: $dark;
+    }
+
+    87.5% {
+        background-color: $light;
+    }
+
+    100% {
+        background-color: $white;
+    }
+}
+
+@keyframes square_four {
+    0% {
+        background-color: $white;
+    }
+
+    12.5% {
+        background-color: $white;
+    }
+
+    25% {
+        background-color: $white;
+    }
+
+    32.5% {
+        background-color: $white;
+    }
+
+    50% {
+        background-color: $white;
+    }
+
+    62.5% {
+        background-color: $white;
+    }
+
+    75% {
+        background-color: $dark;
+    }
+
+    87.5% {
+        background-color: $light;
+    }
+
+    100% {
+        background-color: $white;
+    }
+}
+
+@keyframes square_five {
+    0% {
+        background-color: $white;
+    }
+
+    12.5% {
+        background-color: $dark;
+    }
+
+    25% {
+        background-color: $white;
+    }
+
+    37.5% {
+        background-color: $dark;
+    }
+
+    50% {
+        background-color: $white;
+    }
+
+    62.5% {
+        background-color: $dark;
+    }
+
+    75% {
+        background-color: $white;
+    }
+
+    87.5% {
+        background-color: $light;
+    }
+
+    100% {
+        background-color: $white;
+    }
+}
+
+@keyframes square_six {
+    0% {
+        background-color: $white;
+    }
+
+    12.5% {
+        background-color: $white;
+    }
+
+    25% {
+        background-color: $white;
+    }
+
+    37.5% {
+        background-color: $white;
+    }
+
+    50% {
+        background-color: $white;
+    }
+
+    62.5% {
+        background-color: $white;
+    }
+
+    75% {
+        background-color: $dark;
+    }
+
+    87.5% {
+        background-color: $light;
+    }
+
+    100% {
+        background-color: $white;
+    }
+}
+
+@keyframes square_seven {
+    0% {
+        background-color: $white;
+    }
+
+    12.5% {
+        background-color: $white;
+    }
+
+    25% {
+        background-color: $white;
+    }
+
+    37.5% {
+        background-color: $dark;
+    }
+
+    50% {
+        background-color: $dark;
+    }
+
+    62.5% {
+        background-color: $dark;
+    }
+
+    75% {
+        background-color: $dark;
+    }
+
+    87.5% {
+        background-color: $light;
+    }
+
+    100% {
+        background-color: $white;
+    }
+}
+
+@keyframes square_eight {
+    0% {
+        background-color: $white;
+    }
+
+    12.5% {
+        background-color: $white;
+    }
+
+    25% {
+        background-color: $white;
+    }
+
+    37.5% {
+        background-color: $white;
+    }
+
+    50% {
+        background-color: $white;
+    }
+
+    62.5% {
+        background-color: $white;
+    }
+
+    75% {
+        background-color: $white;
+    }
+
+    87.5% {
+        background-color: $light;
+    }
+
+    100% {
+        background-color: $white;
+    }
+}
+
+@keyframes square_nine {
+    0% {
+        background-color: $white;
+    }
+
+    12.5% {
+        background-color: $white;
+    }
+
+    25% {
+        background-color: $dark;
+    }
+
+    37.5% {
+        background-color: $white;
+    }
+
+    50% {
+        background-color: $dark;
+    }
+
+    62.5% {
+        background-color: $dark;
+    }
+
+    75% {
+        background-color: $dark;
+    }
+
+    87.5% {
+        background-color: $light;
+    }
+
+    100% {
+        background-color: $white;
+    }
+}

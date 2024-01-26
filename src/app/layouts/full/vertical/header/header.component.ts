@@ -15,6 +15,8 @@ import { Router, RouterModule } from '@angular/router';
 import { CommonModule, NgForOf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgScrollbarModule } from 'ngx-scrollbar';
+import { NotificationService } from 'src/app/services/notification.service';
+import { ApiService } from 'src/app/services/api.service';
 
 interface notifications {
   id: number;
@@ -64,6 +66,7 @@ export class HeaderComponent {
   @Output() toggleMobileNav = new EventEmitter<void>();
   @Output() toggleMobileFilterNav = new EventEmitter<void>();
   @Output() toggleCollapsed = new EventEmitter<void>();
+  username: string = this.apiService.userName() || 'User';
 
   showFiller = false;
 
@@ -102,7 +105,9 @@ export class HeaderComponent {
     private route: Router,
     private vsidenav: CoreService,
     public dialog: MatDialog,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private notificationService: NotificationService,
+    private apiService: ApiService
   ) {
     translate.setDefaultLang('en');
   }
@@ -115,11 +120,12 @@ export class HeaderComponent {
     });
   }
 
-  logout() {
-    console.log('Logouting');
-    localStorage.clear();
-    this.route.navigateByUrl('/login');
-  }
+  logout = () => {
+    this.notificationService.showError(
+      'Are You sure want to logout ?',
+      'logout'
+    );
+  };
 
   changeLanguage(lang: any): void {
     this.translate.use(lang.code);

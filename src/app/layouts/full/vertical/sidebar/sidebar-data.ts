@@ -25,12 +25,12 @@ export const navItems: NavItem[] = [
       {
         displayName: 'Live Players',
         iconName: 'users',
-        route: 'players',
+        route: 'live-report/players',
       },
       {
         displayName: 'Live Deposits',
         iconName: 'report-money',
-        route: 'deposits',
+        route: 'live-report/deposits',
       },
     ],
   },
@@ -116,6 +116,18 @@ export const navItems: NavItem[] = [
     displayName: 'Market',
     iconName: 'shopping-cart',
     route: 'market',
+    children: [
+      {
+        displayName: 'Affiliates',
+        iconName: 'affiliate',
+        route: 'affiliates',
+      },
+      {
+        displayName: 'Creatives',
+        iconName: 'bulb',
+        route: 'creatives',
+      },
+    ],
   },
   // {
   //   displayName: 'Internal Page',

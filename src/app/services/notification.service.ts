@@ -37,6 +37,7 @@ export class NotificationService {
 
     this.dialog.open(ApiErrorDialogComponent, {
       data: { title: this.alertType, data: this.errdata },
+      disableClose: true,
     });
   }
   public closeDialogBox() {
@@ -48,6 +49,6 @@ export class NotificationService {
     localStorage.clear();
     setTimeout(() => {
       this._router.navigate(['login']);
-    }, 2000);
+    }, 5000);
   }
 }

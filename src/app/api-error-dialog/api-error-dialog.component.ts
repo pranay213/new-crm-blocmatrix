@@ -22,12 +22,13 @@ export class ApiErrorDialogComponent {
 
   LogoutFn = () => {
     this.loading = true;
+    this.message = 'Signing Out, See you soon!';
 
     this.notificationService.logout();
     setTimeout(() => {
+      this.dialog.closeAll();
       this.logoutParam = false;
       this.loading = false;
-      this.dialog.closeAll();
     }, 5000);
   };
 

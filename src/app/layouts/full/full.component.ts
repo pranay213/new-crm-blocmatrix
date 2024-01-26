@@ -21,6 +21,7 @@ import { AppHorizontalSidebarComponent } from './horizontal/sidebar/sidebar.comp
 import { AppBreadcrumbComponent } from './shared/breadcrumb/breadcrumb.component';
 import { CustomizerComponent } from './shared/customizer/customizer.component';
 import { NotificationService } from 'src/app/services/notification.service';
+import { ApiService } from 'src/app/services/api.service';
 
 const MOBILE_VIEW = 'screen and (max-width: 768px)';
 const TABLET_VIEW = 'screen and (min-width: 769px) and (max-width: 1024px)';
@@ -64,8 +65,12 @@ interface quicklinks {
   encapsulation: ViewEncapsulation.None,
 })
 export class FullComponent implements OnInit {
+  username: string = this.apiService.userName() || 'User';
   logout = () => {
-    this.notificationService.showError('Are You sure want to logout', 'logout');
+    this.notificationService.showError(
+      'Are You sure want to logout ?',
+      'logout'
+    );
   };
 
   navItems = navItems;
@@ -199,7 +204,8 @@ export class FullComponent implements OnInit {
     private router: Router,
     private breakpointObserver: BreakpointObserver,
     private navService: NavService,
-    public notificationService: NotificationService
+    public notificationService: NotificationService,
+    private apiService: ApiService
   ) {
     this.htmlElement = document.querySelector('html')!;
     this.layoutChangesSubscription = this.breakpointObserver

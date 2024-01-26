@@ -9,6 +9,8 @@ import { MaterialModule } from 'src/app/material.module';
 import { BrandingComponent } from '../../vertical/sidebar/branding.component';
 import { NgFor, NgForOf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { NotificationService } from 'src/app/services/notification.service';
+import { ApiService } from 'src/app/services/api.service';
 
 interface notifications {
   id: number;
@@ -57,6 +59,7 @@ export class AppHorizontalHeaderComponent {
   @Output() toggleMobileNav = new EventEmitter<void>();
   @Output() toggleMobileFilterNav = new EventEmitter<void>();
   @Output() toggleCollapsed = new EventEmitter<void>();
+  username: string = this.apiService.userName() || 'User';
 
   showFiller = false;
 
@@ -95,7 +98,9 @@ export class AppHorizontalHeaderComponent {
     private route: Router,
     private vsidenav: CoreService,
     public dialog: MatDialog,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private notificationService: NotificationService,
+    private apiService: ApiService
   ) {
     translate.setDefaultLang('en');
   }
@@ -108,11 +113,12 @@ export class AppHorizontalHeaderComponent {
     });
   }
 
-  logout() {
-    console.log('Logouting');
-    localStorage.clear();
-    this.route.navigateByUrl('/login');
-  }
+  logout = () => {
+    this.notificationService.showError(
+      'Are You sure want to logout ?',
+      'logout'
+    );
+  };
 
   changeLanguage(lang: any): void {
     this.translate.use(lang.code);
