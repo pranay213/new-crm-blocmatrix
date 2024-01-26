@@ -15,6 +15,7 @@ import { ApiService } from 'src/app/services/api.service';
 import { AppConstants } from 'src/app-constants';
 import { BrmService } from 'src/app/services/brm.service';
 import * as CryptoJS from 'crypto-js';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
   selector: 'app-side-login',
@@ -49,7 +50,8 @@ export class AppSideLoginComponent {
     private settings: CoreService,
     private router: Router,
     private apiService: ApiService, // public localStorageService: LocalStorageService
-    private brmService: BrmService
+    private brmService: BrmService,
+    private notificationService: NotificationService
   ) {}
 
   form = new FormGroup({
@@ -81,7 +83,9 @@ export class AppSideLoginComponent {
           this.verifyToken(data);
           // this.verifyToken(data);
           this.Token = data.token;
-          localStorage.setItem(AppConstants.BRM_USER_NAME, this.Username);
+          // localStorage.setItem('name',this.)
+          this.Username = Username;
+          localStorage.setItem(AppConstants.BRM_USER_NAME, Username);
         }
       },
       (error) => {
@@ -135,6 +139,10 @@ export class AppSideLoginComponent {
       ).toString();
       localStorage.setItem(AppConstants.BRM_PERMISSIONS, permissionCipherText);
 
+      this.notificationService.showError(
+        `<h1>Hello <span class="text-green-400 uppercase">${this.Username}</span> ! Welcome to Dice and Reels CRM Dashboard </h1>`,
+        'login'
+      );
       this.router.navigateByUrl('/dashboard');
       this.loader = false;
     });
