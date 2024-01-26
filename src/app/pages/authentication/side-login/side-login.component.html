@@ -40,12 +40,16 @@
       >
         <div class="row justify-content-center w-100">
           <div class="col-lg-9 max-width-form">
-            <h4 class="f-w-700 f-s-24 m-0">Welcome to Modernize</h4>
-            <span class="f-s-14 d-block mat-body-1 m-t-8"
+            <h4
+              class="f-w-700 m-0 text-purple-700 font-roboto font-bold uppercase text-2xl animate-bounce"
+            >
+              Welcome to Dice and Reel
+            </h4>
+            <span class="f-s-14 d-block mat-body-1 m-t-8 mt-1"
               >Your Admin Dashboard</span
             >
 
-            <div class="row m-t-24">
+            <!-- <div class="row m-t-24">
               <div class="col-12 col-sm-6">
                 <button mat-stroked-button class="w-100">
                   <div class="d-flex align-items-center">
@@ -75,12 +79,11 @@
                   </div>
                 </button>
               </div>
-            </div>
-
-            <div class="or-border m-t-30">or sign in with</div>
+            </div> -->
 
             <form class="m-t-30" [formGroup]="form" (ngSubmit)="submit()">
-              <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block"
+              <mat-label
+                class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block font-roboto"
                 >Username</mat-label
               >
               <mat-form-field
@@ -97,19 +100,20 @@
                     class="text-error"
                     *ngIf="f['uname'].errors && f['uname'].errors['required']"
                   >
-                    Name is required.
+                    User Name is required.
                   </div>
                   <div
-                    class="text-error"
+                    class="text-error font-roboto"
                     *ngIf="f['uname'].errors && f['uname'].errors['minlength']"
                   >
-                    Name should be 6 character.
+                    UserName should be 3 character.
                   </div>
                 </mat-hint>
               </mat-form-field>
 
               <!-- password -->
-              <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block"
+              <mat-label
+                class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block font-roboto"
                 >Password</mat-label
               >
               <mat-form-field
@@ -133,7 +137,7 @@
                 </mat-hint>
               </mat-form-field>
 
-              <div class="d-flex align-items-center m-b-12">
+              <!-- <div class="d-flex align-items-center m-b-12">
                 <mat-checkbox color="primary"
                   >Remember this Device</mat-checkbox
                 >
@@ -142,13 +146,32 @@
                   class="text-primary f-w-600 text-decoration-none m-l-auto f-s-14"
                   >Forgot Password ?</a
                 >
+              </div> -->
+              <div class="font-bold text-red-600">
+                {{ message }}
               </div>
-              <button mat-flat-button color="primary" class="w-100" [disabled]="!form.valid">
-                Sign In
+              <button
+                [hidden]="!form.valid"
+                color="primary"
+                class="w-100 h-12 rounded-md mt-5 blur:bg-purple-500 bg-blue-600 text-white font-roboto uppercase animate-pulse"
+                [disabled]="!form.valid || loader"
+              >
+                <p class="" *ngIf="!loader">Sign In</p>
+                <div class="flex justify-center space-x-1" *ngIf="loader">
+                  <div
+                    class="h-4 w-4 bg-white rounded-full animate-bounce [animation-delay:-0.3s]"
+                  ></div>
+                  <div
+                    class="h-4 w-4 bg-white rounded-full animate-bounce [animation-delay:-0.15s]"
+                  ></div>
+                  <div
+                    class="h-4 w-4 bg-white rounded-full animate-bounce"
+                  ></div>
+                </div>
               </button>
               <!-- input -->
             </form>
-            <span class="d-block f-w-500 d-block m-t-24"
+            <!-- <span class="d-block f-w-500 d-block m-t-24"
               >New to Modernize?
               <a
                 [routerLink]="['/authentication/side-register']"
@@ -156,7 +179,7 @@
               >
                 Create an account</a
               >
-            </span>
+            </span> -->
           </div>
         </div>
       </div>

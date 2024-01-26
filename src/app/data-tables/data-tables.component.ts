@@ -26,6 +26,8 @@ export class DataTablesComponent implements AfterViewInit {
   @Input() tablesHeadings: any;
   @Input() chart: boolean;
   @Input() piePoints: any;
+  @Input() bgColor: any;
+
   // chart: boolean = true;
   // @Input() topGamesData: any;
   selectedType = 'Table';

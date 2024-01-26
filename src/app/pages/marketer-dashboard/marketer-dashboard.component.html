@@ -1,18 +1,12 @@
-<div class="flex flex-row flex-wrap items-center justify-center">
-  <div
-    class="col-md-5 m-5"
-    style="
-      box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.65);
-      backdrop-filter: blur(5px);
-      -webkit-backdrop-filter: blur(4px);
-      border: 5px solid rgba(255, 255, 255, 0.5);
-    "
-  >
-    <h4 class="uppercase font-bold font-roboto text-2xl my-5 text-[#000096]">
-      non depositors
+<div class="flex flex-wrap space-x-2 items-center justify-around space-y-2">
+  <div class="w-[100%] lg:w-[45%] rounded-t-md border" style="">
+    <h4
+      class="font-normal font-jakartha px-4 text-xl text-[#fff] bg-[#6D88EF] py-4 rounded-t-md w-full"
+    >
+      Non Depositors
     </h4>
 
-    <div class="table-responsive m-t-30">
+    <div class="table-responsive m-t-10 mx-4">
       <table mat-table [dataSource]="dataSource" class="w-100">
         <ng-container
           [matColumnDef]="column"
@@ -21,13 +15,8 @@
           <th
             mat-header-cell
             *matHeaderCellDef
-            class="f-w-600 mat-subtitle-1 f-s-14 p-l-0 uppercase self-center"
-            style="
-              text-transform: uppercase;
-              background-color: rgba(193, 193, 193, 0.25);
-              text-align: center;
-              align-items: center;
-            "
+            class=""
+            style="background-color: #edf2fe"
           >
             {{ column === "day" ? "" : "" }}
 
@@ -40,8 +29,8 @@
           <td
             mat-cell
             *matCellDef="let element"
-            class="p-l-0 f-s-14"
-            style="font-family: 'Roboto Condensed'; text-align: center"
+            class="p-l-0 f-s-14 font-jakartha text-[#11142B]"
+            style="text-align: center"
           >
             <input
               type="checkbox"
@@ -50,6 +39,7 @@
                 (element[column] === false || element[column] === true)
               "
               [checked]="element[column]"
+              class="w-full border h-5 ml-2 accent-[#6688F7]"
             />
             <p
               *ngIf="
@@ -74,20 +64,14 @@
       </table>
     </div>
   </div>
-  <div
-    class="col-md-5 m-5"
-    style="
-      box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.65);
-      backdrop-filter: blur(5px);
-      -webkit-backdrop-filter: blur(4px);
-      border: 5px solid rgba(255, 255, 255, 0.5);
-    "
-  >
-    <h4 class="uppercase font-bold font-roboto text-2xl my-5 text-[#000096]">
-      1Time deposit
+  <div class="w-[100%] lg:w-[45%] rounded-t-md border" style="">
+    <h4
+      class="font-normal font-jakartha px-4 text-xl text-[#fff] bg-[#E9B35A] py-4 rounded-t-md w-full"
+    >
+      1 Time Deposit
     </h4>
 
-    <div class="table-responsive m-t-30">
+    <div class="table-responsive m-t-10 mx-4">
       <table mat-table [dataSource]="dataSource" class="w-100">
         <ng-container
           [matColumnDef]="column"
@@ -96,17 +80,12 @@
           <th
             mat-header-cell
             *matHeaderCellDef
-            class="f-w-600 mat-subtitle-1 f-s-14 p-l-0 uppercase self-center"
-            style="
-              text-transform: uppercase;
-              background-color: rgba(193, 193, 193, 0.25);
-              text-align: center;
-              align-items: center;
-            "
+            class=""
+            style="background-color: #edf2fe"
           >
             {{ column === "day" ? "" : "" }}
 
-            {{ column === "players" ? "Depositors" : "" }}
+            {{ column === "players" ? "Players" : "" }}
             <app-telgram *ngIf="column === 'telegram'"></app-telgram>
             <app-whatsapp *ngIf="column === 'whatsapp'"></app-whatsapp>
             <app-email *ngIf="column === 'email'"></app-email>
@@ -115,8 +94,8 @@
           <td
             mat-cell
             *matCellDef="let element"
-            class="p-l-0 f-s-14"
-            style="font-family: 'Roboto Condensed'; text-align: center"
+            class="p-l-0 f-s-14 font-jakartha text-[#11142B]"
+            style="text-align: center"
           >
             <input
               type="checkbox"
@@ -125,6 +104,7 @@
                 (element[column] === false || element[column] === true)
               "
               [checked]="element[column]"
+              class="w-full border h-5 ml-2 accent-[#6688F7]"
             />
             <p
               *ngIf="
@@ -149,20 +129,14 @@
       </table>
     </div>
   </div>
-  <div
-    class="col-md-5 m-5"
-    style="
-      box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.65);
-      backdrop-filter: blur(5px);
-      -webkit-backdrop-filter: blur(4px);
-      border: 5px solid rgba(255, 255, 255, 0.5);
-    "
-  >
-    <h4 class="uppercase font-bold font-roboto text-2xl my-5 text-[#000096]">
-      2Time deposit
+  <div class="w-[100%] lg:w-[45%] rounded-t-md border" style="">
+    <h4
+      class="font-normal font-jakartha px-4 text-xl text-[#fff] bg-[#DE9378] py-4 rounded-t-md w-full"
+    >
+      2 Time Deposit
     </h4>
 
-    <div class="table-responsive m-t-30">
+    <div class="table-responsive m-t-10 mx-4">
       <table mat-table [dataSource]="dataSource" class="w-100">
         <ng-container
           [matColumnDef]="column"
@@ -171,17 +145,12 @@
           <th
             mat-header-cell
             *matHeaderCellDef
-            class="f-w-600 mat-subtitle-1 f-s-14 p-l-0 uppercase self-center"
-            style="
-              text-transform: uppercase;
-              background-color: rgba(193, 193, 193, 0.25);
-              text-align: center;
-              align-items: center;
-            "
+            class=""
+            style="background-color: #edf2fe"
           >
             {{ column === "day" ? "" : "" }}
 
-            {{ column === "players" ? "Depositors" : "" }}
+            {{ column === "players" ? "Players" : "" }}
             <app-telgram *ngIf="column === 'telegram'"></app-telgram>
             <app-whatsapp *ngIf="column === 'whatsapp'"></app-whatsapp>
             <app-email *ngIf="column === 'email'"></app-email>
@@ -190,8 +159,8 @@
           <td
             mat-cell
             *matCellDef="let element"
-            class="p-l-0 f-s-14"
-            style="font-family: 'Roboto Condensed'; text-align: center"
+            class="p-l-0 f-s-14 font-jakartha text-[#11142B]"
+            style="text-align: center"
           >
             <input
               type="checkbox"
@@ -200,6 +169,7 @@
                 (element[column] === false || element[column] === true)
               "
               [checked]="element[column]"
+              class="w-full border h-5 ml-2 accent-[#6688F7]"
             />
             <p
               *ngIf="
@@ -224,20 +194,14 @@
       </table>
     </div>
   </div>
-  <div
-    class="col-md-5 m-5"
-    style="
-      box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.65);
-      backdrop-filter: blur(5px);
-      -webkit-backdrop-filter: blur(4px);
-      border: 5px solid rgba(255, 255, 255, 0.5);
-    "
-  >
-    <h4 class="uppercase font-bold font-roboto text-2xl my-5 text-[#000096]">
-      less than 4 deposits
+  <div class="w-[100%] lg:w-[45%] rounded-t-md border" style="">
+    <h4
+      class="font-normal font-jakartha px-4 text-xl text-[#fff] bg-[#7EBBF4] py-4 rounded-t-md w-full"
+    >
+      Less Than 4 Depositos
     </h4>
 
-    <div class="table-responsive m-t-30">
+    <div class="table-responsive m-t-10 mx-4">
       <table mat-table [dataSource]="dataSource" class="w-100">
         <ng-container
           [matColumnDef]="column"
@@ -246,17 +210,12 @@
           <th
             mat-header-cell
             *matHeaderCellDef
-            class="f-w-600 mat-subtitle-1 f-s-14 p-l-0 uppercase self-center"
-            style="
-              text-transform: uppercase;
-              background-color: rgba(193, 193, 193, 0.25);
-              text-align: center;
-              align-items: center;
-            "
+            class=""
+            style="background-color: #edf2fe"
           >
             {{ column === "day" ? "" : "" }}
 
-            {{ column === "players" ? "Depositors" : "" }}
+            {{ column === "players" ? "Players" : "" }}
             <app-telgram *ngIf="column === 'telegram'"></app-telgram>
             <app-whatsapp *ngIf="column === 'whatsapp'"></app-whatsapp>
             <app-email *ngIf="column === 'email'"></app-email>
@@ -265,8 +224,8 @@
           <td
             mat-cell
             *matCellDef="let element"
-            class="p-l-0 f-s-14"
-            style="font-family: 'Roboto Condensed'; text-align: center"
+            class="p-l-0 f-s-14 font-jakartha text-[#11142B]"
+            style="text-align: center"
           >
             <input
               type="checkbox"
@@ -275,6 +234,7 @@
                 (element[column] === false || element[column] === true)
               "
               [checked]="element[column]"
+              class="w-full border h-5 ml-2 accent-[#6688F7]"
             />
             <p
               *ngIf="
@@ -299,20 +259,14 @@
       </table>
     </div>
   </div>
-  <div
-    class="col-md-5 m-5"
-    style="
-      box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.65);
-      backdrop-filter: blur(5px);
-      -webkit-backdrop-filter: blur(4px);
-      border: 5px solid rgba(255, 255, 255, 0.5);
-    "
-  >
-    <h4 class="uppercase font-bold font-roboto text-2xl my-5 text-[#000096]">
-      less than 5 deposits
+  <div class="w-[100%] lg:w-[45%] rounded-t-md border" style="">
+    <h4
+      class="font-normal font-jakartha px-4 text-xl text-[#fff] bg-[#6D88EF] py-4 rounded-t-md w-full"
+    >
+      Less Than 5 Depositos
     </h4>
 
-    <div class="table-responsive m-t-30">
+    <div class="table-responsive m-t-10 mx-4">
       <table mat-table [dataSource]="dataSource" class="w-100">
         <ng-container
           [matColumnDef]="column"
@@ -321,17 +275,12 @@
           <th
             mat-header-cell
             *matHeaderCellDef
-            class="f-w-600 mat-subtitle-1 f-s-14 p-l-0 uppercase self-center"
-            style="
-              text-transform: uppercase;
-              background-color: rgba(193, 193, 193, 0.25);
-              text-align: center;
-              align-items: center;
-            "
+            class=""
+            style="background-color: #edf2fe"
           >
             {{ column === "day" ? "" : "" }}
 
-            {{ column === "players" ? "Depositors" : "" }}
+            {{ column === "players" ? "Players" : "" }}
             <app-telgram *ngIf="column === 'telegram'"></app-telgram>
             <app-whatsapp *ngIf="column === 'whatsapp'"></app-whatsapp>
             <app-email *ngIf="column === 'email'"></app-email>
@@ -340,8 +289,8 @@
           <td
             mat-cell
             *matCellDef="let element"
-            class="p-l-0 f-s-14"
-            style="font-family: 'Roboto Condensed'; text-align: center"
+            class="p-l-0 f-s-14 font-jakartha text-[#11142B]"
+            style="text-align: center"
           >
             <input
               type="checkbox"
@@ -350,6 +299,7 @@
                 (element[column] === false || element[column] === true)
               "
               [checked]="element[column]"
+              class="w-full h-5 ml-2 accent-[#6688F7] bg-transparent border-none text-transparent focus:ring-0 focus:ring-offset-0"
             />
             <p
               *ngIf="
@@ -374,22 +324,17 @@
       </table>
     </div>
   </div>
-  <div
-    class="col-md-5 m-5"
-    style="
-      box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.65);
-      backdrop-filter: blur(5px);
-      -webkit-backdrop-filter: blur(4px);
-      border: 5px solid rgba(255, 255, 255, 0.5);
-    "
-  >
-    <div class="flex flex-row">
-      <h4 class="uppercase font-bold font-roboto text-2xl my-5 text-[#000096]">
+
+  <div class="w-[100%] lg:w-[45%] rounded-t-md border">
+    <div class="flex flex-row mx-auto bg-[#E9B35A] rounded-t-md">
+      <h4
+        class="font-normal font-jakartha px-4 text-xl text-[#fff] bg-[#E9B35A] py-4 rounded-t-md w-full"
+      >
         Deposit Amount
       </h4>
-      <div class="m-l-auto flex items-center justify-center">
+      <div class="m-l-auto flex items-center justify-center mr-2">
         <mat-form-field
-          class="theme-select p-0 mr-0 outline-none"
+          class="theme-select p-0 mr-0 outline-none bg-[#fff] rounded-md"
           id="selection-box"
           appearance="outline"
         >
@@ -397,7 +342,7 @@
             formControlName="month.value"
             value="{{ selectedValue }}"
             (selectionChange)="setCategoryValue($event)"
-            style="font-size: 12px; font-family: 'Roboto Condensed'"
+            class="font-jakartha"
           >
             <mat-option
               *ngFor="let month of monthsNames"
@@ -411,7 +356,7 @@
       </div>
     </div>
 
-    <div class="table-responsive m-t-10">
+    <div class="table-responsive m-t-10 mx-4">
       <table mat-table [dataSource]="dataSource" class="w-100">
         <ng-container
           [matColumnDef]="column"
@@ -420,12 +365,11 @@
           <th
             mat-header-cell
             *matHeaderCellDef
-            class="f-w-600 mat-subtitle-1 f-s-14 p-l-0 uppercase self-center"
+            class="f-w-600 mat-subtitle-1 f-s-14 p-l-0 uppercase self-center font-bold"
             style="
-              text-transform: uppercase;
-              background-color: rgba(193, 193, 193, 0.25);
               text-align: center;
               align-items: center;
+              background-color: #edf2fe;
             "
           >
             {{ column === "day" ? "" : "" }}
@@ -439,8 +383,7 @@
           <td
             mat-cell
             *matCellDef="let element"
-            class="p-l-0 f-s-14"
-            style="font-family: 'Roboto Condensed'; text-align: center"
+            class="p-l-0 f-s-14 font-jakartha font-bold text-[#11142B]"
           >
             <input
               type="checkbox"

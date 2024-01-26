@@ -130,7 +130,7 @@ export class AppCustomersComponent implements OnInit {
         {
           name: this.newitem?.name,
           // color: this.newitem?.color,
-          color: '#49BEFF',
+          color: '#7ebbf4',
           // color: '#59B259',
           // data: [0, 1, 2, 3, 4, 5],
           data: this.selectedPoints(this.selectedValue),
@@ -155,7 +155,7 @@ export class AppCustomersComponent implements OnInit {
         width: 2,
       },
       fill: {
-        colors: ['#E8F7FF'],
+        colors: ['#6688F7'],
         type: 'solid',
         opacity: 0.05,
       },

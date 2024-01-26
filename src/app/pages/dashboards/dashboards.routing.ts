@@ -12,10 +12,10 @@ export const DashboardsRoutes: Routes = [
         path: '',
         component: AppDashboard1Component,
         data: {
-          title: 'Analytical',
+          title: 'Dashboard',
           urls: [
             // { title: 'Dashboard', url: '/dashboards/dashboard1' },
-            { title: 'Analytical' },
+            { title: 'Dashboard' },
           ],
         },
       },

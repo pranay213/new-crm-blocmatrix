@@ -49,12 +49,12 @@
           />
           <div class="m-l-16">
             <h5 class="mat-subtitle-2 f-w-600">Mathew</h5>
-            <span class="f-s-12">Designer</span>
+            <!-- <span class="f-s-12">Designer</span> -->
           </div>
           <div class="m-l-auto">
             <a
               mat-icon-button
-              [routerLink]="['/authentication/side-login']"
+              (click)="logout()"
               class="d-flex justify-content-center"
             >
               <i-tabler
@@ -103,11 +103,7 @@
           <span class="f-s-12">Designer</span>
         </div>
         <div class="m-l-auto">
-          <a
-            mat-icon-button
-            [routerLink]="['/authentication/side-login']"
-            class="d-flex justify-content-center"
-          >
+          <a mat-icon-button class="d-flex justify-content-center">
             <i-tabler
               name="power"
               class="text-primary icon-18 d-flex"

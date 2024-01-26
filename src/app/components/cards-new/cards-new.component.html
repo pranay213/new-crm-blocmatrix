@@ -1,25 +1,17 @@
-<div class="lg:flex mb-4 space-y-4 lg:space-y-0">
-  <div class="col-lg-4 col-md-12">
-    <div
-      class="card border-end border-dark"
-      style="
-        box-shadow: 5px 5px 0px 0px #49beff;
-        backdrop-filter: blur(5px);
-        -webkit-backdrop-filter: blur(4px);
-        border: 5px solid rgba(255, 255, 255, 0.5);
-      "
-    >
+<!-- <div class="lg:flex mb-4 space-y-4 lg:space-y-0">
+  <div class="col-lg-4 col-md-12 bg-[#FCF5E8]">
+    <div class="card">
       <div class="card-body">
         <div class="d-flex no-block align-items-center justify-center">
-          <div class="w-full items-center justify-center">
+          <div class="w-full items-center justify-center" style="flex: 1">
             <h6
               class="fw-medium text-dark text-xl font-bold text-center ml-[2%] w-full"
             >
               Total Players
             </h6>
           </div>
-          <div class="ms-auto">
-            <h2 class="fs-7">360</h2>
+          <div class="ms-auto text-right" style="flex: 1">
+            <h2 class="fs-7" [countUp]="UsersTotalCount">0</h2>
           </div>
         </div>
       </div>
@@ -37,15 +29,15 @@
     >
       <div class="card-body">
         <div class="d-flex no-block align-items-center justify-center">
-          <div class="w-full items-center justify-center">
+          <div class="w-full items-center justify-center flex-1">
             <h6
               class="fw-medium text-dark text-xl font-bold text-center ml-[2%] w-full"
             >
               Total Deposits
             </h6>
           </div>
-          <div class="ms-auto">
-            <h2 class="fs-7">250</h2>
+          <div class="ms-auto flex-1 text-right">
+            <h2 class="fs-7" [countUp]="DepositTotalCount">0</h2>
           </div>
         </div>
       </div>
@@ -63,18 +55,105 @@
     >
       <div class="card-body">
         <div class="d-flex no-block align-items-center justify-center">
-          <div class="w-full items-center justify-center">
+          <div class="w-full items-center justify-center flex-1">
             <h6
               class="fw-medium text-dark text-xl font-bold text-center ml-[2%] w-full"
             >
               Total Withdrawls
             </h6>
           </div>
-          <div class="ms-auto">
-            <h2 class="fs-7">760</h2>
+          <div class="ms-auto flex-1 text-right">
+            <h2 class="fs-7" [countUp]="WithdrawalTotalCount">0</h2>
           </div>
         </div>
       </div>
     </div>
+  </div>
+</div> -->
+
+<!-- <div class="my-4 flex flex-row space-x-6 w-[99%] mx-auto">
+  <div class="w-full bg-[#FCF5E8] py-10 rounded-md font-jakartha font-semibold">
+    <p class="text-center text-lg">Total Players</p>
+    <div class="ms-auto text-center text-[#E9B35A]" style="flex: 1">
+      <h2
+        class="text-5xl"
+        style="font-size: 40px; font-weight: 800"
+        [countUp]="UsersTotalCount"
+        [options]="{ separator: '' }"
+      >
+        0
+      </h2>
+    </div>
+  </div>
+  <div class="w-full bg-[#F9EEEA] py-10 rounded-md font-jakartha font-semibold">
+    <p class="text-center text-lg">Total Deposits</p>
+    <div class="ms-auto text-center text-[#DE9378]" style="flex: 1">
+      <h2
+        class="text-5xl"
+        style="font-size: 40px; font-weight: 800"
+        [countUp]="DepositTotalCount"
+        [options]="{ separator: '' }"
+      >
+        0
+      </h2>
+    </div>
+  </div>
+  <div class="w-full bg-[#EEFDFA] py-10 rounded-md font-jakartha font-semibold">
+    <p class="text-center text-lg">Total Withdrawls</p>
+    <div class="mx-auto text-center text-[#86D8BD]" style="flex: 1">
+      <h2
+        class="text-[40px]"
+        style="font-weight: 800"
+        [countUp]="WithdrawalTotalCount"
+        [options]="{ separator: '' }"
+      >
+        0
+      </h2>
+    </div>
+  </div>
+</div> -->
+
+<div class="w-full md:flex md:space-x-4 my-4">
+  <div
+    class="flex-1 bg-[#FCF5E8] flex items-center justify-center flex-col rounded-md py-5 my-2"
+  >
+    <p class="text-center text-[#11142B] font-bold font-jakartha">
+      Total Players
+    </p>
+    <span
+      class="text-[#E9B35A] text-md md:text-4xl font-bold font-jakartha"
+      [countUp]="UsersTotalCount"
+      [options]="{ separator: '' }"
+    >
+      0
+    </span>
+  </div>
+  <div
+    class="flex-1 bg-[#F9EEEA] flex items-center justify-center flex-col rounded-md py-5 my-2"
+  >
+    <p class="text-center text-[#11142B] font-bold font-jakartha">
+      Total Deposits
+    </p>
+    <span
+      class="text-[#DE9378] text-md md:text-4xl font-bold font-jakartha my-2"
+      [countUp]="DepositTotalCount"
+      [options]="{ separator: '' }"
+    >
+      0
+    </span>
+  </div>
+  <div
+    class="flex-1 bg-[#EEFDFA] flex items-center justify-center flex-col rounded-md py-5 my-2"
+  >
+    <p class="text-center text-[#11142B] font-bold font-jakartha">
+      Total Withdrawls
+    </p>
+    <span
+      class="text-[#86D8BD] text-md md:text-4xl font-bold font-jakartha"
+      [countUp]="WithdrawalTotalCount"
+      [options]="{ separator: '' }"
+    >
+      0
+    </span>
   </div>
 </div>

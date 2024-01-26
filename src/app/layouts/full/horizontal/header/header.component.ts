@@ -1,20 +1,14 @@
-import {
-  Component,
-  Output,
-  EventEmitter,
-  Input,
-} from '@angular/core';
+import { Component, Output, EventEmitter, Input } from '@angular/core';
 import { CoreService } from 'src/app/services/core.service';
 import { MatDialog } from '@angular/material/dialog';
 import { navItems } from '../../vertical/sidebar/sidebar-data';
 import { TranslateService } from '@ngx-translate/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { TablerIconsModule } from 'angular-tabler-icons';
 import { MaterialModule } from 'src/app/material.module';
 import { BrandingComponent } from '../../vertical/sidebar/branding.component';
 import { NgFor, NgForOf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
 
 interface notifications {
   id: number;
@@ -48,11 +42,17 @@ interface quicklinks {
 @Component({
   selector: 'app-horizontal-header',
   standalone: true,
-  imports: [RouterModule, TablerIconsModule, MaterialModule, BrandingComponent, NgFor],
+  imports: [
+    RouterModule,
+    TablerIconsModule,
+    MaterialModule,
+    BrandingComponent,
+    NgFor,
+  ],
   templateUrl: './header.component.html',
 })
 export class AppHorizontalHeaderComponent {
-   @Input() showToggle = true;
+  @Input() showToggle = true;
   @Input() toggleChecked = false;
   @Output() toggleMobileNav = new EventEmitter<void>();
   @Output() toggleMobileFilterNav = new EventEmitter<void>();
@@ -92,6 +92,7 @@ export class AppHorizontalHeaderComponent {
   ];
 
   constructor(
+    private route: Router,
     private vsidenav: CoreService,
     public dialog: MatDialog,
     private translate: TranslateService
@@ -105,6 +106,12 @@ export class AppHorizontalHeaderComponent {
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`);
     });
+  }
+
+  logout() {
+    console.log('Logouting');
+    localStorage.clear();
+    this.route.navigateByUrl('/login');
   }
 
   changeLanguage(lang: any): void {
@@ -270,13 +277,18 @@ export class AppHorizontalHeaderComponent {
       link: '/theme-pages/treeview',
     },
   ];
-
 }
 
 @Component({
   selector: 'app-search-dialog',
   standalone: true,
-  imports: [RouterModule, MaterialModule, TablerIconsModule, FormsModule, NgForOf],
+  imports: [
+    RouterModule,
+    MaterialModule,
+    TablerIconsModule,
+    FormsModule,
+    NgForOf,
+  ],
   templateUrl: 'search-dialog.component.html',
 })
 export class AppHorizontalSearchDialogComponent {

@@ -280,10 +280,10 @@
 
       <div class="p-y-12 p-x-32">
         <a
-          [routerLink]="['/authentication/side-login']"
           mat-stroked-button
           color="primary"
-          class="w-100"
+          class="w-100 hover:bg-red-600"
+          (click)="logout()"
           >Logout</a
         >
       </div>

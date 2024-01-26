@@ -1,0 +1,39 @@
+<div class="p-5 rounded-sm py-10">
+  <h1 mat-dialog-title class="h-10 w-full text-red-600 font-bold uppercase">
+    <!-- {{ title }} -->
+  </h1>
+  <div mat-dialog-content class="animate-pulse font-bold text-[#000]">
+    {{ message }}
+  </div>
+
+  <div
+    class="w-full flex flex-row items-center justify-center mt-10 space-x-4"
+    *ngIf="logoutParam"
+  >
+    <button
+      class="px-4 bg-red-700 hover:bg-blue-400 py-1 text-white uppercase border-none outline-none rounded-sm text-sm"
+      (click)="LogoutFn()"
+    >
+      Yes
+    </button>
+
+    <button
+      class="px-4 bg-green-700 hover:bg-blue-400 py-1 text-white uppercase border-none outline-none rounded-sm text-sm"
+      (click)="closeDialog()"
+    >
+      No
+    </button>
+  </div>
+
+  <div
+    class="w-full flex flex-row items-center justify-center mt-10 space-x-4"
+    *ngIf="!logoutParam"
+  >
+    <button
+      class="px-4 bg-blue-700 hover:bg-blue-400 py-1 text-white uppercase border-none outline-none rounded-sm text-sm"
+      (click)="closeDialog()"
+    >
+      close
+    </button>
+  </div>
+</div>

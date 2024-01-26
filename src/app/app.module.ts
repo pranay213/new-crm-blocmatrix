@@ -24,7 +24,16 @@ import { FilterPipe } from './pipe/filter.pipe';
 
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+
+import { NumberCounterModule } from 'ng-number-counter';
+import { CountUpModule } from 'ngx-countup';
+import { ToastComponent } from './components/toast/toast.component';
+import { ApiErrorDialogComponent } from './api-error-dialog/api-error-dialog.component';
+import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
 // import { MarketerDashboardModule } from './pages/marketer-dashboard.module';
+import { NgHttpLoaderModule } from 'ng-http-loader';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 export function HttpLoaderFactory(http: HttpClient): any {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -48,10 +57,19 @@ export function HttpLoaderFactory(http: HttpClient): any {
         deps: [HttpClient],
       },
     }),
+    CommonModule,
     NgScrollbarModule,
     FullComponent,
+    NumberCounterModule,
+    CountUpModule,
+    // ToastComponent,
+    // ApiErrorDialogComponent,
+    MatButtonModule,
+    // NgHttpLoaderModule.forRoot(),
+    NgxSpinnerModule.forRoot({ type: 'ball-scale-multiple' }),
   ],
   exports: [TablerIconsModule],
   bootstrap: [AppComponent],
+  providers: [ApiErrorDialogComponent],
 })
 export class AppModule {}

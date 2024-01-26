@@ -11,7 +11,7 @@ body {
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100&family=Roboto+Condensed:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,300;1,400&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700&display=swap');
 
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
@@ -27,8 +27,73 @@ body {
 }
 
 .mat-mdc-select-value {
-    text-align: right;
-    margin-right: 5px;
-    align-items: center;
-    justify-content: center;
+    // text-align: right;
+    // margin-right: 5px;
+    // align-items: center;
+    // justify-content: center;
+    font-family: 'Plus Jakarta Sans';
+    font-weight: 600;
+
+}
+
+app-root {
+    z-index: 1;
+}
+
+app-toast,
+.toast-class {
+    z-index: 2;
+}
+
+.mat-mdc-card {
+    box-shadow: none !important;
+    border: 1px solid #E7EAEE !important;
+}
+
+
+input[type="checkbox"] {
+    height: 15px;
+    width: 15px;
+    vertical-align: middle;
+    margin: 0 0.4em 0.4em 0;
+    border: 1px solid #E7EAEE;
+    border-radius: 2px;
+
+    -webkit-appearance: none;
+    -webkit-transition: box-shadow 200ms;
+    margin-left: 40% !important;
+}
+
+input[type="checkbox"]:not(:disabled):hover {
+    border-color: #6688F7;
+
+}
+
+input[type="checkbox"]:active:not(:disabled) {
+    border-color: #6688F7;
+}
+
+input[type="checkbox"]:focus {
+    outline: none;
+
+}
+
+input[type="checkbox"]:checked {
+    border-color: #6688F7;
+    background-color: #6688F7;
+}
+
+input[type="checkbox"]:checked:before {
+    content: '';
+    display: block;
+    width: 4px;
+    height: 8px;
+    border: solid #fff;
+    border-width: 0 2px 2px 0;
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+    align-self: center;
+    margin: auto;
+    margin-top: 2px;
+
 }

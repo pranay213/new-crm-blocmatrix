@@ -1,21 +1,11 @@
-<mat-card
-  class="cardWithShadow"
-  style="
-    box-shadow: 5px 5px 0px 0px rgba(0, 0, 0, 0.65);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(4px);
-    border: 5px solid rgba(255, 255, 255, 0.5);
-  "
->
+<mat-card class="p-0 m-0 rounded-ss">
+  <div class="w-full m-0 p-8 bg-[#6688F7] rounded-t-md">
+    <mat-card-title class="text-[#fff] text-xl font-jakartha py-2"
+      >Players Data</mat-card-title
+    >
+  </div>
   <mat-card-header>
     <div class="d-flex flex-col w-100 mb-5">
-      <div class="w-full my-2">
-        <mat-card-title
-          class="text-[#000096] text-xl"
-          style="font-family: 'Roboto Condensed'"
-          >Players Data</mat-card-title
-        >
-      </div>
       <div class="mx-2 space-x-2 flex flex-row items-center">
         <!-- <button
           mat-raised-button
@@ -31,11 +21,12 @@
           <button
             type="button"
             *ngFor="let items of months"
-            style="font-family: 'Roboto Condensed'; font-size: 11px"
+            style="font-size: 10px"
             (click)="btnClick(items.value)"
+            class="font-jakartha font-bold"
             [ngClass]="
               items.value === selectedType
-                ? 'bg-[#5DcdFF] px-2 rounded-sm text-[#fff] '
+                ? 'bg-[#6688F7] px-2 rounded-full text-[#fff] '
                 : 'px-2'
             "
           >
@@ -44,11 +35,8 @@
         </div>
         <div class="1/5 flex flex-row items-center justify-center">
           <button
-            mat-raised-button
-            style="font-family: 'Roboto Condensed'"
             (click)="selectFN('compare')"
-            color="primary"
-            class="w-[100px]"
+            class="w-[100px] bg-[#E9B35A] py-2 rounded-md text-white font-jakartha"
           >
             {{ "Compare" }}
           </button>
@@ -90,7 +78,12 @@
           </span>
 
           <div class="m-l-12">
-            <h5 class="mat-headline-5 m-b-4">100</h5>
+            <h5
+              class="mat-headline-5 m-b-4 font-jakartha"
+              style="color: #2639f6; font-weight: 700; font-size: 35px"
+            >
+              100
+            </h5>
             <span class="mat-subtitle-2">Total Players</span>
           </div>
         </div>

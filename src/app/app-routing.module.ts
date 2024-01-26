@@ -4,11 +4,21 @@ import { BlankComponent } from './layouts/blank/blank.component';
 import { FullComponent } from './layouts/full/full.component';
 import { MarketerDashboardComponent } from './pages/marketer-dashboard/marketer-dashboard.component';
 import { AppBasicTableComponent } from './pages/tables/basic-table/basic-table.component';
+import { InternalpageComponent } from './pages/internalpage/internalpage.component';
+import { AppSideLoginComponent } from './pages/authentication/side-login/side-login.component';
+import { authGuard } from './auth.guard';
 
 const routes: Routes = [
   {
+    path: 'login',
+    component: AppSideLoginComponent,
+    canActivate: [authGuard],
+  },
+  {
     path: '',
     component: FullComponent,
+    canActivate: [authGuard],
+
     children: [
       {
         path: '',
@@ -76,6 +86,37 @@ const routes: Routes = [
       {
         path: '',
         component: MarketerDashboardComponent,
+      },
+    ],
+    data: {
+      title: 'Marketer Dashboard ',
+    },
+  },
+  {
+    path: 'internal-page',
+    title: 'Internal Page',
+    component: FullComponent,
+    data: {
+      title: 'Internal Page',
+    },
+    children: [
+      {
+        path: '',
+        component: InternalpageComponent,
+      },
+    ],
+  },
+  {
+    path: 'live-report',
+    title: 'Live Report',
+    component: FullComponent,
+    data: {
+      title: 'Live Report',
+    },
+    children: [
+      {
+        path: '',
+        component: InternalpageComponent,
       },
     ],
   },

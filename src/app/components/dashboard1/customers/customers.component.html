@@ -1,18 +1,23 @@
 <mat-card
-  class="cardWithShadow mx-1"
-  style="
-    background: {{ newitem?.color }};
-    box-shadow: 5px 5px 0px 0px rgba(0, 0,0, 0.65);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(4px);
-    border: 5px solid rgba(255, 255, 255, 0.5);
-  "
+  class="cardWithShadow p-3"
+  style="border: 1px solid #e7eaee; background-color: #fff"
 >
-  <div class="m-l-auto">
+  <mat-card-subtitle
+    class="mat-body-1 font-bold h-[5vh] font-jakartha"
+    style="
+      font-size: 14px;
+      color: #11142b !important;
+      font-weight: bold;
+      margin-left: 12%;
+    "
+    >{{ newitem?.name }}</mat-card-subtitle
+  >
+  <div class="mx-auto w-[100%] flex items-center justify-center">
     <mat-form-field
-      class="theme-select p-0 mr-0 outline-none"
+      class="theme-select p-0 mr-0 outline-none rounded-lg"
       id="selection-box"
       appearance="outline"
+      style="background-color: #fff"
     >
       <mat-select
         formControlName="month.value"
@@ -30,24 +35,20 @@
       </mat-select>
     </mat-form-field>
   </div>
-  <mat-card-content class="mb-2 mt-2">
-    <mat-card-subtitle
-      class="mat-body-1 font-bold f-w-600 h-[5vh]"
-      style="font-size: 14px; color: #000096 !important"
-      >{{ newitem?.name }}</mat-card-subtitle
-    >
 
-    <div class="d-flex align-items-center mb-2">
-      <h5 class="mat-subtitle-1 f-w-600">{{ newitem?.value }}</h5>
-      <button
-        mat-mini-fab
-        class="bg-white text-success shadow-none icon-27 mx-2"
-      >
-        <i-tabler name="arrow-up-left" class="icon-20"></i-tabler>
-      </button>
-      <div class="mat-body-1 f-w-600 m-l-12">+9%</div>
-    </div>
-  </mat-card-content>
+  <div class="flex items-center mb-2 mt-8 mx-auto justify-between">
+    <h5
+      class="mat-subtitle-1 f-w-800"
+      style="color: #6688f7; line-height: 22px"
+    >
+      {{ newitem?.value }}
+    </h5>
+    <button mat-mini-fab class="bg-white text-success shadow-none icon-27 mx-2">
+      <i-tabler name="arrow-up-right" class="icon-20"></i-tabler>
+    </button>
+    <div class="mat-body-1 f-w-600">+9%</div>
+  </div>
+
   <apx-chart
     [series]="customerChart.series"
     [dataLabels]="customerChart.dataLabels"

@@ -8,6 +8,7 @@ module.exports = {
     extend: {
       fontFamily: {
         roboto: ["'Roboto Condensed'", "sans-serif"],
+        jakartha: ["'Plus Jakarta Sans'", "sans-serif"],
       },
     },
   },

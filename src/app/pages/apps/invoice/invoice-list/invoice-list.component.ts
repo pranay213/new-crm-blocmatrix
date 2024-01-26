@@ -7,13 +7,21 @@ import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-invoice-list',
-  templateUrl: './invoice-list.component.html'
+  templateUrl: './invoice-list.component.html',
 })
 export class AppInvoiceListComponent implements AfterViewInit {
   allComplete: boolean = false;
 
   invoiceList: MatTableDataSource<InvoiceList>;
-  displayedColumns: string[] = ['chk', 'id', 'billFrom', 'billTo', 'totalCost', 'status', 'action'];
+  displayedColumns: string[] = [
+    'chk',
+    'id',
+    'billFrom',
+    'billTo',
+    'totalCost',
+    'status',
+    'action',
+  ];
 
   @ViewChild(MatSort) sort: MatSort = Object.create(null);
   @ViewChild(MatPaginator) paginator: MatPaginator = Object.create(null);
@@ -31,10 +39,15 @@ export class AppInvoiceListComponent implements AfterViewInit {
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   updateAllComplete(): void {
-    this.allComplete = this.invoiceList != null && this.invoiceList.data.every((t) => t.completed);
+    this.allComplete =
+      this.invoiceList != null &&
+      this.invoiceList.data.every((t) => t.completed);
   }
   someComplete(): any {
-    return this.invoiceList.data.filter((t) => t.completed).length > 0 && !this.allComplete;
+    return (
+      this.invoiceList.data.filter((t) => t.completed).length > 0 &&
+      !this.allComplete
+    );
   }
   setAll(completed: boolean): void {
     this.allComplete = completed;
@@ -50,7 +63,9 @@ export class AppInvoiceListComponent implements AfterViewInit {
   deleteInvoice(row: number): void {
     if (confirm('Are you sure you want to delete this record ?')) {
       this.invoiceService.deleteInvoice(row);
-      this.invoiceList.data = this.invoiceList.data.filter((invoice) => invoice.id !== row);
+      this.invoiceList.data = this.invoiceList.data.filter(
+        (invoice) => invoice.id !== row
+      );
     }
   }
 }

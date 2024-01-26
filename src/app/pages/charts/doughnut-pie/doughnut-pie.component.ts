@@ -52,7 +52,7 @@ export class AppDoughnutpieChartComponent {
       chart: {
         width: 400,
         type: 'donut',
-        fontFamily: "'Roboto Condensed'",
+        fontFamily: "'Plus Jakarta Sans'",
       },
       labels: [
         'Payment Gateway A',

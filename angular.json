@@ -17,10 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "allowedCommonJsDependencies": [
-              "apexcharts",
-              "bezier-easing"
-            ],
+            "allowedCommonJsDependencies": ["apexcharts", "bezier-easing"],
             "outputPath": "dist/Modernize",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -32,6 +29,7 @@
               "src/styles.scss",
               "src/assets/scss/style.scss",
               "node_modules/angular-calendar/css/angular-calendar.css",
+              "node_modules/ngx-spinner/animations/ball-scale-multiple.css"
             ],
             "scripts": []
           },
