@@ -1,1 +1,52 @@
-<p>live-report works!</p>
+<p-tabView [styleClass]="''">
+  <p-card header="" [styleClass]="'bg-[#fff]'">
+    <p class="my-5">Live Players :{{ totalUsers }}</p>
+
+    <p-table
+      [columns]="cols"
+      [value]="userDetails"
+      selectionMode="single"
+      [paginator]="true"
+      [rows]="50"
+      dataKey="AccountID"
+      [tableStyle]="{ borderRadius: '20px,' }"
+      [styleClass]="' rounded-r-sm '"
+      [paginatorStyleClass]="''"
+    >
+      <ng-template pTemplate="header" let-columns>
+        <tr class="flex w-full items-center justify-between bg-[#7EBBF4]">
+          <!-- <th style="width: 3em"></th> -->
+          <th
+            *ngFor="let col of columns"
+            [pSortableColumn]="col.field"
+            class="flex items-center py-2 bg-[transparent] font-normal text-white font-jakartha text-sm text-center border-r-2 border-[transparent] justify-between px-[0.5px]"
+            style="height: 6vh"
+          >
+            <span class="">{{ col.header }}</span>
+            <p-sortIcon [field]="col.field"></p-sortIcon>
+          </th>
+        </tr>
+      </ng-template>
+
+      <ng-template
+        pTemplate="body"
+        let-rowData
+        let-expanded="expanded"
+        let-columns="columns"
+      >
+        <tr style="height: 20vh; border: 1px solid black">
+          <td *ngFor="let col of columns" (click)="onRowSelect(rowData)">
+            <span>{{ rowData[col.field] }}</span>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage" let-columns>
+        <tr class="text-center">
+          <td [attr.colspan]="columns.length" class="text-center">
+            No records found
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </p-card>
+</p-tabView>

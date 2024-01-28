@@ -1,0 +1,177 @@
+<p-tabView [styleClass]="''">
+  <div class="col-lg-12">
+    <mat-card class="border-none flex justify-start">
+      <mat-card-content class="">
+        <div class="d-flex flex-sm-row flex-column gap-8">
+          <button
+            mat-fab
+            extended
+            color="primary"
+            aria-label="Example icon button with a delete icon"
+            [ngClass]="'w-10'"
+          >
+            <div class="d-flex align-items-center">
+              <i-tabler class="icon-20 m-r-4" name="clear-all"></i-tabler
+              ><span> All</span>
+            </div>
+          </button>
+
+          <button
+            mat-fab
+            extended
+            color="success"
+            aria-label="Example icon button with a bookmark icon"
+          >
+            <div class="d-flex align-items-center">
+              <i-tabler
+                class="icon-20 m-r-4"
+                name="discount-check-filled"
+              ></i-tabler>
+              Success
+            </div>
+          </button>
+
+          <button
+            mat-fab
+            extended
+            color="warn"
+            aria-label="Example icon button with a home icon"
+          >
+            <div class="d-flex align-items-center">
+              <i-tabler class="icon-20 m-r-4" name="player-pause"></i-tabler>
+              Pending
+            </div>
+          </button>
+
+          <button
+            mat-fab
+            extended
+            color="red"
+            aria-label="Example icon button with a heart icon"
+          >
+            <div class="d-flex align-items-center">
+              <i-tabler
+                class="icon-20 m-r-4"
+                name="square-rounded-x-filled"
+              ></i-tabler>
+              Failed
+            </div>
+          </button>
+          <button
+            mat-fab
+            extended
+            aria-label="Example icon button with a heart icon"
+          >
+            <div class="d-flex align-items-center">
+              <i-tabler
+                class="icon-20 m-r-4"
+                name="exclamation-circle"
+              ></i-tabler>
+              Initiated
+            </div>
+          </button>
+        </div>
+
+        <div class="row mt-10">
+          <div class="col-12" *ngIf="transaction">
+            <p class="my-4">
+              Total Deposits: {{ transaction.length }}
+              <span
+                style="margin-left: 10px; font-weight: bold"
+                class="font-jakartha"
+                >Successful Deposits Amount (EUR):
+                {{ sucessfulTransactionAmount }}</span
+              >
+            </p>
+            <p-table
+              #dt
+              [columns]="cols"
+              [value]="transaction"
+              [globalFilterFields]="[
+                'ledger_index',
+                'hash',
+                'tx.Amount',
+                'date'
+              ]"
+              [paginator]="true"
+              selectionMode="single"
+              [rows]="50"
+            >
+              <ng-template pTemplate="colgroup" let-columns>
+                <colgroup>
+                  <col *ngFor="let col of columns" [style.width]="col.width" />
+                </colgroup>
+              </ng-template>
+              <ng-template pTemplate="header" let-columns>
+                <tr
+                  class="flex w-full items-center justify-between bg-[#7EBBF4]"
+                >
+                  <th
+                    *ngFor="let col of columns"
+                    [pSortableColumn]="col.field"
+                    pResizableColumn
+                    class="bg-transparent"
+                    class="flex items-center py-2 bg-[transparent] font-normal text-white font-jakartha text-sm text-center border-r-2 border-[transparent] justify-between"
+                    style="height: 6vh"
+                  >
+                    {{ col.header }}
+                    <p-sortIcon [field]="col.field"></p-sortIcon>
+                  </th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-rowData>
+                <tr
+                  (click)="onRowSelect(rowData)"
+                  *ngIf="rowData.transaction_status == 'Success'"
+                  style="background-color: #1af033"
+                >
+                  <td style="padding: 5px">{{ rowData.transaction_id }}</td>
+                  <td style="padding: 5px">{{ rowData.username }}</td>
+                  <td style="padding: 5px">{{ rowData.credits_count }}</td>
+                  <td style="padding: 5px">{{ rowData.currency }}</td>
+                  <td style="padding: 5px">{{ rowData.transaction_status }}</td>
+                  <td style="padding: 5px">{{ rowData.payment_gateway }}</td>
+                  <td style="padding: 5px">{{ rowData.country_name }}</td>
+                  <td style="padding: 5px">{{ rowData.failed_reason }}</td>
+                  <td style="padding: 5px">{{ rowData.descriptor }}</td>
+                  <td style="padding: 5px">{{ rowData.payment_type }}</td>
+                  <td style="padding: 5px">{{ rowData.card_type }}</td>
+                  <td style="padding: 5px">
+                    {{ rowData.created_at | date : "dd/MM/yyyy, hh:mm:ss a" }}
+                  </td>
+                </tr>
+                <tr
+                  (click)="onRowSelect(rowData)"
+                  *ngIf="rowData.transaction_status != 'Success'"
+                  style="background-color: #fa8072"
+                >
+                  <td style="padding: 5px">{{ rowData.transaction_id }}</td>
+                  <td style="padding: 5px">{{ rowData.username }}</td>
+                  <td style="padding: 5px">{{ rowData.credits_count }}</td>
+                  <td style="padding: 5px">{{ rowData.currency }}</td>
+                  <td style="padding: 5px">{{ rowData.transaction_status }}</td>
+                  <td style="padding: 5px">{{ rowData.payment_gateway }}</td>
+                  <td style="padding: 5px">{{ rowData.country_name }}</td>
+                  <td style="padding: 5px">{{ rowData.failed_reason }}</td>
+                  <td style="padding: 5px">{{ rowData.descriptor }}</td>
+                  <td style="padding: 5px">{{ rowData.payment_type }}</td>
+                  <td style="padding: 5px">{{ rowData.card_type }}</td>
+                  <td style="padding: 5px">
+                    {{ rowData.created_at | date : "dd/MM/yyyy, hh:mm:ss a" }}
+                  </td>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="emptymessage" let-columns>
+                <tr class="text-center">
+                  <td [attr.colspan]="columns.length" class="text-center">
+                    No records found
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</p-tabView>

@@ -7,6 +7,8 @@ import { AppBasicTableComponent } from './pages/tables/basic-table/basic-table.c
 import { InternalpageComponent } from './pages/internalpage/internalpage.component';
 import { AppSideLoginComponent } from './pages/authentication/side-login/side-login.component';
 import { authGuard } from './auth.guard';
+import { LiveReportComponent } from './pages/live-report/live-report.component';
+import { LiveDepositsComponent } from './pages/live-deposits/live-deposits.component';
 
 const routes: Routes = [
   {
@@ -116,14 +118,14 @@ const routes: Routes = [
     children: [
       {
         path: 'players',
-        component: InternalpageComponent,
+        component: LiveReportComponent,
         data: {
           title: 'Live Players',
         },
       },
       {
         path: 'deposits',
-        component: InternalpageComponent,
+        component: LiveDepositsComponent,
         data: {
           title: 'Live Deposits',
         },

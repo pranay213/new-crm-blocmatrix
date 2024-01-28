@@ -17,6 +17,9 @@ body {
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
+@import "primeng/resources/themes/lara-light-blue/theme.css";
+@import "primeng/resources/primeng.css";
+
 .mat-mdc-option {
     min-height: 24px !important;
 
@@ -96,4 +99,52 @@ input[type="checkbox"]:checked:before {
     margin: auto;
     margin-top: 2px;
 
+}
+
+.p-datatable-wrapper {
+    border-radius: 10px;
+    min-height: 10vh;
+    border: 1px solid #E7EAEE
+}
+
+// ::-webkit-scrollbar {
+//     height: 10px;
+//     // /* height of horizontal scrollbar ← You're missing this */
+//     // width: 4px;
+
+//     /* width of vertical scrollbar */
+//     // border: 1px solid #000;
+// }
+
+:host ::ng-deep .pi-sort-alt:before {
+    content: "\F0DC";
+    font-family: "FontAwesome";
+}
+
+.mat-success {
+    background-color: rgb(5, 150, 5) !important;
+    color: #fff !important;
+}
+
+.mat-red {
+    background-color: rgb(255, 115, 0) !important;
+    color: #fff !important;
+}
+
+.my-fab {
+    width: 20px;
+    height: 20px;
+    line-height: 14px;
+    font-size: 14px;
+
+    &::ng-deep .mat-button-wrapper {
+        line-height: 14px;
+        padding: 0;
+
+        .mat-icon {
+            font-size: 14px;
+            padding-right: 4px;
+            padding-top: 4px;
+        }
+    }
 }
