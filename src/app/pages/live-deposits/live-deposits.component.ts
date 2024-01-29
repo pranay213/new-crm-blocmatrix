@@ -39,6 +39,10 @@ export class LiveDepositsComponent implements OnInit {
   reportData: any;
   liveDeposit: any;
   displayDialog: boolean = false;
+  selectedBtn: string = 'all';
+  selectedBtnFn = (param: any) => {
+    this.selectedBtn = param;
+  };
   cols = [
     { header: 'Tx Id', field: 'transaction_id', width: '12%' },
     { header: 'Username', field: 'username', width: '7%' },

@@ -14,12 +14,14 @@
       [paginatorStyleClass]="''"
     >
       <ng-template pTemplate="header" let-columns>
-        <tr class="flex w-full items-center justify-between bg-[#7EBBF4]">
+        <tr
+          class="flex w-full items-center justify-between bg-[#7EBBF4] flex-1"
+        >
           <!-- <th style="width: 3em"></th> -->
           <th
             *ngFor="let col of columns"
             [pSortableColumn]="col.field"
-            class="flex items-center py-2 bg-[transparent] font-normal text-white font-jakartha text-sm text-center border-r-2 border-[transparent] justify-between px-[0.5px]"
+            class="flex items-center bg-[transparent] font-normal text-white font-jakartha text-sm text-center border-r-2 border-[transparent] justify-between"
             style="height: 6vh"
           >
             <span class="">{{ col.header }}</span>
@@ -34,8 +36,16 @@
         let-expanded="expanded"
         let-columns="columns"
       >
-        <tr style="height: 20vh; border: 1px solid black">
-          <td *ngFor="let col of columns" (click)="onRowSelect(rowData)">
+        <tr
+          style="height: 20vh"
+          class="flex w-full items-center justify-between bg-[#fff] border"
+        >
+          <td
+            *ngFor="let col of columns"
+            (click)="onRowSelect(rowData)"
+            class="flex items-center bg-[transparent] font-normal text-[#000] font-jakartha text-sm text-center justify-between border"
+            style="height: 6vh"
+          >
             <span>{{ rowData[col.field] }}</span>
           </td>
         </tr>

@@ -6,9 +6,10 @@
           <button
             mat-fab
             extended
-            color="primary"
+            color="{{ selectedBtn === 'all' && 'primary' }}"
             aria-label="Example icon button with a delete icon"
             [ngClass]="'w-10'"
+            (click)="selectedBtnFn('all')"
           >
             <div class="d-flex align-items-center">
               <i-tabler class="icon-20 m-r-4" name="clear-all"></i-tabler
@@ -19,8 +20,9 @@
           <button
             mat-fab
             extended
-            color="success"
+            color="{{ selectedBtn === 'success' && 'success' }}"
             aria-label="Example icon button with a bookmark icon"
+            (click)="selectedBtnFn('success')"
           >
             <div class="d-flex align-items-center">
               <i-tabler
@@ -34,8 +36,9 @@
           <button
             mat-fab
             extended
-            color="warn"
+            color="{{ selectedBtn === 'pending' && 'warn' }}"
             aria-label="Example icon button with a home icon"
+            (click)="selectedBtnFn('pending')"
           >
             <div class="d-flex align-items-center">
               <i-tabler class="icon-20 m-r-4" name="player-pause"></i-tabler>
@@ -46,8 +49,9 @@
           <button
             mat-fab
             extended
-            color="red"
+            color="{{ selectedBtn === 'failed' && 'red' }}"
             aria-label="Example icon button with a heart icon"
+            (click)="selectedBtnFn('failed')"
           >
             <div class="d-flex align-items-center">
               <i-tabler
@@ -61,6 +65,9 @@
             mat-fab
             extended
             aria-label="Example icon button with a heart icon"
+            (click)="selectedBtnFn('initiated')"
+            color="{{ selectedBtn === 'initiated' && 'info' }}"
+
           >
             <div class="d-flex align-items-center">
               <i-tabler
@@ -72,7 +79,7 @@
           </button>
         </div>
 
-        <div class="row mt-10">
+        <div class="row mt-10" *ngIf="selectedBtn === 'all'">
           <div class="col-12" *ngIf="transaction">
             <p class="my-4">
               Total Deposits: {{ transaction.length }}
@@ -110,7 +117,6 @@
                     *ngFor="let col of columns"
                     [pSortableColumn]="col.field"
                     pResizableColumn
-                    class="bg-transparent"
                     class="flex items-center py-2 bg-[transparent] font-normal text-white font-jakartha text-sm text-center border-r-2 border-[transparent] justify-between"
                     style="height: 6vh"
                   >
@@ -157,6 +163,278 @@
                   <td style="padding: 5px">{{ rowData.payment_type }}</td>
                   <td style="padding: 5px">{{ rowData.card_type }}</td>
                   <td style="padding: 5px">
+                    {{ rowData.created_at | date : "dd/MM/yyyy, hh:mm:ss a" }}
+                  </td>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="emptymessage" let-columns>
+                <tr class="text-center">
+                  <td [attr.colspan]="columns.length" class="text-center">
+                    No records found
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </div>
+        <div class="row mt-10" *ngIf="selectedBtn === 'success'">
+          <div class="col-12" *ngIf="sucessfulTransaction">
+            <p class="my-4">
+              Total Deposits: {{ sucessfulTransaction.length }}
+            </p>
+            <p-table
+              #dt
+              [columns]="cols"
+              [value]="sucessfulTransaction"
+              [globalFilterFields]="[
+                'ledger_index',
+                'hash',
+                'tx.Amount',
+                'date'
+              ]"
+              [paginator]="true"
+              selectionMode="single"
+              [rows]="50"
+            >
+              <ng-template pTemplate="colgroup" let-columns>
+                <colgroup>
+                  <col *ngFor="let col of columns" [style.width]="col.width" />
+                </colgroup>
+              </ng-template>
+              <ng-template pTemplate="header" let-columns>
+                <tr
+                  class="flex w-full items-center justify-between bg-[#7EBBF4]"
+                >
+                  <th
+                    *ngFor="let col of columns"
+                    [pSortableColumn]="col.field"
+                    pResizableColumn
+                    class="flex items-center py-2 bg-[transparent] font-normal text-white font-jakartha text-sm text-center border-r-2 border-[transparent] justify-between"
+                    style="height: 6vh"
+                  >
+                    {{ col.header }}
+                    <p-sortIcon [field]="col.field"></p-sortIcon>
+                  </th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-rowData>
+                <tr (click)="onRowSelect(rowData)">
+                  <td>{{ rowData.transaction_id }}</td>
+                  <td>{{ rowData.ref_id }}</td>
+                  <td>{{ rowData.username }}</td>
+                  <td>{{ rowData.credits_count }}</td>
+                  <td>{{ rowData.currency }}</td>
+                  <td>{{ rowData.transaction_status }}</td>
+                  <td>{{ rowData.payment_gateway }}</td>
+                  <td>{{ rowData.country_name }}</td>
+                  <td>{{ rowData.failed_reason }}</td>
+                  <td>{{ rowData.descriptor }}</td>
+                  <td>{{ rowData.payment_type }}</td>
+                  <td>{{ rowData.card_type }}</td>
+                  <td>
+                    {{ rowData.created_at | date : "dd/MM/yyyy, hh:mm:ss a" }}
+                  </td>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="emptymessage" let-columns>
+                <tr class="text-center">
+                  <td [attr.colspan]="columns.length" class="text-center">
+                    No records found
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </div>
+        <div class="row mt-10" *ngIf="selectedBtn === 'pending'">
+          <div class="col-12" *ngIf="pendingTransaction">
+            <p class="my-4">Total Deposits: {{ pendingTransaction.length }}</p>
+            <p-table
+              #dt
+              [columns]="cols"
+              [value]="pendingTransaction"
+              [globalFilterFields]="[
+                'ledger_index',
+                'hash',
+                'tx.Amount',
+                'date'
+              ]"
+              [paginator]="true"
+              selectionMode="single"
+              [rows]="50"
+            >
+              <ng-template pTemplate="colgroup" let-columns>
+                <colgroup>
+                  <col *ngFor="let col of columns" [style.width]="col.width" />
+                </colgroup>
+              </ng-template>
+              <ng-template pTemplate="header" let-columns>
+                <tr
+                  class="flex w-full items-center justify-between bg-[#7EBBF4]"
+                >
+                  <th
+                    *ngFor="let col of columns"
+                    [pSortableColumn]="col.field"
+                    pResizableColumn
+                    class="flex items-center py-2 bg-[transparent] font-normal text-white font-jakartha text-sm text-center border-r-2 border-[transparent] justify-between"
+                    style="height: 6vh"
+                  >
+                    {{ col.header }}
+                    <p-sortIcon [field]="col.field"></p-sortIcon>
+                  </th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-rowData>
+                <tr (click)="onRowSelect(rowData)">
+                  <td>{{ rowData.transaction_id }}</td>
+                  <td>{{ rowData.ref_id }}</td>
+                  <td>{{ rowData.username }}</td>
+                  <td>{{ rowData.credits_count }}</td>
+                  <td>{{ rowData.currency }}</td>
+                  <td>{{ rowData.transaction_status }}</td>
+                  <td>{{ rowData.payment_gateway }}</td>
+                  <td>{{ rowData.country_name }}</td>
+                  <td>{{ rowData.failed_reason }}</td>
+                  <td>{{ rowData.descriptor }}</td>
+                  <td>{{ rowData.payment_type }}</td>
+                  <td>{{ rowData.card_type }}</td>
+                  <td>
+                    {{ rowData.created_at | date : "dd/MM/yyyy, hh:mm:ss a" }}
+                  </td>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="emptymessage" let-columns>
+                <tr class="text-center">
+                  <td [attr.colspan]="columns.length" class="text-center">
+                    No records found
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </div>
+        <div class="row mt-10" *ngIf="selectedBtn === 'failed'">
+          <div class="col-12" *ngIf="failedTransaction">
+            <p class="my-4">Total Deposits: {{ failedTransaction.length }}</p>
+            <p-table
+              #dt
+              [columns]="cols"
+              [value]="failedTransaction"
+              [globalFilterFields]="[
+                'ledger_index',
+                'hash',
+                'tx.Amount',
+                'date'
+              ]"
+              [paginator]="true"
+              selectionMode="single"
+              [rows]="50"
+            >
+              <ng-template pTemplate="colgroup" let-columns>
+                <colgroup>
+                  <col *ngFor="let col of columns" [style.width]="col.width" />
+                </colgroup>
+              </ng-template>
+              <ng-template pTemplate="header" let-columns>
+                <tr
+                  class="flex w-full items-center justify-between bg-[#7EBBF4]"
+                >
+                  <th
+                    *ngFor="let col of columns"
+                    [pSortableColumn]="col.field"
+                    pResizableColumn
+                    class="flex items-center py-2 bg-[transparent] font-normal text-white font-jakartha text-sm text-center border-r-2 border-[transparent] justify-between"
+                    style="height: 6vh"
+                  >
+                    {{ col.header }}
+                    <p-sortIcon [field]="col.field"></p-sortIcon>
+                  </th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-rowData>
+                <tr (click)="onRowSelect(rowData)">
+                  <td>{{ rowData.transaction_id }}</td>
+                  <td>{{ rowData.ref_id }}</td>
+                  <td>{{ rowData.username }}</td>
+                  <td>{{ rowData.credits_count }}</td>
+                  <td>{{ rowData.currency }}</td>
+                  <td>{{ rowData.transaction_status }}</td>
+                  <td>{{ rowData.payment_gateway }}</td>
+                  <td>{{ rowData.country_name }}</td>
+                  <td>{{ rowData.failed_reason }}</td>
+                  <td>{{ rowData.descriptor }}</td>
+                  <td>{{ rowData.payment_type }}</td>
+                  <td>{{ rowData.card_type }}</td>
+                  <td>
+                    {{ rowData.created_at | date : "dd/MM/yyyy, hh:mm:ss a" }}
+                  </td>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="emptymessage" let-columns>
+                <tr class="text-center">
+                  <td [attr.colspan]="columns.length" class="text-center">
+                    No records found
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </div>
+        <div class="row mt-10" *ngIf="selectedBtn === 'initiated'">
+          <div class="col-12" *ngIf="initiatedTransaction">
+            <p class="my-4">
+              Total Deposits: {{ initiatedTransaction.length }}
+            </p>
+            <p-table
+              #dt
+              [columns]="cols"
+              [value]="initiatedTransaction"
+              [globalFilterFields]="[
+                'ledger_index',
+                'hash',
+                'tx.Amount',
+                'date'
+              ]"
+              [paginator]="true"
+              selectionMode="single"
+              [rows]="50"
+            >
+              <ng-template pTemplate="colgroup" let-columns>
+                <colgroup>
+                  <col *ngFor="let col of columns" [style.width]="col.width" />
+                </colgroup>
+              </ng-template>
+              <ng-template pTemplate="header" let-columns>
+                <tr
+                  class="flex w-full items-center justify-between bg-[#7EBBF4]"
+                >
+                  <th
+                    *ngFor="let col of columns"
+                    [pSortableColumn]="col.field"
+                    pResizableColumn
+                    class="flex items-center py-2 bg-[transparent] font-normal text-white font-jakartha text-sm text-center border-r-2 border-[transparent] justify-between"
+                    style="height: 6vh"
+                  >
+                    {{ col.header }}
+                    <p-sortIcon [field]="col.field"></p-sortIcon>
+                  </th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-rowData>
+                <tr (click)="onRowSelect(rowData)">
+                  <td>{{ rowData.transaction_id }}</td>
+                  <td>{{ rowData.ref_id }}</td>
+                  <td>{{ rowData.username }}</td>
+                  <td>{{ rowData.credits_count }}</td>
+                  <td>{{ rowData.currency }}</td>
+                  <td>{{ rowData.transaction_status }}</td>
+                  <td>{{ rowData.payment_gateway }}</td>
+                  <td>{{ rowData.country_name }}</td>
+                  <td>{{ rowData.failed_reason }}</td>
+                  <td>{{ rowData.descriptor }}</td>
+                  <td>{{ rowData.payment_type }}</td>
+                  <td>{{ rowData.card_type }}</td>
+                  <td>
                     {{ rowData.created_at | date : "dd/MM/yyyy, hh:mm:ss a" }}
                   </td>
                 </tr>

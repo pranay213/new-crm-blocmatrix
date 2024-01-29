@@ -36,8 +36,8 @@ export class LiveReportComponent implements OnInit {
   ngOnInit(): void {
     this.apiService.getLivePlayers().subscribe((data: any) => {
       this.userDetails = data;
-      this.totalUsers = this.userDetails.length;
-      this.startGettingLive();
+      // this.totalUsers = this.userDetails.length;
+      // this.startGettingLive();
     });
   }
 

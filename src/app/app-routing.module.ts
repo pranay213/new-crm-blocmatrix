@@ -9,6 +9,7 @@ import { AppSideLoginComponent } from './pages/authentication/side-login/side-lo
 import { authGuard } from './auth.guard';
 import { LiveReportComponent } from './pages/live-report/live-report.component';
 import { LiveDepositsComponent } from './pages/live-deposits/live-deposits.component';
+import { PlayersComponent } from './pages/players/players.component';
 
 const routes: Routes = [
   {
@@ -128,6 +129,23 @@ const routes: Routes = [
         component: LiveDepositsComponent,
         data: {
           title: 'Live Deposits',
+        },
+      },
+    ],
+  },
+  {
+    path: 'players',
+    title: 'Players',
+    component: FullComponent,
+    data: {
+      title: 'Players',
+    },
+    children: [
+      {
+        path: '',
+        component: PlayersComponent,
+        data: {
+          title: ' Players',
         },
       },
     ],

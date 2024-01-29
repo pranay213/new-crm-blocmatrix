@@ -1,0 +1,383 @@
+<div class="row">
+  <div class="col-lg-12">
+    <mat-card class="border-none flex justify-start">
+      <mat-card-content class="">
+        <div class="d-flex flex-sm-row flex-column gap-8">
+          <button
+            mat-fab
+            extended
+            color="{{ selectedBtn === 'active' && 'success' }}"
+            aria-label="Example icon button with a delete icon"
+            [ngClass]="'w-10'"
+            (click)="selectedBtnFn('active')"
+          >
+            <div class="d-flex align-items-center">
+              <i-tabler
+                class="icon-20 m-r-4"
+                name="circle-check-filled"
+              ></i-tabler
+              ><span> Active players</span>
+            </div>
+          </button>
+
+          <button
+            mat-fab
+            extended
+            color="{{ selectedBtn === 'inactive' && 'red' }}"
+            aria-label="Example icon button with a bookmark icon"
+            (click)="selectedBtnFn('inactive')"
+          >
+            <div class="d-flex align-items-center">
+              <i-tabler
+                class="icon-20 m-r-4"
+                name="square-rounded-x-filled"
+              ></i-tabler>
+              Inactive Players
+            </div>
+          </button>
+
+          <button
+            mat-fab
+            extended
+            color="{{ selectedBtn === 'pending' && 'info' }}"
+            aria-label="Example icon button with a bookmark icon"
+            (click)="selectedBtnFn('pending')"
+          >
+            <div class="d-flex align-items-center">
+              <i-tabler
+                class="icon-20 m-r-4"
+                name="info-circle-filled"
+              ></i-tabler>
+              Unconfirmed Players
+            </div>
+          </button>
+        </div>
+
+        <div class="card" *ngIf="selectedBtn === 'active'">
+          <div class="row my-5 lg:space-x-2">
+            <div class="col-md-2 text-left mx-4">
+              <!--div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="fa fa-search"></i>
+                                    </span>
+                                </div>
+                                <input class="form-control" placeholder="Search..." type="text" [(ngModel)]="apiService.userSearchData" (keyup)='search()' />
+                            </div-->
+              <label class="font-weight-bold">Search Value</label>
+              <input
+                class="form-control border-[#000] outline-[#000] border-[2px] py-2 rounded mt-2"
+                type="text"
+              />
+            </div>
+            <div class="col-sm-2 mx-2">
+              <label class="font-weight-bold mb-2 text-[#020]">Search By</label>
+              <select
+                class="form-control border-[#000] outline-[#000] py-2 rounded border-[2px] mt-2"
+                [(ngModel)]="searchBy"
+              >
+                <option
+                  *ngFor="let searchOption of allSearchOptions"
+                  value="{{ searchOption.key }}"
+                >
+                  {{ searchOption.val }}
+                </option>
+              </select>
+            </div>
+            <div class="col-sm-2 flex flex-col mx-2">
+              <label class="font-weight-bold text-[#020]">Exact Match</label>
+              <select
+                class="form-control border-[#000] outline-[#000] py-2 rounded border-[2px] mt-2"
+                [(ngModel)]="exactMatch"
+              >
+                <option *ngFor="let match of allMatches" value="{{ match }}">
+                  {{ match }}
+                </option>
+              </select>
+            </div>
+            <div class="col-sm-2 flex flex-col">
+              <label class="font-weight-bold">Order</label>
+              <select
+                class="fform-control border-[#000] outline-[#000] py-2 rounded border-[2px] mt-2"
+                [(ngModel)]="orderBy"
+              >
+                <option *ngFor="let order of allOrders" value="{{ order.key }}">
+                  {{ order.val }}
+                </option>
+              </select>
+            </div>
+            <div class="col-sm-2 flex flex-col">
+              <label class="font-weight-bold">Rows Per Page</label>
+              <select
+                class="form-control border-[#000] outline-[#000] py-2 rounded border-[2px] mt-2"
+                [(ngModel)]="limit"
+              >
+                <option
+                  *ngFor="let pageLimit of allLimits"
+                  value="{{ pageLimit }}"
+                >
+                  {{ pageLimit }}
+                </option>
+              </select>
+            </div>
+            <div class="my-7" role="group" data-toggle="buttons">
+              <button
+                mat-raised-button
+                color="primary"
+                (click)="applyManualSearch()"
+              >
+                Submit
+              </button>
+            </div>
+            <div class="ml-5">
+              <p class="py-2 font-bold text-[#020] mx-4">
+                Users Total: {{ totalUsers }}
+              </p>
+            </div>
+          </div>
+          <div class="card-header my-4 ml-2">
+            User Details<span id="download-button">
+              <!-- <button (click)="exportActivePlayers()" style="float: right">
+                            <i
+                              class="fa fa-file-excel-o"
+                              style="font-size: 20px; color: blue"
+                            ></i></button -->
+            </span>
+          </div>
+          <div class="card-body">
+            <p-table
+              #dt
+              [columns]="cols"
+              [value]="userDetails"
+              [paginator]="true"
+              selectionMode="single"
+              [rows]="limit"
+              [rowsPerPageOptions]="[10, 20, 50, 100, 150, 200]"
+              [loading]="loading"
+              [lazy]="true"
+              [totalRecords]="totalUsers"
+              paginatorPosition="bottom"
+              dataKey="AccountID"
+              [paginatorStyleClass]="'border'"
+              [globalFilterFields]="[
+                'name',
+                'country.name',
+                'company',
+                'representative.name'
+              ]"
+            >
+              <ng-template pTemplate="header" let-columns>
+                <tr class="flex w-full items-center bg-[#7EBBF4] flex-1">
+                  <!-- <th style="width: 3em"></th> -->
+                  <th
+                    *ngFor="let col of columns"
+                    [pSortableColumn]="col.field"
+                    class="bg-transparent text-[12px] w-[200px] flex text-white font-normal items-center justify-around h-[6vh] py-1 text-center"
+                  >
+                    {{ col.header }}
+                    <p-sortIcon [field]="col.field"></p-sortIcon>
+                  </th>
+                </tr>
+              </ng-template>
+
+              <ng-template
+                pTemplate="body"
+                let-rowData
+                let-expanded="expanded"
+                let-columns="columns"
+              >
+                <tr class="flex w-full items-center bg-[#fff] flex-1">
+                  <td
+                    *ngFor="let col of columns"
+                    class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                    style="border-top: 1px solid rgb(157, 208, 232)"
+                  >
+                    <span class="text-center">{{ rowData[col.field] }}</span>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </div>
+
+        <div class="row" *ngIf="selectedBtn === 'inactive'">
+          <div class="col-lg-12">
+            <div class="row" style="margin-bottom: 20px">
+              <div class="col-md-3 text-left">
+                <div class="input-group my-5 ml-4">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">
+                      <i class="fa fa-search"></i>
+                    </span>
+                  </div>
+                  <input
+                    class="form-control outline-[#000] border-[2px] rounded border-[#000] py-2 mx-2"
+                    placeholder="Search..."
+                    type="text"
+                    [(ngModel)]="apiService.inactiveUserSearchData"
+                    (keyup)="inactiveSearch()"
+                  />
+                </div>
+              </div>
+              <div class="col-md-3 mt-5">
+                <p class="font-bold text-[#010] mt-4">
+                  Users Total: {{ totalInactiveUsers }}
+                </p>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header mx-4 my-5">
+                User Details<span id="download-button">
+                  <!-- <button
+                    (click)="exportInactivePlayers()"
+                    style="float: right"
+                  >
+                    <i
+                      class="fa fa-file-excel-o"
+                      style="font-size: 20px; color: blue"
+                    ></i></button> -->
+                </span>
+              </div>
+              <div class="card-body">
+                <p-table
+                  #dt
+                  [columns]="cols"
+                  [value]="inActiveUserDetails"
+                  [paginator]="true"
+                  selectionMode="single"
+                  [rows]="limit"
+                  [rowsPerPageOptions]="[50, 100, 150, 200]"
+                  [loading]="inactiveLoading"
+                  [lazy]="true"
+                  [totalRecords]="totalInactiveUsers"
+                  paginatorPosition="bottom"
+                  dataKey="AccountID"
+                >
+                  <ng-template pTemplate="header" let-columns>
+                    <tr class="flex w-full items-center bg-[#7EBBF4] flex-1">
+                      <!-- <th style="width: 3em"></th> -->
+                      <th
+                        *ngFor="let col of columns"
+                        [pSortableColumn]="col.field"
+                        class="bg-transparent text-[12px] w-[200px] flex text-white font-normal items-center justify-around h-[6vh] py-1 text-center"
+                      >
+                        {{ col.header }}
+                        <p-sortIcon [field]="col.field"></p-sortIcon>
+                      </th>
+                    </tr>
+                  </ng-template>
+
+                  <ng-template
+                    pTemplate="body"
+                    let-rowData
+                    let-expanded="expanded"
+                    let-columns="columns"
+                  >
+                    <tr class="flex w-full items-center bg-[#fff] flex-1">
+                      <td
+                        *ngFor="let col of columns"
+                        class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                        style="border-top: 1px solid rgb(157, 208, 232)"
+                      >
+                        <span>{{ rowData[col.field] }}</span>
+                      </td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row" *ngIf="selectedBtn === 'pending'">
+          <div class="col-lg-12">
+            <div class="row" style="margin-bottom: 20px">
+              <div class="col-md-3 text-left">
+                <div class="input-group my-5 ml-4">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">
+                      <i class="fa fa-search"></i>
+                    </span>
+                  </div>
+                  <input
+                    class="form-control outline-[#000] border-[2px] rounded border-[#000] py-2 mx-2"
+                    placeholder="Search..."
+                    type="text"
+                    [(ngModel)]="apiService.unconfirmedUserSearchData"
+                    (keyup)="unconfirmedSearch()"
+                  />
+                </div>
+              </div>
+              <div class="col-md-3 mt-5">
+                <p class="font-bold text-[#010] mt-2">
+                  Users Total: {{ totalUnconfirmedUsers }}
+                </p>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header mx-4 my-5">
+                User Details<span id="download-button">
+                  <!-- <button
+                      (click)="exportInactivePlayers()"
+                      style="float: right"
+                    >
+                      <i
+                        class="fa fa-file-excel-o"
+                        style="font-size: 20px; color: blue"
+                      ></i></button> -->
+                </span>
+              </div>
+              <div class="card-body"></div>
+              <p-table
+                #dt
+                [columns]="cols"
+                [value]="unconfirmedUserDetails"
+                [paginator]="true"
+                selectionMode="single"
+                [rows]="limit"
+                [rowsPerPageOptions]="[50, 100, 150, 200]"
+                [loading]="unconfirmedLoading"
+                [lazy]="true"
+                [totalRecords]="totalUnconfirmedUsers"
+                paginatorPosition="bottom"
+                dataKey="AccountID"
+              >
+                <ng-template pTemplate="header" let-columns>
+                  <tr class="flex w-full items-center bg-[#7EBBF4] flex-1">
+                    <!-- <th style="width: 3em"></th> -->
+                    <th
+                      *ngFor="let col of columns"
+                      [pSortableColumn]="col.field"
+                      class="bg-transparent text-[12px] w-[200px] flex text-white font-normal items-center justify-around h-[6vh] py-1 text-center"
+                    >
+                      {{ col.header }}
+                      <p-sortIcon [field]="col.field"></p-sortIcon>
+                    </th>
+                  </tr>
+                </ng-template>
+
+                <ng-template
+                  pTemplate="body"
+                  let-rowData
+                  let-expanded="expanded"
+                  let-columns="columns"
+                >
+                  <tr class="flex w-full items-center bg-[#fff] flex-1">
+                    <td
+                      *ngFor="let col of columns"
+                      (click)="onRowSelect(rowData)"
+                      class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                      style="border-top: 1px solid rgb(157, 208, 232)"
+                    >
+                      <span>{{ rowData[col.field] }}</span>
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
