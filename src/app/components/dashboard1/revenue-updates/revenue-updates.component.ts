@@ -2,7 +2,10 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnChanges,
+  OnInit,
   Output,
+  SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import {
@@ -57,9 +60,10 @@ export interface revenueChart {
   ],
   templateUrl: './revenue-updates.component.html',
 })
-export class AppRevenueUpdatesComponent {
+export class AppRevenueUpdatesComponent implements OnInit, OnChanges {
   @ViewChild('chart') chart: ChartComponent = Object.create(null);
   @Output() selectEvent = new EventEmitter<string>();
+  @Input() data: any;
 
   public revenueChart!: Partial<revenueChart> | any;
   selectedType: any = 'Today';
@@ -192,18 +196,207 @@ export class AppRevenueUpdatesComponent {
   todayPoints = {};
 
   constructor() {
-    console.log('dataPoints', this.dataPoints);
+    // console.log('dataPoints', this.dataPoints);
+    this.revenueChart = {};
+
+    // this.revenueChart = {
+    //   series: [
+    //     {
+    //       name: 'New Players',
+    //       data: this.dataPointsFn(this.selectedType),
+    //       color: '#5DcdFF',
+    //     },
+    //     {
+    //       name: 'Recurring Players',
+    //       data: this.dataPointsFn(this.selectedType),
+    //       color: '#00f',
+    //     },
+    //   ],
+
+    //   chart: {
+    //     type: 'bar',
+    //     fontFamily: "'Plus Jakarta Sans', sans-serif;",
+    //     foreColor: '#adb0bb',
+    //     toolbar: {
+    //       show: true,
+    //     },
+    //     height: 300,
+    //     stacked: true,
+    //   },
+
+    //   plotOptions: {
+    //     bar: {
+    //       horizontal: false,
+    //       borderRadius: 20,
+    //       columnWidth: '20%',
+    //       borderRadiusApplication: 'end',
+    //       borderRadiusWhenStacked: 'all',
+    //     },
+    //   },
+
+    //   stroke: {
+    //     show: false,
+    //   },
+    //   dataLabels: {
+    //     enabled: false,
+    //   },
+    //   legend: {
+    //     show: false,
+    //   },
+    //   grid: {
+    //     borderColor: 'rgba(0,0,0,0.1)',
+    //     strokeDashArray: 3,
+    //     xaxis: {
+    //       lines: {
+    //         show: false,
+    //       },
+    //     },
+    //   },
+    //   yaxis: {
+    //     show: false,
+    //   },
+    //   xaxis: {
+    //     show: false,
+    //     labels: {
+    //       show: false,
+    //     },
+    //     axisBorder: {
+    //       show: false,
+    //     },
+    //     axisTicks: {
+    //       show: false,
+    //     },
+    //   },
+    //   tooltip: {
+    //     theme: 'dark',
+    //     fillSeriesColor: false,
+    //   },
+    // };
+  }
+
+  ngOnInit(): void {
+    console.log('-----------------', this.data);
+    let newplayers = this.data?.map(function (obj: any) {
+      return obj.new_users;
+    });
+    let recurringPlaeyers = this.data?.map(function (obj: any) {
+      return obj.recurring_users;
+    });
+
+    console.log(
+      'newplayers',
+      'resuccring players',
+      newplayers,
+      recurringPlaeyers
+    );
+    // this.revenueChart = {
+    //   series: [
+    //     {
+    //       name: 'New Players',
+    //       // data: this.data?.map(function (obj: any) {
+    //       //   return obj.new_users;
+    //       // }),
+    //       data: [10],
+    //       color: '#5DcdFF',
+    //     },
+    //     {
+    //       name: 'Recurring Players',
+    //       // data: this.data?.map(function (obj: any) {
+    //       //   return obj.recurring_users;
+    //       // }),
+    //       data: [20],
+
+    //       color: '#00f',
+    //     },
+    //   ],
+
+    //   chart: {
+    //     type: 'bar',
+    //     fontFamily: "'Plus Jakarta Sans', sans-serif;",
+    //     foreColor: '#adb0bb',
+    //     toolbar: {
+    //       show: true,
+    //     },
+    //     height: 300,
+    //     stacked: true,
+    //   },
+
+    //   plotOptions: {
+    //     bar: {
+    //       horizontal: false,
+    //       borderRadius: 20,
+    //       columnWidth: '20%',
+    //       borderRadiusApplication: 'end',
+    //       borderRadiusWhenStacked: 'all',
+    //     },
+    //   },
+
+    //   stroke: {
+    //     show: false,
+    //   },
+    //   dataLabels: {
+    //     enabled: false,
+    //   },
+    //   legend: {
+    //     show: false,
+    //   },
+    //   grid: {
+    //     borderColor: 'rgba(0,0,0,0.1)',
+    //     strokeDashArray: 3,
+    //     xaxis: {
+    //       lines: {
+    //         show: false,
+    //       },
+    //     },
+    //   },
+    //   yaxis: {
+    //     show: false,
+    //   },
+    //   xaxis: {
+    //     show: false,
+    //     labels: {
+    //       show: false,
+    //     },
+    //     axisBorder: {
+    //       show: false,
+    //     },
+    //     axisTicks: {
+    //       show: false,
+    //     },
+    //   },
+    //   tooltip: {
+    //     theme: 'dark',
+    //     fillSeriesColor: false,
+    //   },
+    // };
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log(changes['data'].currentValue, '---------');
+    let data = changes['data'].currentValue;
 
     this.revenueChart = {
       series: [
         {
           name: 'New Players',
-          data: this.dataPointsFn(this.selectedType),
+          data: [
+            0,
+            ...data.map(function (obj: any) {
+              return obj.new_users;
+            }),
+            0,
+          ],
           color: '#5DcdFF',
         },
         {
           name: 'Recurring Players',
-          data: this.dataPointsFn(this.selectedType),
+          data: [
+            0,
+            ...data.map(function (obj: any) {
+              return obj.recurring_users;
+            }),
+            0,
+          ],
+
           color: '#00f',
         },
       ],

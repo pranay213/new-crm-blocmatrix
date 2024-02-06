@@ -97,6 +97,7 @@ export class AppDashboard1Component implements OnInit, DoCheck, OnChanges {
   depositsPoints: any = {};
   ftdsPoints: any = {};
 
+  genralData: any;
   customerChart: any = {};
   monthsNames: any = [
     { value: '2D', viewValue: '2days' },
@@ -330,6 +331,7 @@ export class AppDashboard1Component implements OnInit, DoCheck, OnChanges {
       // this.profi = res.data.profit_ggr;
       // this.ggtD;
       this.top_depositors = res.data.top_depositors;
+      this.genralData = res.data.general_data;
 
       this.profitData = res.data.profit_ggr;
       this.profitPercentage = (
@@ -1079,7 +1081,7 @@ export class AppDashboard1Component implements OnInit, DoCheck, OnChanges {
   ) {}
   ngOnInit() {
     this.getData();
-    console.log('----------data', this.fullData.profit_ggr);
+    // console.log('----------data', this.fullData.profit_ggr);
 
     // let profitFirst = this.fullData?.profit_ggr[0]?.profit;
     // let profitLast =
@@ -1229,260 +1231,9 @@ export class AppDashboard1Component implements OnInit, DoCheck, OnChanges {
     //     ),
     //   },
     // ];
-
-    this.profitPoints = {
-      series: [
-        {
-          name: 'Profit',
-          // color: this.newitem?.color,
-          color: '#7ebbf4',
-          // color: '#59B259',
-          data: this.fullData?.profit_ggr.map(function (obj: any) {
-            return obj.profit;
-          }),
-        },
-      ],
-
-      chart: {
-        type: 'area',
-        fontFamily: "'Plus Jakarta Sans', sans-serif;",
-        foreColor: '#adb0bb',
-        toolbar: {
-          show: false,
-        },
-        height: 80,
-        sparkline: {
-          enabled: true,
-        },
-        group: 'sparklines',
-      },
-      stroke: {
-        curve: 'smooth',
-        width: 2,
-      },
-      fill: {
-        colors: ['#6688F7'],
-        type: 'solid',
-        opacity: 0.05,
-      },
-      markers: {
-        size: 0,
-      },
-
-      xaxis: {
-        show: true,
-        categories: this.fullData?.profit_ggr.map(function (obj: any) {
-          return obj.date;
-        }),
-      },
-      tooltip: {
-        theme: 'dark',
-        fillSeriesColor: false,
-      },
-    };
-    this.ggrPoints = {
-      series: [
-        {
-          name: 'GGR',
-          // color: this.newitem?.color,
-          color: '#7ebbf4',
-          // color: '#59B259',
-          data: this.fullData?.profit_ggr.map(function (obj: any) {
-            return obj.ggr;
-          }),
-        },
-      ],
-
-      chart: {
-        type: 'area',
-        fontFamily: "'Plus Jakarta Sans', sans-serif;",
-        foreColor: '#adb0bb',
-        toolbar: {
-          show: false,
-        },
-        height: 80,
-        sparkline: {
-          enabled: true,
-        },
-        group: 'sparklines',
-      },
-      stroke: {
-        curve: 'smooth',
-        width: 2,
-      },
-      fill: {
-        colors: ['#6688F7'],
-        type: 'solid',
-        opacity: 0.05,
-      },
-      markers: {
-        size: 0,
-      },
-
-      xaxis: {
-        show: true,
-        categories: this.fullData?.profit_ggr.map(function (obj: any) {
-          return obj.date;
-        }),
-      },
-      tooltip: {
-        theme: 'dark',
-        fillSeriesColor: false,
-      },
-    };
-    this.livePlayerPoints = {
-      series: [
-        {
-          name: 'Live Players',
-          // color: this.newitem?.color,
-          color: '#7ebbf4',
-          // color: '#59B259',
-          data: this.fullData?.live_players.map(function (obj: any) {
-            return obj.live_players;
-          }),
-        },
-      ],
-
-      chart: {
-        type: 'area',
-        fontFamily: "'Plus Jakarta Sans', sans-serif;",
-        foreColor: '#adb0bb',
-        toolbar: {
-          show: false,
-        },
-        height: 80,
-        sparkline: {
-          enabled: true,
-        },
-        group: 'sparklines',
-      },
-      stroke: {
-        curve: 'smooth',
-        width: 2,
-      },
-      fill: {
-        colors: ['#6688F7'],
-        type: 'solid',
-        opacity: 0.05,
-      },
-      markers: {
-        size: 0,
-      },
-
-      xaxis: {
-        show: true,
-        categories: this.fullData?.live_players.map(function (obj: any) {
-          return obj.date;
-        }),
-      },
-      tooltip: {
-        theme: 'dark',
-        fillSeriesColor: false,
-      },
-    };
-    this.depositsPoints = {
-      series: [
-        {
-          name: 'Deposits',
-          // color: this.newitem?.color,
-          color: '#7ebbf4',
-          // color: '#59B259',
-          data: this.fullData?.deposits.map(function (obj: any) {
-            return obj.deposits;
-          }),
-        },
-      ],
-
-      chart: {
-        type: 'area',
-        fontFamily: "'Plus Jakarta Sans', sans-serif;",
-        foreColor: '#adb0bb',
-        toolbar: {
-          show: false,
-        },
-        height: 80,
-        sparkline: {
-          enabled: true,
-        },
-        group: 'sparklines',
-      },
-      stroke: {
-        curve: 'smooth',
-        width: 2,
-      },
-      fill: {
-        colors: ['#6688F7'],
-        type: 'solid',
-        opacity: 0.05,
-      },
-      markers: {
-        size: 0,
-      },
-
-      xaxis: {
-        show: true,
-        categories: this.fullData?.deposits.map(function (obj: any) {
-          return obj.date;
-        }),
-      },
-      tooltip: {
-        theme: 'dark',
-        fillSeriesColor: false,
-      },
-    };
-    this.ftdsPoints = {
-      series: [
-        {
-          name: 'FTDS',
-          // color: this.newitem?.color,
-          color: '#7ebbf4',
-          // color: '#59B259',
-          data: this.fullData?.ftd.map(function (obj: any) {
-            return obj.ftd;
-          }),
-        },
-      ],
-
-      chart: {
-        type: 'area',
-        fontFamily: "'Plus Jakarta Sans', sans-serif;",
-        foreColor: '#adb0bb',
-        toolbar: {
-          show: false,
-        },
-        height: 80,
-        sparkline: {
-          enabled: true,
-        },
-        group: 'sparklines',
-      },
-      stroke: {
-        curve: 'smooth',
-        width: 2,
-      },
-      fill: {
-        colors: ['#6688F7'],
-        type: 'solid',
-        opacity: 0.05,
-      },
-      markers: {
-        size: 0,
-      },
-
-      xaxis: {
-        show: true,
-        categories: this.fullData?.ftd.map(function (obj: any) {
-          return obj.date;
-        }),
-      },
-      tooltip: {
-        theme: 'dark',
-        fillSeriesColor: false,
-      },
-    };
   }
   ngDoCheck() {
-    console.log('hello ng docheck', this.fullData.top_games);
+    // console.log('hello ng docheck', this.fullData.top_games);
     let topGameData: PeriodicElement[] = this.fullData?.top_games.slice(0, 5);
     let topDespositData: DepositElement[] = this.fullData?.top_depositors.slice(
       0,
@@ -1502,7 +1253,9 @@ export class AppDashboard1Component implements OnInit, DoCheck, OnChanges {
 
     // console.log('profitData', this.profitData);
   }
-  ngOnChanges() {}
+  ngOnChanges(changes: SimpleChanges) {
+    // console.log('changes;-----', changes);
+  }
 }
 export interface PeriodicElement {
   game_name: string;
