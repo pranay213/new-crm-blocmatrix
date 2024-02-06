@@ -1,4 +1,11 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
 import {
   ApexChart,
   ChartComponent,
@@ -36,20 +43,20 @@ export interface customerChart {
   imports: [NgApexchartsModule, MaterialModule, TablerIconsModule, NgForOf],
   templateUrl: './customers.component.html',
 })
-export class AppCustomersComponent implements OnInit {
+export class AppCustomersComponent implements OnInit, OnChanges {
   categorypoints: any = {};
   monthsNames: any = [
-    { value: 'Today', viewValue: 'Today' },
-    { value: 'Yesterday', viewValue: 'Yesterday' },
-    { value: 'This Week', viewValue: 'This Week' },
-    { value: 'Last Week', viewValue: 'Last Week' },
-    { value: 'This Month', viewValue: 'This Month' },
-    { value: 'Last Month', viewValue: 'Last Month' },
+    { value: '2D', viewValue: '2days' },
+    { value: '7D', viewValue: '1 Week' },
+    { value: '15D', viewValue: '15 Days' },
+    { value: '30D', viewValue: '1 Month' },
+    { value: '180D', viewValue: '6 Months' },
+    { value: '365D', viewValue: '1 Year' },
   ];
   @Input() newitem: any = {};
   name: string = '';
   color: string = '';
-  selectedValue = 'Today';
+  selectedValue = '2D';
 
   selectedPoints(type: any) {
     if (type === 'Today') {
@@ -82,7 +89,6 @@ export class AppCustomersComponent implements OnInit {
           data: this.selectedPoints(this.selectedValue),
         },
       ],
-
       chart: {
         type: 'area',
         fontFamily: "'Plus Jakarta Sans', sans-serif;",
@@ -108,7 +114,6 @@ export class AppCustomersComponent implements OnInit {
       markers: {
         size: 0,
       },
-
       xaxis: {
         show: false,
       },
@@ -124,7 +129,7 @@ export class AppCustomersComponent implements OnInit {
 
   constructor() {}
   ngOnInit() {
-    console.log('selectedValue', this.selectedValue);
+    console.log('newItem', this.newitem);
     this.customerChart = {
       series: [
         {
@@ -171,5 +176,11 @@ export class AppCustomersComponent implements OnInit {
         fillSeriesColor: false,
       },
     };
+  }
+  ngAfterViewInit(): void {
+    console.log(this.newitem);
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log('changes', changes);
   }
 }

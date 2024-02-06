@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit, OnChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ApiService } from 'src/app/services/api.service';
 import { NumberCounterModule } from 'ng-number-counter';
@@ -15,37 +15,17 @@ import { ApiErrorDialogComponent } from 'src/app/api-error-dialog/api-error-dial
   templateUrl: './cards-new.component.html',
   styleUrls: ['./cards-new.component.scss'],
 })
-export class CardsNewComponent {
+export class CardsNewComponent implements OnChanges {
+  @Input() totalData: any;
   UsersTotalCount: number;
   DepositTotalCount: number;
   WithdrawalTotalCount: number;
-  constructor(
-    private apiService: ApiService,
-    private notificationService: NotificationService,
-    public dialog: MatDialog
-  ) {
-    this.apiService.getCounter().subscribe(
-      (data: any) => {
-        // console.log('Data----', data);
-        if (data) {
-          this.UsersTotalCount = data.Users.totalCount;
-          this.DepositTotalCount = data.Deposits.totalCount;
-          this.WithdrawalTotalCount = data.Withdrawals.totalCount;
-        }
-      },
-      (error) => {
-        // if (error.statusText === 'Unauthorized') {
-        //   // alert('Error');
-        //   // this.dialog.open(ApiErrorDialogComponent, {
-        //   //   data: error,
-        //   // });
-        //   // localStorage.clear();
-        //   this.notificationService.showError(error);
-        // }
-        this.notificationService.showError(error);
-      }
-    );
+  ngOnChanges(): void {
+    this.UsersTotalCount = this.totalData?.total_signups;
+    this.DepositTotalCount = this.totalData?.total_deposits;
+    this.WithdrawalTotalCount = this.totalData?.total_withdrawals;
   }
+  ngAfterViewInit(): void {}
 }
 
 export class DialogDataExampleDialog {
