@@ -1,0 +1,179 @@
+<div class="row" style="margin-bottom: 5px; margin-top: -20px">
+  <div class="col-md-12">
+    <div class="space-x-2">
+      <button
+        mat-stroked-button
+        color="primary"
+        [(ngModel)]="radioModel"
+        (click)="dayRange('DAILY')"
+        btnRadio="Day"
+      >
+        Day
+      </button>
+      <button
+        mat-stroked-button
+        color="accent"
+        [(ngModel)]="radioModel"
+        (click)="dayRange('WEEKLY')"
+      >
+        Week
+      </button>
+      <button
+        mat-stroked-button
+        color="warn"
+        [(ngModel)]="radioModel"
+        (click)="dayRange('MONTHLY')"
+      >
+        Month
+      </button>
+    </div>
+
+    <div
+      class="btn-group btn-group-toggle float-right mr-3"
+      role="group"
+      data-toggle="buttons"
+    >
+      <button (click)="showFilter()" class="btn btn-secondary b">
+        <i class="fa fa-filter" aria-hidden="true"></i> Filter
+      </button>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-header" style="padding: 5px">
+        Reports<span id="download-button"
+          ><button style="float: right" (click)="exportReport()">
+            <i
+              class="fa fa-file-excel-o"
+              style="font-size: 20px; color: blue"
+            ></i></button
+        ></span>
+      </div>
+
+      <ng-template tabHeading
+        ><i class="fa fa-list"></i><span> All</span></ng-template
+      >
+      <div class="row">
+        <div *ngIf="reportData">
+          <!--p>
+                      <span style="margin-left: 10px;"><b>Currency:</b> {{currency}}</span>
+                      <span style="margin-left: 20px;"><b>Total Profit:</b> {{totalProfit}}</span>
+                      <span style="margin-left: 20px;"><b>Total Bets:</b> {{totalBets}}</span>
+                      <span style="margin-left: 20px;"><b>Total Wins:</b> {{totalWins}}</span>
+                      <span style="margin-left: 20px;"><b>Total Processing:</b> {{totalProcessing}}</span>
+                      <span style="margin-left: 20px;"><b>Total Royalties:</b> {{totalRoyalties}}</span>
+                      <span style="margin-left: 20px;"><b>Total Bonus:</b> {{totalBonus}}</span>
+                  </p-->
+          <p-table
+            #dt
+            [columns]="cols"
+            [value]="reportData"
+            [paginator]="true"
+            selectionMode="single"
+            [rows]="50"
+          >
+            <ng-template pTemplate="colgroup" let-columns>
+              <colgroup>
+                <col *ngFor="let col of columns" [style.width]="col.width" />
+              </colgroup>
+            </ng-template>
+            <ng-template pTemplate="header" let-columns>
+              <tr style="font-size: 12px">
+                <th
+                  *ngFor="let col of columns"
+                  [pSortableColumn]="col.field"
+                  pResizableColumn
+                >
+                  {{ col.header }}
+                  <p-sortIcon [field]="col.field"></p-sortIcon>
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData>
+              <tr
+                (click)="onRowSelect(rowData)"
+                style="font-size: 12px"
+                *ngIf="rowData.Period != 'Total'"
+              >
+                <td>{{ rowData.Period }}</td>
+                <td>{{ rowData.Deposits }}</td>
+                <td>{{ rowData["WD Request"] }}</td>
+                <td>{{ rowData["WD Complete"] }}</td>
+                <td>{{ rowData.Refunds }}</td>
+                <td>{{ rowData.CHB }}</td>
+                <td>{{ rowData.Bets }}</td>
+                <td>{{ rowData.Wins }}</td>
+                <td>{{ rowData.Bonus }}</td>
+                <td>{{ rowData.NGR }}</td>
+                <td>{{ rowData.GGR }}</td>
+                <td>{{ rowData.Royalties }}</td>
+                <td>{{ rowData.Signups }}</td>
+                <td>{{ rowData.FTD }}</td>
+                <td>{{ rowData.Processing }}</td>
+                <td>{{ rowData.Profit }}</td>
+              </tr>
+              <tr
+                (click)="onRowSelect(rowData)"
+                style="font-size: 12px; font-weight: bold"
+                *ngIf="rowData.Period == 'Total'"
+              >
+                <td>{{ rowData.Period }}</td>
+                <td>{{ rowData.Deposits }}</td>
+                <td>{{ rowData["WD Request"] }}</td>
+                <td>{{ rowData["WD Complete"] }}</td>
+                <td>{{ rowData.Refunds }}</td>
+                <td>{{ rowData.CHB }}</td>
+                <td>{{ rowData.Bets }}</td>
+                <td>{{ rowData.Wins }}</td>
+                <td>{{ rowData.Bonus }}</td>
+                <td>{{ rowData.NGR }}</td>
+                <td>{{ rowData.GGR }}</td>
+                <td>{{ rowData.Royalties }}</td>
+                <td>{{ rowData.Signups }}</td>
+                <td>{{ rowData.FTD }}</td>
+                <td>{{ rowData.Processing }}</td>
+                <td>{{ rowData.Profit }}</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p-dialog
+    header="Filter"
+    [(visible)]="showDialog"
+    [responsive]="true"
+    showEffect="fade"
+    [modal]="true"
+  >
+    <div class="ui-g ui-fluid">
+      <div class="ui-g-12">
+        <div class="ui-g-6 col-md-6">
+          <label for="startDate">Start Date</label>
+          <p-calendar
+            [(ngModel)]="startDate"
+            dateFormat="yy-mm-dd"
+          ></p-calendar>
+        </div>
+        <div class="ui-g-6 col-md-6">
+          <label for="endDate">End Date</label>
+          <p-calendar [(ngModel)]="endDate" dateFormat="yy-mm-dd"></p-calendar>
+        </div>
+      </div>
+    </div>
+    <p-footer>
+      <button type="button" (click)="cancelFilter()" class="btn btn-secondary">
+        Cancel
+      </button>
+      <button type="button" (click)="applyFilter()" class="btn btn-secondary">
+        Apply
+      </button>
+      <br />
+      <span style="color: red">{{ datamessage }}</span>
+    </p-footer>
+  </p-dialog>
+</div>

@@ -1,0 +1,1407 @@
+<div class="row" style="margin-bottom: 20px">
+  <div class="col-md-9"></div>
+  <div class="col-md-3 text-right">
+    <button (click)="showFilter()" class="btn btn-secondary b">
+      <i class="fa fa-filter" aria-hidden="true"></i> Filter
+    </button>
+  </div>
+</div>
+
+<div class="row border">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-header" style="padding: 5px">
+        Deposits Report<span id="download-button"
+          ><button (click)="exportReport()" style="float: right">
+            <i
+              class="fa fa-file-excel-o"
+              style="font-size: 20px; color: blue"
+            ></i></button
+        ></span>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-12">
+            <mat-card-content>
+              <div class="d-flex flex-sm-row flex-column gap-8">
+                <button
+                  mat-fab
+                  extended
+                  color="{{ selectedBtn === 'all' && 'primary' }}"
+                  aria-label="Example icon button with a delete icon"
+                  [ngClass]="'w-10'"
+                  (click)="selectedBtnFn('all')"
+                >
+                  <div class="d-flex align-items-center">
+                    <i-tabler class="icon-20 m-r-4" name="clear-all"></i-tabler
+                    ><span> All</span>
+                  </div>
+                </button>
+
+                <button
+                  mat-fab
+                  extended
+                  color="{{ selectedBtn === 'success' && 'success' }}"
+                  aria-label="Example icon button with a bookmark icon"
+                  (click)="selectedBtnFn('success')"
+                >
+                  <div class="d-flex align-items-center">
+                    <i-tabler
+                      class="icon-20 m-r-4"
+                      name="discount-check-filled"
+                    ></i-tabler>
+                    Success
+                  </div>
+                </button>
+
+                <button
+                  mat-fab
+                  extended
+                  color="{{ selectedBtn === 'pending' && 'warn' }}"
+                  aria-label="Example icon button with a home icon"
+                  (click)="selectedBtnFn('pending')"
+                >
+                  <div class="d-flex align-items-center">
+                    <i-tabler
+                      class="icon-20 m-r-4"
+                      name="player-pause"
+                    ></i-tabler>
+                    Pending
+                  </div>
+                </button>
+
+                <button
+                  mat-fab
+                  extended
+                  color="{{ selectedBtn === 'failed' && 'red' }}"
+                  aria-label="Example icon button with a heart icon"
+                  (click)="selectedBtnFn('failed')"
+                >
+                  <div class="d-flex align-items-center">
+                    <i-tabler
+                      class="icon-20 m-r-4"
+                      name="square-rounded-x-filled"
+                    ></i-tabler>
+                    Failed
+                  </div>
+                </button>
+                <button
+                  mat-fab
+                  extended
+                  aria-label="Example icon button with a heart icon"
+                  (click)="selectedBtnFn('initiated')"
+                  color="{{ selectedBtn === 'initiated' && 'info' }}"
+                >
+                  <div class="d-flex align-items-center">
+                    <i-tabler
+                      class="icon-20 m-r-4"
+                      name="exclamation-circle"
+                    ></i-tabler>
+                    Initiated
+                  </div>
+                </button>
+                <button
+                  mat-fab
+                  extended
+                  aria-label="Example icon button with a heart icon"
+                  (click)="selectedBtnFn('chargeback')"
+                  color="{{ selectedBtn === 'chargeback' && 'accent' }}"
+                >
+                  <div class="d-flex align-items-center">
+                    <i-tabler
+                      class="icon-20 m-r-4"
+                      name="exclamation-circle"
+                    ></i-tabler>
+                    Charge Back
+                  </div>
+                </button>
+              </div>
+
+              <div
+                class="mat-body-1 p-16 rounded m-t-12"
+                *ngIf="selectedBtn === 'all'"
+              >
+                <ng-template tabHeading
+                  ><i class="fa fa-list"></i
+                  ><span (click)="changeExcel('All')"> All</span></ng-template
+                >
+                <div class="row">
+                  <div class="col-md-6 text-left">
+                    <p>
+                      Total Deposits: {{ transaction?.length }}
+                      <span style="margin-left: 10px; font-weight: bold"
+                        >Successful Deposits Amount (EUR):
+                        {{ sucessfulTransactionAmount }}</span
+                      >
+                    </p>
+                  </div>
+                  <div class="col-md-3"></div>
+                  <div class="col-md-3 text-right">
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          <i class="fa fa-search"></i>
+                        </span>
+                      </div>
+                      <input
+                        class="form-control"
+                        placeholder="Search..."
+                        type="text"
+                        [(ngModel)]="depositeStatus.all"
+                        (keyup)="search('ALL')"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-12" *ngIf="transaction">
+                    <p-table
+                      #dt
+                      [columns]="deposite_success_cols"
+                      [value]="transaction"
+                      [globalFilterFields]="[
+                        'ledger_index',
+                        'hash',
+                        'tx.Amount',
+                        'date'
+                      ]"
+                      [paginator]="true"
+                      [rows]="10"
+                    >
+                      <ng-template pTemplate="colgroup" let-columns>
+                        <colgroup>
+                          <col
+                            *ngFor="let col of columns"
+                            [style.width]="col.width"
+                          />
+                        </colgroup>
+                      </ng-template>
+                      <ng-template pTemplate="header" let-columns>
+                        <tr
+                          class="flex w-full items-center bg-[#7EBBF4] flex-1"
+                        >
+                          <th
+                            *ngFor="let col of columns"
+                            [pSortableColumn]="col.field"
+                            pResizableColumn
+                            class="bg-transparent text-[12px] w-[200px] flex text-white font-normal items-center justify-around h-[6vh] py-1 text-center"
+                          >
+                            {{ col.header }}
+                            <p-sortIcon [field]="col.field"></p-sortIcon>
+                          </th>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-rowData>
+                        <tr
+                          *ngIf="rowData.transaction_status == 'Success'"
+                          style="background-color: #b0f3b8"
+                          class="flex w-full items-center bg-[#fff] flex-1"
+                        >
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            (click)="onRowSelect(rowData)"
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                          >
+                            {{ rowData.transaction_id }}
+                          </td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            (click)="onRowSelect(rowData)"
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                          >
+                            {{ rowData.username }}
+                          </td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            (click)="onRowSelect(rowData)"
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                          >
+                            {{ rowData.credits_count }}
+                          </td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            (click)="onRowSelect(rowData)"
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                          >
+                            {{ rowData.currency }}
+                          </td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            (click)="onRowSelect(rowData)"
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                          >
+                            {{ rowData.transaction_status }}
+                          </td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            (click)="onRowSelect(rowData)"
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                          >
+                            {{ rowData.payment_gateway }}
+                          </td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            (click)="onRowSelect(rowData)"
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                          >
+                            {{ rowData.country_name }}
+                          </td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            (click)="onRowSelect(rowData)"
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                          >
+                            {{ rowData.failed_reason }}
+                          </td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            (click)="onRowSelect(rowData)"
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                          >
+                            {{ rowData.descriptor }}
+                          </td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            (click)="onRowSelect(rowData)"
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                          >
+                            {{ rowData.payment_type }}
+                          </td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            (click)="onRowSelect(rowData)"
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                          >
+                            {{ rowData.card_type }}
+                          </td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            (click)="onRowSelect(rowData)"
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                          >
+                            {{
+                              rowData.created_at
+                                | date : "dd/MM/yyyy, hh:mm:ss a"
+                            }}
+                          </td>
+                          <td
+                            *ngIf="
+                              !rowData.isEditable &&
+                              rowData.transaction_status == 'Success'
+                            "
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                          >
+                            <a
+                              href="javascript:void(0);"
+                              (click)="onAction(rowData)"
+                              >...</a
+                            >
+                          </td>
+                          <td
+                            *ngIf="
+                              !rowData.isEditable &&
+                              rowData.transaction_status != 'Success'
+                            "
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                          ></td>
+                          <td
+                            *ngIf="rowData.isEditable"
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                          >
+                            <select
+                              class="form-control"
+                              name="request_status"
+                              [(ngModel)]="rowData.transaction_status"
+                              (ngModelChange)="processSuccessDeposit(rowData)"
+                            >
+                              <option value="Refunded">Refund</option>
+                              <option value="Chargeback">CHB</option>
+                            </select>
+                          </td>
+                        </tr>
+                        <tr
+                          *ngIf="rowData.transaction_status != 'Success'"
+                          style="background-color: #fa8072"
+                          class="flex w-full items-center bg-[#fff] flex-1 border-b-[#000]"
+                        >
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            (click)="onRowSelect(rowData)"
+                          >
+                            {{ rowData.transaction_id }}
+                          </td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            (click)="onRowSelect(rowData)"
+                          >
+                            {{ rowData.username }}
+                          </td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            (click)="onRowSelect(rowData)"
+                          >
+                            {{ rowData.credits_count }}
+                          </td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            (click)="onRowSelect(rowData)"
+                          >
+                            {{ rowData.currency }}
+                          </td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            (click)="onRowSelect(rowData)"
+                          >
+                            {{ rowData.transaction_status }}
+                          </td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            (click)="onRowSelect(rowData)"
+                          >
+                            {{ rowData.payment_gateway }}
+                          </td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            (click)="onRowSelect(rowData)"
+                          >
+                            {{ rowData.country_name }}
+                          </td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            (click)="onRowSelect(rowData)"
+                          >
+                            {{ rowData.failed_reason }}
+                          </td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            (click)="onRowSelect(rowData)"
+                          >
+                            {{ rowData.descriptor }}
+                          </td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            (click)="onRowSelect(rowData)"
+                          >
+                            {{ rowData.payment_type }}
+                          </td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            (click)="onRowSelect(rowData)"
+                          >
+                            {{ rowData.card_type }}
+                          </td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            (click)="onRowSelect(rowData)"
+                          >
+                            {{
+                              rowData.created_at
+                                | date : "dd/MM/yyyy, hh:mm:ss a"
+                            }}
+                          </td>
+                          <td
+                            *ngIf="
+                              !rowData.isEditable &&
+                              rowData.transaction_status == 'Success'
+                            "
+                          >
+                            <a
+                              href="javascript:void(0);"
+                              (click)="onAction(rowData)"
+                              >...</a
+                            >
+                          </td>
+                          <td
+                            *ngIf="
+                              !rowData.isEditable &&
+                              rowData.transaction_status != 'Success'
+                            "
+                          ></td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            *ngIf="rowData.isEditable"
+                          >
+                            <select
+                              class="form-control"
+                              name="request_status"
+                              [(ngModel)]="rowData.transaction_status"
+                              (ngModelChange)="processSuccessDeposit(rowData)"
+                            >
+                              <option value="Refunded">Refund</option>
+                              <option value="Chargeback">CHB</option>
+                            </select>
+                          </td>
+                        </tr>
+                      </ng-template>
+                    </p-table>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="mat-body-1 p-16 rounded m-t-12"
+                *ngIf="selectedBtn === 'success'"
+              >
+                <ng-template tabHeading
+                  ><i class="fa fa-thumbs-up"></i
+                  ><span (click)="changeExcel('Success')">
+                    Success</span
+                  ></ng-template
+                >
+                <div class="row">
+                  <div class="col-md-3 text-left">
+                    <p>Total Success: {{ sucessfulTransaction?.length }}</p>
+                  </div>
+                  <div class="col-md-6"></div>
+                  <div class="col-md-3 text-right">
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          <i class="fa fa-search"></i>
+                        </span>
+                      </div>
+                      <input
+                        class="form-control"
+                        placeholder="Search..."
+                        type="text"
+                        [(ngModel)]="depositeStatus.success"
+                        (keyup)="search('SUCCESS')"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-12" *ngIf="sucessfulTransaction">
+                    <p-table
+                      #dt
+                      [columns]="deposite_success_cols"
+                      [value]="sucessfulTransaction"
+                      [globalFilterFields]="[
+                        'ledger_index',
+                        'hash',
+                        'tx.Amount',
+                        'date'
+                      ]"
+                      [paginator]="true"
+                      [rows]="10"
+                    >
+                      <ng-template pTemplate="colgroup" let-columns>
+                        <colgroup>
+                          <col
+                            *ngFor="let col of columns"
+                            [style.width]="col.width"
+                          />
+                        </colgroup>
+                      </ng-template>
+                      <ng-template pTemplate="header" let-columns>
+                        <tr>
+                          <th
+                            *ngFor="let col of columns"
+                            [pSortableColumn]="col.field"
+                            pResizableColumn
+                          >
+                            {{ col.header }}
+                            <p-sortIcon [field]="col.field"></p-sortIcon>
+                          </th>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-rowData>
+                        <tr>
+                          <td
+                            style="padding: 5px; cursor: pointer"
+                            (click)="onRowSelect(rowData)"
+                          >
+                            {{ rowData.transaction_id }}
+                          </td>
+                          <td
+                            style="padding: 5px; cursor: pointer"
+                            (click)="onRowSelect(rowData)"
+                          >
+                            {{ rowData.username }}
+                          </td>
+                          <td
+                            style="padding: 5px; cursor: pointer"
+                            (click)="onRowSelect(rowData)"
+                          >
+                            {{ rowData.credits_count }}
+                          </td>
+                          <td
+                            style="padding: 5px; cursor: pointer"
+                            (click)="onRowSelect(rowData)"
+                          >
+                            {{ rowData.currency }}
+                          </td>
+                          <td
+                            style="padding: 5px; cursor: pointer"
+                            (click)="onRowSelect(rowData)"
+                          >
+                            {{ rowData.transaction_status }}
+                          </td>
+                          <td
+                            style="padding: 5px; cursor: pointer"
+                            (click)="onRowSelect(rowData)"
+                          >
+                            {{ rowData.payment_gateway }}
+                          </td>
+                          <td
+                            style="padding: 5px; cursor: pointer"
+                            (click)="onRowSelect(rowData)"
+                          >
+                            {{ rowData.country_name }}
+                          </td>
+                          <td
+                            style="padding: 5px; cursor: pointer"
+                            (click)="onRowSelect(rowData)"
+                          >
+                            {{ rowData.failed_reason }}
+                          </td>
+                          <td
+                            style="padding: 5px; cursor: pointer"
+                            (click)="onRowSelect(rowData)"
+                          >
+                            {{ rowData.descriptor }}
+                          </td>
+                          <td
+                            style="padding: 5px; cursor: pointer"
+                            (click)="onRowSelect(rowData)"
+                          >
+                            {{ rowData.payment_type }}
+                          </td>
+                          <td
+                            style="padding: 5px; cursor: pointer"
+                            (click)="onRowSelect(rowData)"
+                          >
+                            {{ rowData.card_type }}
+                          </td>
+                          <td
+                            style="padding: 5px; cursor: pointer"
+                            (click)="onRowSelect(rowData)"
+                          >
+                            {{
+                              rowData.created_at
+                                | date : "dd/MM/yyyy, hh:mm:ss a"
+                            }}
+                          </td>
+                          <td
+                            *ngIf="
+                              !rowData.isEditable &&
+                              rowData.transaction_status == 'Success'
+                            "
+                          >
+                            <a
+                              href="javascript:void(0);"
+                              (click)="onAction(rowData)"
+                              >...</a
+                            >
+                          </td>
+                          <td *ngIf="rowData.isEditable">
+                            <select
+                              class="form-control"
+                              name="request_status"
+                              [(ngModel)]="rowData.transaction_status"
+                              (ngModelChange)="processSuccessDeposit(rowData)"
+                            >
+                              <option value="Refunded">Refund</option>
+                              <option value="Chargeback">CHB</option>
+                            </select>
+                          </td>
+                        </tr>
+                      </ng-template>
+                    </p-table>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="mat-body-1 p-16 rounded m-t-12"
+                *ngIf="selectedBtn === 'pending'"
+              >
+                <ng-template tabHeading
+                  ><i class="fa fa-ellipsis-h"></i
+                  ><span (click)="changeExcel('Pending')">
+                    Pending</span
+                  ></ng-template
+                >
+                <div class="row">
+                  <div class="col-md-3 text-left">
+                    <p>Total Pendings: {{ pendingTransaction?.length }}</p>
+                  </div>
+                  <div class="col-md-6"></div>
+                  <div class="col-md-3 text-right">
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          <i class="fa fa-search"></i>
+                        </span>
+                      </div>
+                      <input
+                        class="form-control"
+                        placeholder="Search..."
+                        type="text"
+                        [(ngModel)]="depositeStatus.pending"
+                        (keyup)="search('PENDING')"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-12" *ngIf="pendingTransaction">
+                    <p-table
+                      #dt
+                      [columns]="cols"
+                      [value]="pendingTransaction"
+                      [globalFilterFields]="[
+                        'ledger_index',
+                        'hash',
+                        'tx.Amount',
+                        'date'
+                      ]"
+                      [paginator]="true"
+                      [rows]="10"
+                    >
+                      <ng-template pTemplate="colgroup" let-columns>
+                        <colgroup>
+                          <col
+                            *ngFor="let col of columns"
+                            [style.width]="col.width"
+                          />
+                        </colgroup>
+                      </ng-template>
+                      <ng-template pTemplate="header" let-columns>
+                        <tr
+                          class="flex w-full items-center bg-[#7EBBF4] flex-1"
+                        >
+                          <th
+                            *ngFor="let col of columns"
+                            [pSortableColumn]="col.field"
+                            pResizableColumn
+                            class="bg-transparent text-[12px] w-[200px] flex text-white font-normal items-center justify-around h-[6vh] py-1 text-center"
+                          >
+                            {{ col.header }}
+                            <p-sortIcon [field]="col.field"></p-sortIcon>
+                          </th>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-rowData>
+                        <tr
+                          (click)="onRowSelect(rowData)"
+                          class="flex w-full items-center bg-[#fff] flex-1"
+                        >
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                          >
+                            {{ rowData.transaction_id }}
+                          </td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                          >
+                            {{ rowData.username }}
+                          </td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                          >
+                            {{ rowData.credits_count }}
+                          </td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                          >
+                            {{ rowData.currency }}
+                          </td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                          >
+                            {{ rowData.transaction_status }}
+                          </td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                          >
+                            {{ rowData.payment_gateway }}
+                          </td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                          >
+                            {{ rowData.country_name }}
+                          </td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                          >
+                            {{ rowData.failed_reason }}
+                          </td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                          >
+                            {{ rowData.descriptor }}
+                          </td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                          >
+                            {{ rowData.payment_type }}
+                          </td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                          >
+                            {{ rowData.card_type }}
+                          </td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                          >
+                            {{
+                              rowData.created_at
+                                | date : "dd/MM/yyyy, hh:mm:ss a"
+                            }}
+                          </td>
+                        </tr>
+                      </ng-template>
+                    </p-table>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="mat-body-1 p-16 rounded m-t-12"
+                *ngIf="selectedBtn === 'failed'"
+              >
+                <ng-template tabHeading
+                  ><i class="fa fa-thumbs-down"></i
+                  ><span (click)="changeExcel('Failed')">
+                    Failed</span
+                  ></ng-template
+                >
+                <div class="row">
+                  <div class="col-md-3 text-left">
+                    <p>Total Failed: {{ failedTransaction?.length }}</p>
+                  </div>
+                  <div class="col-md-6"></div>
+                  <div class="col-md-3 text-right">
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          <i class="fa fa-search"></i>
+                        </span>
+                      </div>
+                      <input
+                        class="form-control"
+                        placeholder="Search..."
+                        type="text"
+                        [(ngModel)]="depositeStatus.failed"
+                        (keyup)="search('FAILED')"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-12" *ngIf="failedTransaction">
+                    <p-table
+                      #dt
+                      [columns]="cols"
+                      [value]="failedTransaction"
+                      [globalFilterFields]="[
+                        'ledger_index',
+                        'hash',
+                        'tx.Amount',
+                        'date'
+                      ]"
+                      [paginator]="true"
+                      [rows]="10"
+                    >
+                      <ng-template pTemplate="colgroup" let-columns>
+                        <colgroup>
+                          <col
+                            *ngFor="let col of columns"
+                            [style.width]="col.width"
+                          />
+                        </colgroup>
+                      </ng-template>
+                      <ng-template pTemplate="header" let-columns>
+                        <tr
+                          class="flex w-full items-center bg-[#7EBBF4] flex-1"
+                        >
+                          <th
+                            *ngFor="let col of columns"
+                            [pSortableColumn]="col.field"
+                            pResizableColumn
+                            class="bg-transparent text-[12px] w-[200px] flex text-white font-normal items-center justify-around h-[6vh] py-1 text-center"
+                          >
+                            {{ col.header }}
+                            <p-sortIcon [field]="col.field"></p-sortIcon>
+                          </th>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-rowData>
+                        <tr
+                          class="flex w-full items-center bg-[#fff] flex-1"
+                          (click)="onRowSelect(rowData)"
+                        >
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                          >
+                            {{ rowData.transaction_id }}
+                          </td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                          >
+                            {{ rowData.username }}
+                          </td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                          >
+                            {{ rowData.credits_count }}
+                          </td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                          >
+                            {{ rowData.currency }}
+                          </td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                          >
+                            {{ rowData.transaction_status }}
+                          </td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                          >
+                            {{ rowData.payment_gateway }}
+                          </td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                          >
+                            {{ rowData.country_name }}
+                          </td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                          >
+                            {{ rowData.failed_reason }}
+                          </td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                          >
+                            {{ rowData.descriptor }}
+                          </td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                          >
+                            {{ rowData.payment_type }}
+                          </td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                          >
+                            {{ rowData.card_type }}
+                          </td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                          >
+                            {{
+                              rowData.created_at
+                                | date : "dd/MM/yyyy, hh:mm:ss a"
+                            }}
+                          </td>
+                        </tr>
+                      </ng-template>
+                    </p-table>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="mat-body-1 p-16 rounded m-t-12"
+                *ngIf="selectedBtn === 'initiated'"
+              >
+                <ng-template tabHeading
+                  ><i class="fa fa-caret-square-o-right"></i
+                  ><span (click)="changeExcel('Initiated')">
+                    Initiated</span
+                  ></ng-template
+                >
+                <div class="row">
+                  <div class="col-md-3 text-left">
+                    <p>Total Initiated: {{ initiatedTransaction?.length }}</p>
+                  </div>
+                  <div class="col-md-6"></div>
+                  <div class="col-md-3 text-right">
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          <i class="fa fa-search"></i>
+                        </span>
+                      </div>
+                      <input
+                        class="form-control"
+                        placeholder="Search..."
+                        type="text"
+                        [(ngModel)]="depositeStatus.initiated"
+                        (keyup)="search('INITIATED')"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-12" *ngIf="initiatedTransaction">
+                    <p-table
+                      #dt
+                      [columns]="cols"
+                      [value]="initiatedTransaction"
+                      [globalFilterFields]="[
+                        'ledger_index',
+                        'hash',
+                        'tx.Amount',
+                        'date'
+                      ]"
+                      [paginator]="true"
+                      [rows]="10"
+                    >
+                      <ng-template pTemplate="colgroup" let-columns>
+                        <colgroup>
+                          <col
+                            *ngFor="let col of columns"
+                            [style.width]="col.width"
+                          />
+                        </colgroup>
+                      </ng-template>
+                      <ng-template pTemplate="header" let-columns>
+                        <tr
+                          class="flex w-full items-center bg-[#7EBBF4] flex-1"
+                        >
+                          <th
+                            *ngFor="let col of columns"
+                            [pSortableColumn]="col.field"
+                            pResizableColumn
+                            class="bg-transparent text-[12px] w-[200px] flex text-white font-normal items-center justify-around h-[6vh] py-1 text-center"
+                          >
+                            {{ col.header }}
+                            <p-sortIcon [field]="col.field"></p-sortIcon>
+                          </th>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-rowData>
+                        <tr
+                          class="flex w-full items-center bg-[#fff] flex-1"
+                          (click)="onRowSelect(rowData)"
+                        >
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                          >
+                            {{ rowData.transaction_id }}
+                          </td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                          >
+                            {{ rowData.username }}
+                          </td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                          >
+                            {{ rowData.credits_count }}
+                          </td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                          >
+                            {{ rowData.currency }}
+                          </td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                          >
+                            {{ rowData.transaction_status }}
+                          </td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                          >
+                            {{ rowData.payment_gateway }}
+                          </td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                          >
+                            {{ rowData.country_name }}
+                          </td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                          >
+                            {{ rowData.failed_reason }}
+                          </td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                          >
+                            {{ rowData.descriptor }}
+                          </td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                          >
+                            {{ rowData.payment_type }}
+                          </td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                          >
+                            {{ rowData.card_type }}
+                          </td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                          >
+                            {{
+                              rowData.created_at
+                                | date : "dd/MM/yyyy, hh:mm:ss a"
+                            }}
+                          </td>
+                        </tr>
+                      </ng-template>
+                    </p-table>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="mat-body-1 p-16 rounded m-t-12"
+                *ngIf="selectedBtn === 'chargeback'"
+              >
+                <ng-template tabHeading
+                  ><i class="fa fa-arrow-left"></i
+                  ><span (click)="changeExcel('Chargeback')">
+                    Chargeback</span
+                  ></ng-template
+                >
+                <div class="row">
+                  <div class="col-md-3 text-left">
+                    <p>Total Chargeback: {{ chargebackTransaction?.length }}</p>
+                  </div>
+                  <div class="col-md-6"></div>
+                  <div class="col-md-3 text-right">
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          <i class="fa fa-search"></i>
+                        </span>
+                      </div>
+                      <input
+                        class="form-control"
+                        placeholder="Search..."
+                        type="text"
+                        [(ngModel)]="depositeStatus.chargeback"
+                        (keyup)="search('CHARGEBACK')"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-12" *ngIf="chargebackTransaction">
+                    <p-table
+                      #dt
+                      [columns]="cols"
+                      [value]="chargebackTransaction"
+                      [paginator]="true"
+                      [rows]="10"
+                    >
+                      <ng-template pTemplate="colgroup" let-columns>
+                        <colgroup>
+                          <col
+                            *ngFor="let col of columns"
+                            [style.width]="col.width"
+                          />
+                        </colgroup>
+                      </ng-template>
+                      <ng-template pTemplate="header" let-columns>
+                        <tr
+                          class="flex w-full items-center bg-[#7EBBF4] flex-1"
+                        >
+                          <th
+                            *ngFor="let col of columns"
+                            [pSortableColumn]="col.field"
+                            pResizableColumn
+                            class="bg-transparent text-[12px] w-[200px] flex text-white font-normal items-center justify-around h-[6vh] py-1 text-center"
+                          >
+                            {{ col.header }}
+                            <p-sortIcon [field]="col.field"></p-sortIcon>
+                          </th>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-rowData>
+                        <tr
+                          class="flex w-full items-center bg-[#fff] flex-1"
+                          (click)="onRowSelect(rowData)"
+                        >
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                          >
+                            {{ rowData.transaction_id }}
+                          </td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                          >
+                            {{ rowData.username }}
+                          </td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                          >
+                            {{ rowData.credits_count }}
+                          </td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                          >
+                            {{ rowData.currency }}
+                          </td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                          >
+                            {{ rowData.transaction_status }}
+                          </td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                          >
+                            {{ rowData.payment_gateway }}
+                          </td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                          >
+                            {{ rowData.country_name }}
+                          </td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                          >
+                            {{ rowData.failed_reason }}
+                          </td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                          >
+                            {{ rowData.descriptor }}
+                          </td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                          >
+                            {{ rowData.payment_type }}
+                          </td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                          >
+                            {{ rowData.card_type }}
+                          </td>
+                          <td
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                            class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                            style="border-top: 1px solid rgb(157, 208, 232)"
+                          >
+                            {{
+                              rowData.created_at
+                                | date : "dd/MM/yyyy, hh:mm:ss a"
+                            }}
+                          </td>
+                        </tr>
+                      </ng-template>
+                    </p-table>
+                  </div>
+                </div>
+              </div>
+            </mat-card-content>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-dialog
+  header="Filter"
+  [(visible)]="showDialog"
+  [responsive]="true"
+  showEffect="fade"
+  [modal]="true"
+>
+  <div class="ui-g ui-fluid">
+    <div class="ui-g-12">
+      <div class="ui-g-6">
+        <label for="startDate">Start Date</label>
+        <p-calendar
+          [(ngModel)]="startDate"
+          [inline]="true"
+          [maxDate]="endDate"
+          dateFormat="yy-mm-dd"
+        ></p-calendar>
+      </div>
+      <div class="ui-g-6">
+        <label for="endDate">End Date</label>
+        <p-calendar
+          [(ngModel)]="endDate"
+          [inline]="true"
+          [minDate]="startDate"
+          dateFormat="yy-mm-dd"
+        ></p-calendar>
+      </div>
+    </div>
+  </div>
+  <p-footer>
+    <button type="button" (click)="cancelFilter()" class="btn btn-secondary">
+      Cancel
+    </button>
+    <button type="button" (click)="applyFilter()" class="btn btn-secondary">
+      Apply
+    </button>
+    <br />
+    <span style="color: red">{{ datamessage }}</span>
+  </p-footer>
+</p-dialog>

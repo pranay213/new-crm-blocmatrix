@@ -1,0 +1,340 @@
+<div class="row" style="margin-bottom: 20px">
+  <!--div class="col-md-3 text-left">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">
+            <i class="fa fa-search"></i>
+          </span>
+        </div>
+        <input class="form-control" placeholder="Search..." type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" />
+      </div>
+  </div-->
+  <div class="col-11 p-8 rounded outline border mx-4">
+    <div class="card">
+      <div
+        class="card-header text-[#012012] text-lg my-2 ml-6"
+        style="font-weight: bold"
+      >
+        Fields
+      </div>
+      <div class="w-full">
+        <div class="flex ml-6">
+          <button mat-raised-button color="red" (click)="showFilter()">
+            Filter
+          </button>
+        </div>
+        <div class="flex items-center w-full flex-col">
+          <mat-card-content class="">
+            <mat-checkbox
+              [(ngModel)]="fields.credit"
+              [checked]="fields.credit"
+              (click)="applyFilter($event, 'credit')"
+              class="example-ripple-checkbox w-[200px]"
+              color="primary"
+              >Deposits</mat-checkbox
+            >
+            <mat-checkbox
+              [(ngModel)]="fields.win_real"
+              [checked]="fields.win_real"
+              (click)="applyFilter($event, 'win_real')"
+              class="example-ripple-checkbox w-[200px]"
+              color="primary"
+              >Real Win</mat-checkbox
+            >
+            <mat-checkbox
+              [(ngModel)]="fields.credit_bonus"
+              [checked]="fields.credit_bonus"
+              (click)="applyFilter($event, 'credit_bonus')"
+              class="example-ripple-checkbox w-[200px]"
+              color="primary"
+              >Bonus</mat-checkbox
+            >
+            <mat-checkbox
+              [(ngModel)]="fields.deposit_refunded"
+              [checked]="fields.deposit_refunded"
+              (click)="applyFilter($event, 'deposit_refunded')"
+              class="example-ripple-checkbox w-[200px]"
+              color="primary"
+              >Refunded</mat-checkbox
+            >
+            <mat-checkbox
+              [(ngModel)]="fields.credit_deposit_bonus_admin"
+              [checked]="fields.credit_deposit_bonus_admin"
+              (click)="applyFilter($event, 'credit_deposit_bonus_admin')"
+              class="example-ripple-checkbox w-[200px]"
+              color="primary"
+              >Deposit Bonus Given By Admin</mat-checkbox
+            >
+            <mat-checkbox
+              [(ngModel)]="fields.bet_bonus"
+              [checked]="fields.bet_bonus"
+              (click)="applyFilter($event, 'bet_bonus')"
+              class="example-ripple-checkbox w-[200px]"
+              color="primary"
+              >Bonus Bet</mat-checkbox
+            >
+            <mat-checkbox
+              [(ngModel)]="fields.process_withdraw"
+              [checked]="fields.process_withdraw"
+              (click)="applyFilter($event, 'process_withdraw')"
+              class="example-ripple-checkbox w-[200px]"
+              color="primary"
+              >Processed Withdrawals</mat-checkbox
+            >
+            <mat-checkbox
+              [(ngModel)]="fields.credit_bonus_admin"
+              [checked]="fields.credit_bonus_admin"
+              (click)="applyFilter($event, 'credit_bonus_admin')"
+              class="example-ripple-checkbox w-[200px]"
+              color="primary"
+              >No Deposit Bonus By Admin</mat-checkbox
+            >
+            <mat-checkbox
+              [(ngModel)]="fields.bet_real"
+              [checked]="fields.bet_real"
+              (click)="applyFilter($event, 'bet_real')"
+              class="example-ripple-checkbox w-[200px]"
+              color="primary"
+              >Real Bet</mat-checkbox
+            >
+            <mat-checkbox
+              [(ngModel)]="fields.win_bonus"
+              [checked]="fields.win_bonus"
+              (click)="applyFilter($event, 'win_bonus')"
+              class="example-ripple-checkbox w-[200px]"
+              color="primary"
+              >Bonus Win</mat-checkbox
+            >
+            <mat-checkbox
+              [(ngModel)]="fields.wipeout"
+              [checked]="fields.wipeout"
+              (click)="applyFilter($event, 'wipeout')"
+              class="example-ripple-checkbox w-[200px]"
+              color="primary"
+              >Wipe Out</mat-checkbox
+            >
+            <mat-checkbox
+              [(ngModel)]="fields.deposit_chargeback"
+              [checked]="fields.deposit_chargeback"
+              (click)="applyFilter($event, 'deposit_chargeback')"
+              class="example-ripple-checkbox w-[200px]"
+              color="primary"
+              >CHB</mat-checkbox
+            >
+            <mat-checkbox
+              [(ngModel)]="fields.cancel_withdraw"
+              [checked]="fields.cancel_withdraw"
+              (click)="applyFilter($event, 'cancel_withdraw')"
+              class="example-ripple-checkbox w-[200px]"
+              color="primary"
+              >Cancelled Withdrawals</mat-checkbox
+            >
+            <mat-checkbox
+              [(ngModel)]="fields.reject_withdraw"
+              [checked]="fields.reject_withdraw"
+              (click)="applyFilter($event, 'reject_withdraw')"
+              class="example-ripple-checkbox w-[200px]"
+              color="primary"
+            >
+              Rejected Withdrawals</mat-checkbox
+            >
+            <mat-checkbox
+              [(ngModel)]="fields.credit_real_admin"
+              [checked]="fields.credit_real_admin"
+              (click)="applyFilter($event, 'credit_real_admin')"
+              class="example-ripple-checkbox w-[200px]"
+              color="primary"
+              >Deposits By Admin</mat-checkbox
+            >
+          </mat-card-content>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-header">
+        <b
+          >Transaction Details : {{ startDate | date : "dd/MM/yyyy" }} -
+          {{ endDate | date : "dd/MM/yyyy" }}</b
+        >
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-12">
+            <ng-template tabHeading
+              ><i class="fa fa-exchange"></i> Transactions</ng-template
+            >
+            <div class="row">
+              <div class="col-12">
+                <p class="my-4">Total Transactions: {{ totalRecords }}</p>
+                <p-table
+                  #dt
+                  [columns]="cols"
+                  [value]="transactionDetails"
+                  [paginator]="true"
+                  selectionMode="single"
+                  [rows]="limit"
+                  [rowsPerPageOptions]="[10, 50, 100, 150, 200]"
+                  [loading]="loading"
+                  (onLazyLoad)="loadCarsLazy($event)"
+                  [lazy]="true"
+                  [totalRecords]="totalRecords"
+                  paginatorPosition="bottom"
+                >
+                  <ng-template pTemplate="colgroup" let-columns>
+                    <colgroup>
+                      <col
+                        *ngFor="let col of columns"
+                        [style.width]="col.width"
+                      />
+                    </colgroup>
+                  </ng-template>
+                  <ng-template pTemplate="header" let-columns>
+                    <tr class="flex w-full items-center bg-[#7EBBF4] flex-1">
+                      <th
+                        *ngFor="let col of columns"
+                        [pSortableColumn]="col.field"
+                        pResizableColumn
+                        class="bg-transparent text-[12px] w-[200px] flex text-white font-normal items-center justify-around h-[6vh] py-1 text-center"
+                      >
+                        {{ col.header }}
+                        <p-sortIcon [field]="col.field"></p-sortIcon>
+                      </th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-rowData>
+                    <tr
+                      (click)="onRowSelect(rowData)"
+                      class="flex w-full items-center bg-[#fff] flex-1"
+                    >
+                      <td
+                        class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                        style="border-top: 1px solid rgb(157, 208, 232)"
+                      >
+                        {{ rowData.id }}
+                      </td>
+                      <td
+                        class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                        style="border-top: 1px solid rgb(157, 208, 232)"
+                      >
+                        {{ rowData.username }}
+                      </td>
+                      <td
+                        class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                        style="border-top: 1px solid rgb(157, 208, 232)"
+                      >
+                        {{ rowData.game_name }}
+                      </td>
+                      <td
+                        class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                        style="border-top: 1px solid rgb(157, 208, 232)"
+                      >
+                        {{ rowData.transaction_type }}
+                      </td>
+                      <td
+                        class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                        style="border-top: 1px solid rgb(157, 208, 232)"
+                      >
+                        {{ rowData.type }}
+                      </td>
+                      <td
+                        class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                        style="border-top: 1px solid rgb(157, 208, 232)"
+                      >
+                        {{ rowData.amount }}
+                      </td>
+                      <td
+                        class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                        style="border-top: 1px solid rgb(157, 208, 232)"
+                      >
+                        {{ rowData.closing_balance }}
+                      </td>
+                      <td
+                        class="bg-transparent text-[12px] w-[200px] flex text-[#000] font-normal items-center justify-around h-[6vh] py-1"
+                        style="border-top: 1px solid rgb(157, 208, 232)"
+                      >
+                        {{
+                          rowData.created_at | date : "dd/MM/yyyy, hh:mm:ss a"
+                        }}
+                      </td>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="emptymessage" let-columns>
+                    <tr class="text-center">
+                      <td [attr.colspan]="columns.length" class="text-center">
+                        No records found
+                      </td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-dialog
+  header="Filter"
+  [(visible)]="showDialog"
+  [responsive]="true"
+  showEffect="fade"
+  [modal]="true"
+>
+  <div class="ui-g ui-fluid">
+    <div class="flex space-x-2">
+      <div class="ui-g-6 flex flex-col">
+        <label for="startDate" class="text-[#7575ad] font-bold text-center"
+          >Start Date</label
+        >
+        <p-calendar
+          [(ngModel)]="startDate"
+          [inline]="true"
+          [maxDate]="endDate"
+          dateFormat="yy-mm-dd"
+          [className]="'border-[2px] rounded border-[#c1c1c1] mt-4'"
+        ></p-calendar>
+      </div>
+      <div class="ui-g-6 flex flex-col">
+        <label for="endDate" class="text-[#b764d8] font-bold text-center"
+          >End Date</label
+        >
+        <p-calendar
+          [(ngModel)]="endDate"
+          [inline]="true"
+          [minDate]="startDate"
+          dateFormat="yy-mm-dd"
+          [className]="'border-[2px] rounded border-[#c1c1c1] mt-4'"
+        ></p-calendar>
+      </div>
+    </div>
+  </div>
+  <p-footer>
+    <div class="flex mr-auto space-x-2">
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="cancelFilter()"
+        class="btn btn-secondary"
+      >
+        Cancel
+      </button>
+      <button
+        mat-raised-button
+        color="accent"
+        (click)="applyFilter($event, 'apply-button')"
+        class="btn btn-secondary"
+      >
+        Apply
+      </button>
+    </div>
+    <br />
+    <span style="color: red">{{ datamessage }}</span>
+  </p-footer>
+</p-dialog>

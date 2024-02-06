@@ -1,0 +1,344 @@
+<div id="loading" *ngIf="theSpinner">
+  <p-progressSpinner
+    [style]="{ width: '100px', height: '100px' }"
+    strokeWidth="8"
+    fill="#EEEEEE"
+    animationDuration=".5s"
+  ></p-progressSpinner>
+</div>
+<div class="row" style="margin-bottom: 20px">
+  <div class="col-md-12 text-left">
+    <button (click)="addCoupon()" class="btn btn-secondary b">
+      <i class="fa fa-plus" aria-hidden="true"></i> Add Coupon
+    </button>
+  </div>
+</div>
+<div>
+  <mat-card-content>
+    <div class="d-flex flex-sm-row flex-column gap-8">
+      <button
+        mat-fab
+        extended
+        color="{{ selectedBtn === 'all' && 'primary' }}"
+        aria-label="Example icon button with a delete icon"
+        [ngClass]="'w-10'"
+        (click)="selectedBtnFn('all')"
+      >
+        <div class="d-flex align-items-center">
+          <i-tabler class="icon-20 m-r-4" name="clear-all"></i-tabler
+          ><span> All Coupons</span>
+        </div>
+      </button>
+
+      <button
+        mat-fab
+        extended
+        color="{{ selectedBtn === 'success' && 'success' }}"
+        aria-label="Example icon button with a bookmark icon"
+        (click)="selectedBtnFn('success')"
+      >
+        <div class="d-flex align-items-center">
+          <i-tabler
+            class="icon-20 m-r-4"
+            name="discount-check-filled"
+          ></i-tabler>
+          Active Coupons
+        </div>
+      </button>
+
+      <button
+        mat-fab
+        extended
+        color="{{ selectedBtn === 'pending' && 'warn' }}"
+        aria-label="Example icon button with a home icon"
+        (click)="selectedBtnFn('pending')"
+      >
+        <div class="d-flex align-items-center">
+          <i-tabler class="icon-20 m-r-4" name="player-pause"></i-tabler>
+          Inactive Coupons
+        </div>
+      </button>
+
+      <button
+        mat-fab
+        extended
+        color="{{ selectedBtn === 'failed' && 'red' }}"
+        aria-label="Example icon button with a heart icon"
+        (click)="selectedBtnFn('failed')"
+      >
+        <div class="d-flex align-items-center">
+          <i-tabler
+            class="icon-20 m-r-4"
+            name="square-rounded-x-filled"
+          ></i-tabler>
+          Expired Coupons
+        </div>
+      </button>
+    </div>
+  </mat-card-content>
+</div>
+
+<div class="animated fadeIn">
+  <ng-template tabHeading class="font-weight-bold text-dark"
+    >All Coupons</ng-template
+  >
+  <div class="row" style="margin-bottom: 20px">
+    <div class="col-md-3">
+      <p class="py-2 font-weight-bold">Total: {{ totalCoupons }}</p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">Coupon Details</div>
+        <div class="card-body">
+          <p-table
+            [columns]="cols"
+            [value]="allCoupons"
+            selectionMode="single"
+            [paginator]="true"
+            [rows]="10"
+            dataKey="AccountID"
+          >
+            <ng-template pTemplate="header" let-columns>
+              <tr>
+                <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                  {{ col.header }}
+                  <p-sortIcon [field]="col.field"></p-sortIcon>
+                </th>
+              </tr>
+            </ng-template>
+
+            <ng-template
+              pTemplate="body"
+              let-rowData
+              let-expanded="expanded"
+              let-columns="columns"
+            >
+              <tr>
+                <td *ngFor="let col of columns">
+                  <span *ngIf="col.field != 'action'">{{
+                    rowData[col.field]
+                  }}</span>
+                  <span
+                    *ngIf="
+                      col.field == 'action' &&
+                      rowData.status != 'Expired' &&
+                      !rowData.isEditable
+                    "
+                    ><a href="javascript:void(0);" (click)="onAction(rowData)"
+                      >...</a
+                    ></span
+                  >
+                  <span
+                    *ngIf="
+                      col.field == 'action' &&
+                      rowData.status == 'Expired' &&
+                      !rowData.isEditable
+                    "
+                  ></span>
+                  <span *ngIf="col.field == 'action' && rowData.isEditable">
+                    <select
+                      class="form-control"
+                      name="action"
+                      [(ngModel)]="rowData.status"
+                      (ngModelChange)="updateStatus(rowData)"
+                    >
+                      <option value="Active">Active</option>
+                      <option value="Inactive">Inactive</option>
+                    </select>
+                  </span>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template tabHeading class="font-weight-bold text-dark"
+    >Active Coupons</ng-template
+  >
+  <div class="row" style="margin-bottom: 20px">
+    <div class="col-md-3">
+      <p class="py-2 font-weight-bold">Total: {{ totalActiveCoupons }}</p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">Coupon Details</div>
+        <div class="card-body">
+          <p-table
+            [columns]="cols"
+            [value]="activeCoupons"
+            selectionMode="single"
+            [paginator]="true"
+            [rows]="10"
+            dataKey="AccountID"
+          >
+            <ng-template pTemplate="header" let-columns>
+              <tr>
+                <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                  {{ col.header }}
+                  <p-sortIcon [field]="col.field"></p-sortIcon>
+                </th>
+              </tr>
+            </ng-template>
+
+            <ng-template
+              pTemplate="body"
+              let-rowData
+              let-expanded="expanded"
+              let-columns="columns"
+            >
+              <tr>
+                <td *ngFor="let col of columns">
+                  <span *ngIf="col.field != 'action'">{{
+                    rowData[col.field]
+                  }}</span>
+                  <span *ngIf="col.field == 'action' && !rowData.isEditable"
+                    ><a href="javascript:void(0);" (click)="onAction(rowData)"
+                      >...</a
+                    ></span
+                  >
+                  <span *ngIf="col.field == 'action' && rowData.isEditable">
+                    <select
+                      class="form-control"
+                      name="action"
+                      [(ngModel)]="rowData.status"
+                      (ngModelChange)="updateStatus(rowData)"
+                    >
+                      <option value="Inactive">Inactive</option>
+                    </select>
+                  </span>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template tabHeading class="font-weight-bold text-dark"
+    >Inactive Coupons</ng-template
+  >
+  <div class="row" style="margin-bottom: 20px">
+    <div class="col-md-3">
+      <p class="py-2 font-weight-bold">Total: {{ totalInactiveCoupons }}</p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">Coupon Details</div>
+        <div class="card-body">
+          <p-table
+            [columns]="cols"
+            [value]="inactiveCoupons"
+            selectionMode="single"
+            [paginator]="true"
+            [rows]="10"
+            dataKey="AccountID"
+          >
+            <ng-template pTemplate="header" let-columns>
+              <tr>
+                <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                  {{ col.header }}
+                  <p-sortIcon [field]="col.field"></p-sortIcon>
+                </th>
+              </tr>
+            </ng-template>
+
+            <ng-template
+              pTemplate="body"
+              let-rowData
+              let-expanded="expanded"
+              let-columns="columns"
+            >
+              <tr>
+                <td *ngFor="let col of columns">
+                  <span *ngIf="col.field != 'action'">{{
+                    rowData[col.field]
+                  }}</span>
+                  <span *ngIf="col.field == 'action' && !rowData.isEditable"
+                    ><a href="javascript:void(0);" (click)="onAction(rowData)"
+                      >...</a
+                    ></span
+                  >
+                  <span *ngIf="col.field == 'action' && rowData.isEditable">
+                    <select
+                      class="form-control"
+                      name="action"
+                      [(ngModel)]="rowData.status"
+                      (ngModelChange)="updateStatus(rowData)"
+                    >
+                      <option value="Active">Active</option>
+                    </select>
+                  </span>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template tabHeading>Expired Coupons</ng-template>
+  <div class="row" style="margin-bottom: 20px">
+    <div class="col-md-3">
+      <p class="py-2 font-weight-bold">Total: {{ totalExpiredCoupons }}</p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">Coupon Details</div>
+        <div class="card-body">
+          <p-table
+            [columns]="cols"
+            [value]="expiredCoupons"
+            selectionMode="single"
+            [paginator]="true"
+            [rows]="10"
+            dataKey="AccountID"
+          >
+            <ng-template pTemplate="header" let-columns>
+              <tr>
+                <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                  {{ col.header }}
+                  <p-sortIcon [field]="col.field"></p-sortIcon>
+                </th>
+              </tr>
+            </ng-template>
+
+            <ng-template
+              pTemplate="body"
+              let-rowData
+              let-expanded="expanded"
+              let-columns="columns"
+            >
+              <tr>
+                <td *ngFor="let col of columns">
+                  <span *ngIf="col.field != 'action'">{{
+                    rowData[col.field]
+                  }}</span>
+                  <span
+                    *ngIf="col.field == 'action' && !rowData.isEditable"
+                  ></span>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

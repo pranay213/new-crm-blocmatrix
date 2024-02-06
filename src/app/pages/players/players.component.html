@@ -68,6 +68,7 @@
               <input
                 class="form-control border-[#000] outline-[#000] border-[2px] py-2 rounded mt-2"
                 type="text"
+                [(ngModel)]="apiService.userSearchData"
               />
             </div>
             <div class="col-sm-2 mx-2">
@@ -136,13 +137,9 @@
             </div>
           </div>
           <div class="card-header my-4 ml-2">
-            User Details<span id="download-button">
-              <!-- <button (click)="exportActivePlayers()" style="float: right">
-                            <i
-                              class="fa fa-file-excel-o"
-                              style="font-size: 20px; color: blue"
-                            ></i></button -->
-            </span>
+            User Details<span id="download-button"> </span>
+
+            <button (click)="exportActivePlayers()">Download</button>
           </div>
           <div class="card-body">
             <p-table

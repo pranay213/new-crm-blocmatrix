@@ -1,0 +1,672 @@
+<div class="row" style="margin-bottom: 20px">
+  <div class="col-md-9"></div>
+  <div class="col-md-3 text-right">
+    <button (click)="showFilter()" class="btn btn-secondary b">
+      <i class="fa fa-filter" aria-hidden="true"></i> Filter
+    </button>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-header">Transaction Details</div>
+      <!-- <div class="card-body">
+          <div class="row">
+            <div class="col-12">
+                <tabset>
+                    
+                      <ng-template tabHeading><i class="fa fa-exchange"></i> Withdraw Requests</ng-template>
+                     <div class="row">
+                       <div class="col-12" *ngIf="transaction">
+                          <p>Total Withdraw Requests: {{transaction.length}}</p>
+                          <p-table #dt [columns]="cols" [value]="transaction" [globalFilterFields]="['ledger_index','hash','tx.Amount','date']"
+                          [paginator]="true" selectionMode="single" [rows]="10">
+                          <ng-template pTemplate="colgroup" let-columns>
+                            <colgroup>
+                              <col *ngFor="let col of columns" [style.width]="col.width">
+                            </colgroup>
+                          </ng-template>
+                          <ng-template pTemplate="header" let-columns>
+                            <tr>
+                              <th *ngFor="let col of columns" [pSortableColumn]="col.field" pResizableColumn>
+                                {{col.header}}
+                                <p-sortIcon [field]="col.field"></p-sortIcon>
+                              </th>
+                            </tr>
+                          </ng-template>
+                          <ng-template pTemplate="body" let-rowData>
+                            <tr>
+                                <td>{{rowData.username}}</td>
+                                <td>{{rowData.mobile}}</td>
+                                <td>{{rowData.email}}</td>
+                                <td>{{rowData.request_amount}}</td>
+                                <td>{{rowData.created_at | date: 'dd/MM/yyyy, hh:mm:ss a'}}</td>
+                                <td>{{rowData.request_status}}</td>
+                                <td *ngIf="!rowData.isEditable && rowData.request_status == 'Pending'"><a href="javascript:void(0);" (click)="onAction(rowData)">...</a></td>
+                                <td *ngIf="!rowData.isEditable && rowData.request_status != 'Pending'"></td>
+                                <td *ngIf="rowData.isEditable">
+                                    <select class="form-control" name="request_status" [(ngModel)]="rowData.request_status"  (ngModelChange)="processWithdraw(rowData)">
+                                        <option value="Pending">Pending</option>
+                                        <option value="Completed">Completed</option>
+                                        <option value="Rejected">Rejected</option>
+                                    </select>
+                                </td>
+                            </tr>
+                          </ng-template>
+                        </p-table>
+                       </div>
+                     </div>
+                    
+                  
+            </div>
+          </div>
+        </div> -->
+
+      <div class="card-body">
+        <div class="row">
+          <mat-card-content>
+            <div class="d-flex flex-sm-row flex-column gap-8">
+              <button
+                mat-fab
+                extended
+                color="{{ selectedBtn === 'all' && 'primary' }}"
+                aria-label="Example icon button with a delete icon"
+                [ngClass]="'w-10'"
+                (click)="selectedBtnFn('all')"
+              >
+                <div class="d-flex align-items-center">
+                  <i-tabler class="icon-20 m-r-4" name="clear-all"></i-tabler
+                  ><span> All</span>
+                </div>
+              </button>
+
+              <button
+                mat-fab
+                extended
+                color="{{ selectedBtn === 'success' && 'success' }}"
+                aria-label="Example icon button with a bookmark icon"
+                (click)="selectedBtnFn('success')"
+              >
+                <div class="d-flex align-items-center">
+                  <i-tabler
+                    class="icon-20 m-r-4"
+                    name="discount-check-filled"
+                  ></i-tabler>
+                  Completed
+                </div>
+              </button>
+
+              <button
+                mat-fab
+                extended
+                color="{{ selectedBtn === 'pending' && 'warn' }}"
+                aria-label="Example icon button with a home icon"
+                (click)="selectedBtnFn('pending')"
+              >
+                <div class="d-flex align-items-center">
+                  <i-tabler
+                    class="icon-20 m-r-4"
+                    name="player-pause"
+                  ></i-tabler>
+                  Pending
+                </div>
+              </button>
+
+              <button
+                mat-fab
+                extended
+                color="{{ selectedBtn === 'failed' && 'red' }}"
+                aria-label="Example icon button with a heart icon"
+                (click)="selectedBtnFn('failed')"
+              >
+                <div class="d-flex align-items-center">
+                  <i-tabler
+                    class="icon-20 m-r-4"
+                    name="square-rounded-x-filled"
+                  ></i-tabler>
+                  Rejected
+                </div>
+              </button>
+              <button
+                mat-fab
+                extended
+                aria-label="Example icon button with a heart icon"
+                (click)="selectedBtnFn('initiated')"
+                color="{{ selectedBtn === 'initiated' && 'info' }}"
+              >
+                <div class="d-flex align-items-center">
+                  <i-tabler
+                    class="icon-20 m-r-4"
+                    name="exclamation-circle"
+                  ></i-tabler>
+                  Cancelled
+                </div>
+              </button>
+              <!-- <button
+                mat-fab
+                extended
+                aria-label="Example icon button with a heart icon"
+                (click)="selectedBtnFn('chargeback')"
+                color="{{ selectedBtn === 'chargeback' && 'accent' }}"
+              >
+                <div class="d-flex align-items-center">
+                  <i-tabler
+                    class="icon-20 m-r-4"
+                    name="exclamation-circle"
+                  ></i-tabler>
+                  Charge Back
+                </div>
+              </button> -->
+            </div>
+
+            <div class="col-12">
+              <ng-template tabHeading
+                ><i class="fa fa-list"></i><span> All</span></ng-template
+              >
+              <div class="row">
+                <div class="col-12" *ngIf="transaction">
+                  <p>Total withdraw Request: {{ transaction.length }}</p>
+                  <p-table
+                    #dt
+                    [columns]="withdraw_pending_cols"
+                    [value]="transaction"
+                    [globalFilterFields]="[
+                      'ledger_index',
+                      'hash',
+                      'tx.Amount',
+                      'date'
+                    ]"
+                    [paginator]="true"
+                    selectionMode="single"
+                    [rows]="10"
+                  >
+                    <ng-template pTemplate="colgroup" let-columns>
+                      <colgroup>
+                        <col
+                          *ngFor="let col of columns"
+                          [style.width]="col.width"
+                        />
+                      </colgroup>
+                    </ng-template>
+                    <ng-template pTemplate="header" let-columns>
+                      <tr>
+                        <th
+                          *ngFor="let col of columns"
+                          [pSortableColumn]="col.field"
+                          pResizableColumn
+                        >
+                          {{ col.header }}
+                          <p-sortIcon [field]="col.field"></p-sortIcon>
+                        </th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-rowData>
+                      <tr>
+                        <td (click)="onRowSelect(rowData)">
+                          {{ rowData.username }}
+                        </td>
+                        <td (click)="onRowSelect(rowData)">
+                          {{ rowData.mobile }}
+                        </td>
+                        <td (click)="onRowSelect(rowData)">
+                          {{ rowData.email }}
+                        </td>
+                        <td (click)="onRowSelect(rowData)">
+                          {{ rowData.request_amount }}
+                        </td>
+                        <td (click)="onRowSelect(rowData)">
+                          {{
+                            rowData.created_at | date : "dd/MM/yyyy, hh:mm:ss a"
+                          }}
+                        </td>
+                        <td *ngIf="!rowData.isEditable">
+                          <select
+                            class="form-control"
+                            name="payment_processor_id"
+                            [(ngModel)]="rowData.payment_processor_id"
+                            disabled
+                          >
+                            <option
+                              *ngFor="let pp of paymentProcessors"
+                              [value]="pp.id"
+                            >
+                              {{ pp.name }}
+                            </option>
+                          </select>
+                        </td>
+                        <td *ngIf="rowData.isEditable">
+                          <select
+                            class="form-control"
+                            name="payment_processor_id"
+                            [(ngModel)]="rowData.payment_processor_id"
+                          >
+                            <option
+                              *ngFor="let pp of paymentProcessors"
+                              [value]="pp.id"
+                            >
+                              {{ pp.name }}
+                            </option>
+                          </select>
+                        </td>
+                        <td (click)="onRowSelect(rowData)">
+                          {{ rowData.request_status }}
+                        </td>
+                        <td
+                          *ngIf="
+                            !rowData.isEditable &&
+                            rowData.request_status == 'Pending'
+                          "
+                        >
+                          <a
+                            href="javascript:void(0);"
+                            (click)="onAction(rowData)"
+                            >...</a
+                          >
+                        </td>
+                        <td
+                          *ngIf="
+                            !rowData.isEditable &&
+                            rowData.request_status != 'Pending'
+                          "
+                        ></td>
+                        <td *ngIf="rowData.isEditable">
+                          <select
+                            class="form-control"
+                            name="request_status"
+                            [(ngModel)]="rowData.request_status"
+                            (ngModelChange)="showingConfirmationDialog(rowData)"
+                          >
+                            <option value="Pending">Pending</option>
+                            <option value="Completed">Completed</option>
+                            <option value="Rejected">Rejected</option>
+                          </select>
+                        </td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+              </div>
+
+              <ng-template tabHeading
+                ><i class="fa fa-thumbs-up"></i
+                ><span> Completed</span></ng-template
+              >
+              <div class="row">
+                <div class="col-12" *ngIf="completedTransaction">
+                  <p>
+                    Total Completed withdraw Request:
+                    {{ completedTransaction.length }}
+                  </p>
+                  <p-table
+                    #dt
+                    [columns]="cols"
+                    [value]="completedTransaction"
+                    [globalFilterFields]="[
+                      'ledger_index',
+                      'hash',
+                      'tx.Amount',
+                      'date'
+                    ]"
+                    [paginator]="true"
+                    selectionMode="single"
+                    [rows]="10"
+                  >
+                    <ng-template pTemplate="colgroup" let-columns>
+                      <colgroup>
+                        <col
+                          *ngFor="let col of columns"
+                          [style.width]="col.width"
+                        />
+                      </colgroup>
+                    </ng-template>
+                    <ng-template pTemplate="header" let-columns>
+                      <tr>
+                        <th
+                          *ngFor="let col of columns"
+                          [pSortableColumn]="col.field"
+                          pResizableColumn
+                        >
+                          {{ col.header }}
+                          <p-sortIcon [field]="col.field"></p-sortIcon>
+                        </th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-rowData>
+                      <tr (click)="onRowSelect(rowData)">
+                        <td>{{ rowData.username }}</td>
+                        <td>{{ rowData.mobile }}</td>
+                        <td>{{ rowData.email }}</td>
+                        <td>{{ rowData.request_amount }}</td>
+                        <td>
+                          {{
+                            rowData.created_at | date : "dd/MM/yyyy, hh:mm:ss a"
+                          }}
+                        </td>
+                        <td>
+                          <select
+                            class="form-control"
+                            name="payment_processor_id"
+                            [(ngModel)]="rowData.payment_processor_id"
+                            disabled
+                          >
+                            <option
+                              *ngFor="let pp of paymentProcessors"
+                              [value]="pp.id"
+                            >
+                              {{ pp.name }}
+                            </option>
+                          </select>
+                        </td>
+                        <td>{{ rowData.request_status }}</td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+              </div>
+
+              <ng-template tabHeading
+                ><i class="fa fa-ellipsis-h"></i
+                ><span> Pending</span></ng-template
+              >
+              <div class="row">
+                <div class="col-12" *ngIf="pendingTransaction">
+                  <p>
+                    Total Pending withdraw Request:
+                    {{ pendingTransaction.length }}
+                  </p>
+                  <p-table
+                    #dt
+                    [columns]="withdraw_pending_cols"
+                    [value]="pendingTransaction"
+                    [globalFilterFields]="[
+                      'ledger_index',
+                      'hash',
+                      'tx.Amount',
+                      'date'
+                    ]"
+                    [paginator]="true"
+                    selectionMode="single"
+                    [rows]="10"
+                  >
+                    <ng-template pTemplate="header" let-columns>
+                      <tr>
+                        <th
+                          *ngFor="let col of columns"
+                          [pSortableColumn]="col.field"
+                          pResizableColumn
+                        >
+                          {{ col.header }}
+                          <p-sortIcon [field]="col.field"></p-sortIcon>
+                        </th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-rowData>
+                      <tr>
+                        <td (click)="onRowSelect(rowData)">
+                          {{ rowData.username }}
+                        </td>
+                        <td (click)="onRowSelect(rowData)">
+                          {{ rowData.mobile }}
+                        </td>
+                        <td (click)="onRowSelect(rowData)">
+                          {{ rowData.email }}
+                        </td>
+                        <td (click)="onRowSelect(rowData)">
+                          {{ rowData.request_amount }}
+                        </td>
+                        <td (click)="onRowSelect(rowData)">
+                          {{
+                            rowData.created_at | date : "dd/MM/yyyy, hh:mm:ss a"
+                          }}
+                        </td>
+                        <td *ngIf="!rowData.isEditable">
+                          <select
+                            class="form-control"
+                            name="payment_processor_id"
+                            [(ngModel)]="rowData.payment_processor_id"
+                            disabled
+                          >
+                            <option
+                              *ngFor="let pp of paymentProcessors"
+                              [value]="pp.id"
+                            >
+                              {{ pp.name }}
+                            </option>
+                          </select>
+                        </td>
+                        <td *ngIf="rowData.isEditable">
+                          <select
+                            class="form-control"
+                            name="payment_processor_id"
+                            [(ngModel)]="rowData.payment_processor_id"
+                          >
+                            <option
+                              *ngFor="let pp of paymentProcessors"
+                              [value]="pp.id"
+                            >
+                              {{ pp.name }}
+                            </option>
+                          </select>
+                        </td>
+                        <td (click)="onRowSelect(rowData)">
+                          {{ rowData.request_status }}
+                        </td>
+                        <td
+                          *ngIf="
+                            !rowData.isEditable &&
+                            rowData.request_status == 'Pending'
+                          "
+                        >
+                          <a
+                            href="javascript:void(0);"
+                            (click)="onAction(rowData)"
+                            >...</a
+                          >
+                        </td>
+                        <td *ngIf="rowData.isEditable">
+                          <select
+                            class="form-control"
+                            name="request_status"
+                            [(ngModel)]="rowData.request_status"
+                            (ngModelChange)="showingConfirmationDialog(rowData)"
+                          >
+                            <option value="Pending">Pending</option>
+                            <option value="Completed">Completed</option>
+                            <option value="Rejected">Rejected</option>
+                          </select>
+                        </td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+              </div>
+
+              <ng-template tabHeading
+                ><i class="fa fa-thumbs-down"></i
+                ><span> Rejected</span></ng-template
+              >
+              <div class="row">
+                <div class="col-12" *ngIf="rejectedTransaction">
+                  <p>
+                    Total Rejected withdraw Request:
+                    {{ rejectedTransaction.length }}
+                  </p>
+                  <p-table
+                    #dt
+                    [columns]="cols"
+                    [value]="rejectedTransaction"
+                    [globalFilterFields]="[
+                      'ledger_index',
+                      'hash',
+                      'tx.Amount',
+                      'date'
+                    ]"
+                    [paginator]="true"
+                    selectionMode="single"
+                    [rows]="10"
+                  >
+                    <ng-template pTemplate="colgroup" let-columns>
+                      <colgroup>
+                        <col
+                          *ngFor="let col of columns"
+                          [style.width]="col.width"
+                        />
+                      </colgroup>
+                    </ng-template>
+                    <ng-template pTemplate="header" let-columns>
+                      <tr>
+                        <th
+                          *ngFor="let col of columns"
+                          [pSortableColumn]="col.field"
+                          pResizableColumn
+                        >
+                          {{ col.header }}
+                          <p-sortIcon [field]="col.field"></p-sortIcon>
+                        </th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-rowData>
+                      <tr (click)="onRowSelect(rowData)">
+                        <td>{{ rowData.username }}</td>
+                        <td>{{ rowData.mobile }}</td>
+                        <td>{{ rowData.email }}</td>
+                        <td>{{ rowData.request_amount }}</td>
+                        <td>
+                          {{
+                            rowData.created_at | date : "dd/MM/yyyy, hh:mm:ss a"
+                          }}
+                        </td>
+                        <td>
+                          <select
+                            class="form-control"
+                            name="payment_processor_id"
+                            [(ngModel)]="rowData.payment_processor_id"
+                            disabled
+                          >
+                            <option
+                              *ngFor="let pp of paymentProcessors"
+                              [value]="pp.id"
+                            >
+                              {{ pp.name }}
+                            </option>
+                          </select>
+                        </td>
+                        <td>{{ rowData.request_status }}</td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+              </div>
+
+              <ng-template tabHeading
+                ><i class="fa fa-thumbs-down"></i
+                ><span> Cancelled</span></ng-template
+              >
+              <div class="row">
+                <div class="col-12" *ngIf="cancelledTransaction">
+                  <p>
+                    Total Cancelled withdraw Request:
+                    {{ cancelledTransaction.length }}
+                  </p>
+                  <p-table
+                    #dt
+                    [columns]="cols"
+                    [value]="cancelledTransaction"
+                    [globalFilterFields]="[
+                      'ledger_index',
+                      'hash',
+                      'tx.Amount',
+                      'date'
+                    ]"
+                    [paginator]="true"
+                    selectionMode="single"
+                    [rows]="10"
+                  >
+                    <ng-template pTemplate="colgroup" let-columns>
+                      <colgroup>
+                        <col
+                          *ngFor="let col of columns"
+                          [style.width]="col.width"
+                        />
+                      </colgroup>
+                    </ng-template>
+                    <ng-template pTemplate="header" let-columns>
+                      <tr>
+                        <th
+                          *ngFor="let col of columns"
+                          [pSortableColumn]="col.field"
+                          pResizableColumn
+                        >
+                          {{ col.header }}
+                          <p-sortIcon [field]="col.field"></p-sortIcon>
+                        </th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-rowData>
+                      <tr (click)="onRowSelect(rowData)">
+                        <td>{{ rowData.username }}</td>
+                        <td>{{ rowData.mobile }}</td>
+                        <td>{{ rowData.email }}</td>
+                        <td>{{ rowData.request_amount }}</td>
+                        <td>
+                          {{
+                            rowData.created_at | date : "dd/MM/yyyy, hh:mm:ss a"
+                          }}
+                        </td>
+                        <td>
+                          <select
+                            class="form-control"
+                            name="payment_processor_id"
+                            [(ngModel)]="rowData.payment_processor_id"
+                            disabled
+                          >
+                            <option
+                              *ngFor="let pp of paymentProcessors"
+                              [value]="pp.id"
+                            >
+                              {{ pp.name }}
+                            </option>
+                          </select>
+                        </td>
+                        <td>{{ rowData.request_status }}</td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+              </div>
+            </div>
+          </mat-card-content>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal" *ngIf="isConfirmed">
+  <div class="model-content">
+    <p>
+      You have selected <b>{{ selectedRow.request_status }}</b> withdrawal. Do
+      you want to continue?
+    </p>
+    <div class="row">
+      <div class="col-6" style="padding-left: 20%">
+        <button
+          type="button"
+          pButton
+          (click)="processWithdraw('')"
+          label="No"
+          class="btn btn-secondary"
+        ></button>
+      </div>
+      <div class="col-6" style="padding-left: 5%">
+        <button
+          type="button"
+          pButton
+          (click)="processWithdraw(selectedRow)"
+          label="Yes"
+          class="btn btn-secondary"
+        ></button>
+      </div>
+    </div>
+  </div>
+</div>

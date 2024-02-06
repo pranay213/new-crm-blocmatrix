@@ -12,6 +12,10 @@ import { ButtonModule } from 'primeng/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { NotificationService } from 'src/app/services/notification.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ExcelService } from 'src/app/excel.service';
+import { ICountry } from 'ngx-country-picker/country.interface';
+import { CountryPickerService } from 'ngx-country-picker';
 
 @Component({
   standalone: true,
@@ -37,10 +41,15 @@ import { NotificationService } from 'src/app/services/notification.service';
   ],
 })
 export class PlayersComponent implements OnInit {
-  constructor(
-    public apiService: ApiService,
-    private notificationService: NotificationService
-  ) {}
+  selectedBtn: any = 'active';
+  selectedBtnFn = (params: any) => {
+    this.selectedBtn = params;
+    if (this.selectedBtn === 'active') {
+      this.getActiveUsers();
+    }
+    if (this.selectedBtn === 'inactive') this.getInactiveUsers();
+    if (this.selectedBtn === 'pending') this.getUnconfirmedUsers();
+  };
   theSpinner: boolean;
 
   userDetails: any = [];
@@ -60,7 +69,7 @@ export class PlayersComponent implements OnInit {
 
   currentPage: number;
   limit: number;
-  sortField: any | undefined;
+  sortField: any;
   sortOrder: any;
 
   searchActivePlayerIds: any = [];
@@ -69,6 +78,8 @@ export class PlayersComponent implements OnInit {
   searchBy: any;
   exactMatch: string;
   orderBy: any;
+  countries: ICountry[] = [];
+
   allSearchOptions: any = [
     { key: 'username', val: 'Username' },
     { key: 'firstname', val: 'First Name' },
@@ -90,7 +101,7 @@ export class PlayersComponent implements OnInit {
 
   allLimits: any = [10, 20, 50, 100, 150, 200];
 
-  fieldsMapping = {
+  fieldsMapping: any = {
     Username: 'players.username',
     AccountID: 'players.username',
     'First Name': 'players.firstname',
@@ -110,7 +121,7 @@ export class PlayersComponent implements OnInit {
     'Affiliate ID': 'players.campaign_id',
   };
 
-  cols = [
+  cols: any = [
     { header: 'Username', field: 'AccountID' },
     { header: 'Name', field: 'Fullname' },
     { header: 'Email', field: 'Emailaddress' },
@@ -127,23 +138,84 @@ export class PlayersComponent implements OnInit {
     { header: 'Affiliate', field: 'Affiliate' },
   ];
 
-  selectedBtn: string = 'active';
-  selectedBtnFn = (param: any) => {
+  constructor(
+    public apiService: ApiService,
+    private route: Router,
+    private countryPicker: CountryPickerService,
+    private excelService: ExcelService,
+    private activeRoute: ActivatedRoute
+  ) {
+    this.activeRoute.queryParams.subscribe((params) => {});
+  }
+
+  ngOnInit() {
+    this.theSpinner = true;
     this.loading = true;
-    this.selectedBtn = param;
-    if (this.selectedBtn === 'active') {
-      this.getActiveUsers();
+    this.inactiveLoading = true;
+    this.unconfirmedLoading = true;
+    this.limit = 10;
+    this.currentPage = 1;
+    this.sortField = 'players.id';
+    this.sortOrder = -1;
+    this.getActiveUsers();
+
+    this.countryPicker.getCountries().subscribe((countries: ICountry[]) => {
+      this.countries = countries;
+
+      this.apiService.getSearchKeywords().subscribe((keywordsData: any) => {
+        this.searchKeywords = keywordsData;
+      });
+    });
+
+    this.theSpinner = false;
+  }
+
+  /*getActiveAndUnconfirmedUsers(){
+        this.apiService.viewUser(this.currentPage, this.limit).subscribe((data: any) => {
+            this.totalUsers = data.total_records;
+            this.userDetails = data.players;
+            this.loading = false;
+
+            this.apiService.userSearchData = "";
+
+            let unconfirmedUserDetailsTemp = [];
+            if(this.userDetails.length){
+                this.userDetails.forEach(function(player){
+                    if(player.EmailVerified == '0'){
+                        unconfirmedUserDetailsTemp.push(player);
+                    }
+                });
+            }
+            this.unconfirmedUserDetails = unconfirmedUserDetailsTemp;
+            this.totalUnconfirmedUsers = this.unconfirmedUserDetails.length;
+            this.apiService.unconfirmedUserSearchData = "";
+        },
+        error => {
+            if (error.status == 401) {
+                this.localStorageService.clear();
+                this.route.navigateByUrl('/login');
+            }
+        });
     }
-    if (this.selectedBtn === 'inactive') {
-      this.getInactiveUsers();
-    }
-    if (this.selectedBtn === 'pending') {
-      this.getUnconfirmedUsers();
-    }
-    // this.loading = false;
-  };
+
+    getInactiveUsers(){
+        this.apiService.viewInactiveUser(this.currentPage, this.limit).subscribe((inactiveData: any) => {
+            this.totalInactiveUsers = inactiveData.total_records;
+            this.inActiveUserDetails = inactiveData.players;
+            this.inactiveLoading = false;
+
+            this.apiService.inactiveUserSearchData = "";
+        },
+        error => {
+            if (error.status == 401) {
+                this.localStorageService.clear();
+                this.route.navigateByUrl('/login');
+            }
+        });
+    }*/
+
   getActiveUsers() {
-    let params = {
+    let params: any = {
       page: this.currentPage,
       limit: this.limit,
       pid: this.searchActivePlayerIds,
@@ -158,14 +230,15 @@ export class PlayersComponent implements OnInit {
       },
       (error) => {
         if (error.status == 401) {
-          this.notificationService.showError(error);
+          localStorage.clear();
+          this.route.navigateByUrl('/login');
         }
       }
     );
   }
 
   getInactiveUsers() {
-    let params = {
+    let params: any = {
       page: this.currentPage,
       limit: this.limit,
       pid: this.searchInactivePlayerIds,
@@ -180,25 +253,76 @@ export class PlayersComponent implements OnInit {
       },
       (error) => {
         if (error.status == 401) {
-          this.notificationService.showError(error);
+          localStorage.clear();
+          this.route.navigateByUrl('/login');
         }
       }
     );
   }
 
-  loadActivePlayers(event: LazyLoadEvent) {
+  getUnconfirmedUsers() {
+    let params: any = {
+      page: this.currentPage,
+      limit: this.limit,
+      pid: this.searchUnconfirmedPlayerIds,
+      sort_field: this.sortField,
+      sort_order: this.sortOrder,
+    };
+    this.apiService.viewUnconfirmedUser(params).subscribe(
+      (data: any) => {
+        this.totalUnconfirmedUsers = data.total_records;
+        this.unconfirmedUserDetails = data.players;
+        this.unconfirmedLoading = false;
+      },
+      (error) => {
+        if (error.status == 401) {
+          localStorage.clear();
+          this.route.navigateByUrl('/login');
+        }
+      }
+    );
+  }
+
+  loadActivePlayers(event: any) {
     //console.log(event);
     if (event.sortField) {
-      // console.log('event.sortField', event.sortField);
       return;
-      // this.sortField = this.fieldsMapping[event.sortField];
-      // this.sortOrder = event.sortOrder;
+      this.sortField = this.fieldsMapping[event.sortField];
+      this.sortOrder = event.sortOrder;
     }
     this.loading = true;
-    // this.currentPage = event.first / event.rows + 1;
-    // this.limit = event.rows;
+    this.currentPage = event.first / event.rows + 1;
+    this.limit = event.rows;
 
     this.getActiveUsers();
+  }
+
+  loadInactivePlayers(event: any) {
+    if (event.sortField) {
+      this.sortField = this.fieldsMapping[event.sortField];
+      this.sortOrder = event.sortOrder;
+    }
+    this.inactiveLoading = true;
+    this.currentPage = event.first / event.rows + 1;
+    this.limit = event.rows;
+
+    setTimeout(() => {
+      this.getInactiveUsers();
+    }, 3000);
+  }
+
+  loadUnconfirmedPlayers(event: any) {
+    if (event.sortField) {
+      this.sortField = this.fieldsMapping[event.sortField];
+      this.sortOrder = event.sortOrder;
+    }
+    this.unconfirmedLoading = true;
+    this.currentPage = event.first / event.rows + 1;
+    this.limit = event.rows;
+
+    setTimeout(() => {
+      this.getUnconfirmedUsers();
+    }, 5000);
   }
 
   applyManualSearch() {
@@ -244,10 +368,33 @@ export class PlayersComponent implements OnInit {
 
       this.getActiveUsers();
     } else {
-      this.notificationService.showError(
-        ' <h1 class="text-[#f00]">   Plese fill All fields    </h1>'
-      );
+      alert('Please select all inputs');
     }
+  }
+
+  search() {
+    this.loading = true;
+    //console.log(this.apiService.userSearchData);
+    this.apiService.userSearchData =
+      this.apiService.userSearchData.toLowerCase();
+
+    this.searchActivePlayerIds = [];
+    if (this.apiService.userSearchData) {
+      this.searchActivePlayerIds.push(-1);
+    }
+
+    this.searchKeywords.forEach((keywordsObj: any) => {
+      if (
+        keywordsObj.keywords
+          .toString()
+          .toLowerCase()
+          .includes(this.apiService.userSearchData)
+      ) {
+        this.searchActivePlayerIds.push(keywordsObj.player_id);
+      }
+    });
+
+    this.getActiveUsers();
   }
 
   inactiveSearch() {
@@ -302,60 +449,48 @@ export class PlayersComponent implements OnInit {
     window.open('/users/edit/' + user.id, '_blank');
   }
 
-  loadUnconfirmedPlayers(event: LazyLoadEvent) {
-    if (event.sortField) {
-      // this.sortField = this.fieldsMapping[event.sortField];
-      this.sortOrder = event.sortOrder;
-    }
-    // this.unconfirmedLoading = true;
-    // this.currentPage = event.first / event.rows + 1;
-    // this.limit = event.rows;
-
-    setTimeout(() => {
-      this.getUnconfirmedUsers();
-    }, 5000);
-  }
-  getUnconfirmedUsers() {
-    let params = {
-      page: this.currentPage,
-      limit: this.limit,
-      pid: this.searchUnconfirmedPlayerIds,
-      sort_field: this.sortField,
-      sort_order: this.sortOrder,
-    };
-    this.apiService.viewUnconfirmedUser(params).subscribe(
+  exportActivePlayers(): void {
+    let activePlayerIds = this.searchActivePlayerIds;
+    activePlayerIds = activePlayerIds.join();
+    this.apiService.getAllActiveUsers(activePlayerIds).subscribe(
       (data: any) => {
-        this.totalUnconfirmedUsers = data.total_records;
-        this.unconfirmedUserDetails = data.players;
-        this.unconfirmedLoading = false;
+        this.excelService.exportAsExcelFile(data.players, 'Active Players');
       },
       (error) => {
         if (error.status == 401) {
-          this.notificationService.showError(error);
+          localStorage.clear();
+          this.route.navigateByUrl('/login');
         }
       }
     );
   }
-
-  ngOnInit(): void {
-    this.theSpinner = true;
-    this.loading = true;
-    this.inactiveLoading = true;
-    this.unconfirmedLoading = true;
-    this.limit = 10;
-    this.currentPage = 1;
-    this.sortField = 'players.id';
-    this.sortOrder = -1;
-
-    // this.countryPicker.getCountries().subscribe((countries: ICountry[]) => {
-    //   this.countries = countries;
-
-    //   this.apiService.getSearchKeywords().subscribe((keywordsData: any) => {
-    //     this.searchKeywords = keywordsData;
-    //   });
-    // });
-
-    this.theSpinner = false;
-    this.getActiveUsers();
+  exportInactivePlayers(): void {
+    this.apiService.getAllInactiveUsers().subscribe(
+      (data: any) => {
+        this.excelService.exportAsExcelFile(data.players, 'Inactive Players');
+      },
+      (error) => {
+        if (error.status == 401) {
+          localStorage.clear();
+          this.route.navigateByUrl('/login');
+        }
+      }
+    );
+  }
+  exportUnconfirmedPlayers(): void {
+    this.apiService.getAllUnconfirmedUsers().subscribe(
+      (data: any) => {
+        this.excelService.exportAsExcelFile(
+          data.players,
+          'Unconfirmed Players'
+        );
+      },
+      (error) => {
+        if (error.status == 401) {
+          localStorage.clear();
+          this.route.navigateByUrl('/login');
+        }
+      }
+    );
   }
 }

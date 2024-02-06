@@ -1,8 +1,8 @@
 <!-- <app-top-cards></app-top-cards> -->
 <div class="">
-  <app-cards-new></app-cards-new>
+  <app-cards-new [totalData]="fullData?.totals"></app-cards-new>
 </div>
-<div class="row mx-auto">
+<!-- <div class="row mx-auto">
   <div
     *ngFor="let item of cardslist"
     class="w-full lg:w-1/6 mx-auto"
@@ -10,9 +10,416 @@
   >
     <app-customers [newitem]="item"></app-customers>
   </div>
+</div> -->
+
+<div class="row mx-auto">
+  <div class="w-full lg:w-1/6 mx-auto">
+    <mat-card
+      class="cardWithShadow p-3"
+      style="border: 1px solid #e7eaee; background-color: #fff"
+    >
+      <mat-card-subtitle
+        class="mat-body-1 font-bold h-[5vh] font-jakartha"
+        style="
+          font-size: 14px;
+          color: #11142b !important;
+          font-weight: bold;
+          margin-left: 12%;
+        "
+        >Profit</mat-card-subtitle
+      >
+      <div class="mx-auto w-[100%] flex items-center justify-center">
+        <mat-form-field
+          class="theme-select p-0 mr-0 outline-none rounded-lg"
+          id="selection-box"
+          appearance="outline"
+          style="background-color: #fff"
+        >
+          <mat-select
+            formControlName="month.value"
+            value="{{ profitselectedValue }}"
+            (selectionChange)="setCategoryValue($event, 'PROFIT')"
+            style="font-size: 12px; font-family: 'Roboto Condensed'"
+          >
+            <mat-option
+              *ngFor="let month of monthsNames"
+              [value]="month.value"
+              style="font-size: 10px"
+            >
+              {{ month.viewValue }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="flex items-center mb-2 mt-8 mx-auto justify-between">
+        <h5
+          class="mat-subtitle-1 f-w-800"
+          style="color: #6688f7; line-height: 22px; font-size: 15px !important"
+        >
+          {{ profitData && profitData[0].profit }}
+        </h5>
+        <button
+          mat-mini-fab
+          class="bg-white text-success shadow-none icon-27 mx-2"
+          *ngIf="profitPercentage > 0"
+        >
+          <i-tabler name="arrow-up-right" class="icon-20"></i-tabler>
+        </button>
+        <button
+          mat-mini-fab
+          class="bg-white shadow-none icon-27 mx-2"
+          *ngIf="profitPercentage <= 0"
+        >
+          <i-tabler
+            name="arrow-down-right"
+            class="icon-20 text-[#f00]"
+          ></i-tabler>
+        </button>
+        <div class="mat-body-1 f-w-600">{{ profitPercentage }}%</div>
+      </div>
+
+      <apx-chart
+        [series]="profitPoints?.series"
+        [dataLabels]="profitPoints?.dataLabels"
+        [chart]="profitPoints?.chart"
+        [legend]="profitPoints?.legend"
+        [colors]="profitPoints?.colors"
+        [stroke]="profitPoints?.stroke"
+        [tooltip]="profitPoints?.tooltip"
+        [plotOptions]="profitPoints?.plotOptions"
+        [responsive]="profitPoints?.responsive"
+        [xaxis]="profitPoints?.xaxis"
+      ></apx-chart>
+    </mat-card>
+  </div>
+
+  <div class="w-full lg:w-1/6 mx-auto">
+    <mat-card
+      class="cardWithShadow p-3"
+      style="border: 1px solid #e7eaee; background-color: #fff"
+    >
+      <mat-card-subtitle
+        class="mat-body-1 font-bold h-[5vh] font-jakartha"
+        style="
+          font-size: 14px;
+          color: #11142b !important;
+          font-weight: bold;
+          margin-left: 12%;
+        "
+        >GGR</mat-card-subtitle
+      >
+      <div class="mx-auto w-[100%] flex items-center justify-center">
+        <mat-form-field
+          class="theme-select p-0 mr-0 outline-none rounded-lg"
+          id="selection-box"
+          appearance="outline"
+          style="background-color: #fff"
+        >
+          <mat-select
+            formControlName="month.value"
+            value="{{ ggrselectedValue }}"
+            (selectionChange)="setCategoryValue($event, 'GGR')"
+            style="font-size: 12px; font-family: 'Roboto Condensed'"
+          >
+            <mat-option
+              *ngFor="let month of monthsNames"
+              [value]="month.value"
+              style="font-size: 10px"
+            >
+              {{ month.viewValue }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="flex items-center mb-2 mt-8 mx-auto justify-between">
+        <h5
+          class="mat-subtitle-1 f-w-800"
+          style="color: #6688f7; line-height: 22px; font-size: 15px !important"
+        >
+          {{ ggrData && ggrData[0].ggr }}
+        </h5>
+        <button
+          mat-mini-fab
+          class="bg-white text-success shadow-none icon-27 mx-2"
+          *ngIf="ggrPercentage > 0"
+        >
+          <i-tabler name="arrow-up-right" class="icon-20"></i-tabler>
+        </button>
+        <button
+          mat-mini-fab
+          class="bg-white shadow-none icon-27 mx-2"
+          *ngIf="ggrPercentage < 0"
+        >
+          <i-tabler
+            name="arrow-down-right"
+            class="icon-20 text-[#f00]"
+          ></i-tabler>
+        </button>
+        <div class="mat-body-1 f-w-600">
+          {{ ggrPercentage !== "infinity" && ggrPercentage }}%
+        </div>
+      </div>
+
+      <apx-chart
+        [series]="ggrPoints?.series"
+        [dataLabels]="ggrPoints?.dataLabels"
+        [chart]="ggrPoints?.chart"
+        [legend]="ggrPoints?.legend"
+        [colors]="ggrPoints?.colors"
+        [stroke]="ggrPoints?.stroke"
+        [tooltip]="ggrPoints?.tooltip"
+        [plotOptions]="ggrPoints?.plotOptions"
+        [responsive]="ggrPoints?.responsive"
+        [xaxis]="ggrPoints?.xaxis"
+      ></apx-chart>
+    </mat-card>
+  </div>
+  <div class="w-full lg:w-1/6 mx-auto">
+    <mat-card
+      class="cardWithShadow p-3"
+      style="border: 1px solid #e7eaee; background-color: #fff"
+    >
+      <mat-card-subtitle
+        class="mat-body-1 font-bold h-[5vh] font-jakartha"
+        style="
+          font-size: 14px;
+          color: #11142b !important;
+          font-weight: bold;
+          margin-left: 12%;
+        "
+        >Live Players</mat-card-subtitle
+      >
+      <div class="mx-auto w-[100%] flex items-center justify-center">
+        <mat-form-field
+          class="theme-select p-0 mr-0 outline-none rounded-lg"
+          id="selection-box"
+          appearance="outline"
+          style="background-color: #fff"
+        >
+          <mat-select
+            formControlName="month.value"
+            value="{{ liveplayersselectedValue }}"
+            (selectionChange)="setCategoryValue($event, 'LIVE-PLAYERS')"
+            style="font-size: 12px; font-family: 'Roboto Condensed'"
+          >
+            <mat-option
+              *ngFor="let month of monthsNames"
+              [value]="month.value"
+              style="font-size: 10px"
+            >
+              {{ month.viewValue }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="flex items-center mb-2 mt-8 mx-auto justify-between">
+        <h5
+          class="mat-subtitle-1 f-w-800"
+          style="color: #6688f7; line-height: 22px; font-size: 15px !important"
+        >
+          {{ playersData && playersData[0].live_players }}
+        </h5>
+        <button
+          mat-mini-fab
+          class="bg-white text-success shadow-none icon-27 mx-2"
+          *ngIf="playersPercentage > 0"
+        >
+          <i-tabler name="arrow-up-right" class="icon-20"></i-tabler>
+        </button>
+        <button
+          mat-mini-fab
+          class="bg-white shadow-none icon-27 mx-2"
+          *ngIf="playersPercentage <= 0"
+        >
+          <i-tabler
+            name="arrow-down-right"
+            class="icon-20 text-[#f00]"
+          ></i-tabler>
+        </button>
+        <div class="mat-body-1 f-w-600">{{ playersPercentage }}%</div>
+      </div>
+
+      <apx-chart
+        [series]="livePlayerPoints?.series"
+        [dataLabels]="livePlayerPoints?.dataLabels"
+        [chart]="livePlayerPoints?.chart"
+        [legend]="livePlayerPoints?.legend"
+        [colors]="livePlayerPoints?.colors"
+        [stroke]="livePlayerPoints?.stroke"
+        [tooltip]="livePlayerPoints?.tooltip"
+        [plotOptions]="livePlayerPoints?.plotOptions"
+        [responsive]="livePlayerPoints?.responsive"
+        [xaxis]="livePlayerPoints?.xaxis"
+      ></apx-chart>
+    </mat-card>
+  </div>
+  <div class="w-full lg:w-1/6 mx-auto">
+    <mat-card
+      class="cardWithShadow p-3"
+      style="border: 1px solid #e7eaee; background-color: #fff"
+    >
+      <mat-card-subtitle
+        class="mat-body-1 font-bold h-[5vh] font-jakartha"
+        style="
+          font-size: 14px;
+          color: #11142b !important;
+          font-weight: bold;
+          margin-left: 12%;
+        "
+        >Deposits</mat-card-subtitle
+      >
+      <div class="mx-auto w-[100%] flex items-center justify-center">
+        <mat-form-field
+          class="theme-select p-0 mr-0 outline-none rounded-lg"
+          id="selection-box"
+          appearance="outline"
+          style="background-color: #fff"
+        >
+          <mat-select
+            formControlName="month.value"
+            value="{{ depositssselectedValue }}"
+            (selectionChange)="setCategoryValue($event, 'DEPOSITS')"
+            style="font-size: 12px; font-family: 'Roboto Condensed'"
+          >
+            <mat-option
+              *ngFor="let month of monthsNames"
+              [value]="month.value"
+              style="font-size: 10px"
+            >
+              {{ month.viewValue }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="flex items-center mb-2 mt-8 mx-auto justify-between">
+        <h5
+          class="mat-subtitle-1 f-w-800"
+          style="color: #6688f7; line-height: 22px; font-size: 15px !important"
+        >
+          {{ despositorData && despositorData[0].deposits }}
+        </h5>
+        <button
+          mat-mini-fab
+          class="bg-white text-success shadow-none icon-27 mx-2"
+          *ngIf="despositPercentage > 0"
+        >
+          <i-tabler name="arrow-up-right" class="icon-20"></i-tabler>
+        </button>
+        <button
+          mat-mini-fab
+          class="bg-white shadow-none icon-27 mx-2"
+          *ngIf="despositPercentage <= 0"
+        >
+          <i-tabler
+            name="arrow-down-right"
+            class="icon-20 text-[#f00]"
+          ></i-tabler>
+        </button>
+        <div class="mat-body-1 f-w-600">{{ despositPercentage }}%</div>
+      </div>
+
+      <apx-chart
+        [series]="depositsPoints?.series"
+        [dataLabels]="depositsPoints?.dataLabels"
+        [chart]="depositsPoints?.chart"
+        [legend]="depositsPoints?.legend"
+        [colors]="depositsPoints?.colors"
+        [stroke]="depositsPoints?.stroke"
+        [tooltip]="depositsPoints?.tooltip"
+        [plotOptions]="depositsPoints?.plotOptions"
+        [responsive]="depositsPoints?.responsive"
+        [xaxis]="depositsPoints?.xaxis"
+      ></apx-chart>
+    </mat-card>
+  </div>
+  <div class="w-full lg:w-1/6 mx-auto">
+    <mat-card
+      class="cardWithShadow p-3"
+      style="border: 1px solid #e7eaee; background-color: #fff"
+    >
+      <mat-card-subtitle
+        class="mat-body-1 font-bold h-[5vh] font-jakartha"
+        style="
+          font-size: 14px;
+          color: #11142b !important;
+          font-weight: bold;
+          margin-left: 12%;
+        "
+        >FTDS</mat-card-subtitle
+      >
+      <div class="mx-auto w-[100%] flex items-center justify-center">
+        <mat-form-field
+          class="theme-select p-0 mr-0 outline-none rounded-lg"
+          id="selection-box"
+          appearance="outline"
+          style="background-color: #fff"
+        >
+          <mat-select
+            formControlName="month.value"
+            value="{{ ftdssselectedValue }}"
+            (selectionChange)="setCategoryValue($event, 'FTD')"
+            style="font-size: 12px; font-family: 'Roboto Condensed'"
+          >
+            <mat-option
+              *ngFor="let month of monthsNames"
+              [value]="month.value"
+              style="font-size: 10px"
+            >
+              {{ month.viewValue }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="flex items-center mb-2 mt-8 mx-auto justify-between">
+        <h5
+          class="mat-subtitle-1 f-w-800"
+          style="color: #6688f7; line-height: 22px; font-size: 15px !important"
+        >
+          {{ ftdsData && ftdsData[0].ftd === 0 ? "0" : ftdsData[0].ftd }}
+        </h5>
+        <button
+          mat-mini-fab
+          class="bg-white text-success shadow-none icon-27 mx-2"
+          *ngIf="ftdsPercentage > 0"
+        >
+          <i-tabler name="arrow-up-right" class="icon-20"></i-tabler>
+        </button>
+        <button
+          mat-mini-fab
+          class="bg-white shadow-none icon-27 mx-2"
+          *ngIf="ftdsPercentage <= 0"
+        >
+          <i-tabler
+            name="arrow-down-right"
+            class="icon-20 text-[#f00]"
+          ></i-tabler>
+        </button>
+        <div class="mat-body-1 f-w-600">{{ ftdsPercentage }}%</div>
+      </div>
+
+      <apx-chart
+        [series]="ftdsPoints?.series"
+        [dataLabels]="ftdsPoints?.dataLabels"
+        [chart]="ftdsPoints?.chart"
+        [legend]="ftdsPoints?.legend"
+        [colors]="ftdsPoints?.colors"
+        [stroke]="ftdsPoints?.stroke"
+        [tooltip]="ftdsPoints?.tooltip"
+        [plotOptions]="ftdsPoints?.plotOptions"
+        [responsive]="ftdsPoints?.responsive"
+        [xaxis]="ftdsPoints?.xaxis"
+      ></apx-chart>
+    </mat-card>
+  </div>
 </div>
+
 <div class="row">
-  <div class="col-lg-6">
+  <div class="col-lg-6 h-[85]">
     <app-revenue-updates
       *ngIf="selected === 'data'"
       (selectEvent)="selectedFn($event)"
@@ -22,27 +429,33 @@
       (selectEvent)="selectedFn($event)"
     ></app-playerscompare>
   </div>
-  <div class="col-lg-6">
+  <div class="col-lg-6 h-[85]">
     <app-data-tables
       [title]="'Top Games'"
       [tableData]="topGamesData"
       [tablesHeadings]="displayedColumns"
+      [selectedValue]="selectedValue"
+      [callbackFunction]="myCallbackFunction"
     ></app-data-tables>
   </div>
-  <div class="col-lg-6">
+  <div class="col-lg-6 h-[85]">
     <app-data-tables
       [title]="'Top Depositors'"
       [tableData]="topDepositorData"
       [tablesHeadings]="displayedColumns2"
+      [selectedValue]="selectedValue"
+      [callbackFunction]="myCallbackFunction"
     ></app-data-tables>
   </div>
-  <div class="col-lg-6">
+  <div class="col-lg-6 h-[85]">
     <app-data-tables
       [title]="'Payment Gateways'"
       [tableData]="paymentGateways"
       [tablesHeadings]="displayedColumns3"
       [chart]="true"
       [piePoints]="piePoints"
+      [selectedValue]="selectedValue"
+      [callbackFunction]="myCallbackFunction"
     ></app-data-tables>
   </div>
 

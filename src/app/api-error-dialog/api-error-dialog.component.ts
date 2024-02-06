@@ -37,11 +37,11 @@ export class ApiErrorDialogComponent {
     public dialog: MatDialog,
     private notificationService: NotificationService
   ) {
-    console.log('error', error);
     this.title = error.title;
     if (this.title === 'logout') {
       this.logoutParam = true;
     }
+
     this.message = error?.data || JSON.stringify(error);
   }
 }

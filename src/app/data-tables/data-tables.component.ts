@@ -1,4 +1,11 @@
-import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  DoCheck,
+  Input,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 
@@ -18,7 +25,7 @@ import { AppDoughnutpieChartComponent } from '../pages/charts/doughnut-pie/dough
   ],
   templateUrl: './data-tables.component.html',
 })
-export class DataTablesComponent implements AfterViewInit {
+export class DataTablesComponent implements AfterViewInit, OnInit, DoCheck {
   // table 4
 
   @Input() tableData: any;
@@ -27,6 +34,10 @@ export class DataTablesComponent implements AfterViewInit {
   @Input() chart: boolean;
   @Input() piePoints: any;
   @Input() bgColor: any;
+  @Input() selectedValue: any;
+
+  @Input() callbackFunction: (arg1: any, arg2: any) => void;
+  newpiepoints: any;
 
   // chart: boolean = true;
   // @Input() topGamesData: any;
@@ -55,10 +66,11 @@ export class DataTablesComponent implements AfterViewInit {
     { value: 'This Month', viewValue: 'This Month' },
     { value: 'Last Month', viewValue: 'Last Month' },
   ];
-  selectedValue = 'Today';
+  // selectedValue = 'Today';
   setCategoryValue(event: any) {
     this.selectedValue = event.value;
     console.log(event.value);
+    this.callbackFunction(this.title, this.selectedValue);
   }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -66,7 +78,7 @@ export class DataTablesComponent implements AfterViewInit {
   ngAfterViewInit() {
     this.tableData.paginator = this.paginator;
   }
-  constructor() {
-    console.log('piePoints', this.piePoints);
-  }
+  constructor() {}
+  ngOnInit(): void {}
+  ngDoCheck(): void {}
 }

@@ -9,6 +9,7 @@ import { default as config } from '../../../config';
 })
 export class ApiService {
   apiUrl = config.BRM_URL;
+  dashBoarUrl = config.ADMIN_URL;
   public userData: any;
   public jwtToken: any;
   public userSearchData: string = '';
@@ -34,6 +35,7 @@ export class ApiService {
   userName() {
     return localStorage.getItem(AppConstants.BRM_USER_NAME);
   }
+
   loginUser(Username: string, Password: string) {
     // console.log('coming');
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
@@ -56,6 +58,9 @@ export class ApiService {
     );
   }
 
+  getdashboradData() {
+    return this.http.get('admin/dashboard/egamesplay?p=TODAY&r=ALL');
+  }
   changePassword(Password: string, AdminID: string) {
     //let token = this.localStorageService.get("token");
     // console.log(token, "Token");
