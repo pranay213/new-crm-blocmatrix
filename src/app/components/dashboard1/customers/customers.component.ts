@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   Input,
   OnChanges,
@@ -43,7 +44,7 @@ export interface customerChart {
   imports: [NgApexchartsModule, MaterialModule, TablerIconsModule, NgForOf],
   templateUrl: './customers.component.html',
 })
-export class AppCustomersComponent implements OnInit, OnChanges {
+export class AppCustomersComponent implements OnInit, OnChanges, AfterViewInit {
   categorypoints: any = {};
   monthsNames: any = [
     { value: '2D', viewValue: '2days' },
@@ -178,7 +179,7 @@ export class AppCustomersComponent implements OnInit, OnChanges {
     };
   }
   ngAfterViewInit(): void {
-    console.log(this.newitem);
+    console.log('Afer view init', this.newitem);
   }
   ngOnChanges(changes: SimpleChanges): void {
     console.log('changes', changes);
