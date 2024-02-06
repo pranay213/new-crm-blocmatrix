@@ -69,7 +69,7 @@ export class DataTablesComponent implements AfterViewInit, OnInit, DoCheck {
   // selectedValue = 'Today';
   setCategoryValue(event: any) {
     this.selectedValue = event.value;
-    console.log(event.value);
+    // console.log(event.value);
     this.callbackFunction(this.title, this.selectedValue);
   }
 

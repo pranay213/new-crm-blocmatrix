@@ -380,7 +380,11 @@
           class="mat-subtitle-1 f-w-800"
           style="color: #6688f7; line-height: 22px; font-size: 15px !important"
         >
-          {{ ftdsData && ftdsData[0].ftd === 0 ? "0" : ftdsData[0].ftd }}
+          {{
+            ftdsData && ftdsData.length > 0 && ftdsData[0].ftd === 0
+              ? "0"
+              : ftdsData[0].ftd
+          }}
         </h5>
         <button
           mat-mini-fab
@@ -423,6 +427,7 @@
     <app-revenue-updates
       *ngIf="selected === 'data'"
       (selectEvent)="selectedFn($event)"
+      [data]="genralData"
     ></app-revenue-updates>
     <app-playerscompare
       *ngIf="selected === 'compare'"
