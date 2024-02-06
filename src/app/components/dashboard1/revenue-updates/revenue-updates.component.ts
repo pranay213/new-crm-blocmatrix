@@ -64,6 +64,7 @@ export class AppRevenueUpdatesComponent implements OnInit, OnChanges {
   @ViewChild('chart') chart: ChartComponent = Object.create(null);
   @Output() selectEvent = new EventEmitter<string>();
   @Input() data: any;
+  @Input() callbackFn2: (arg: any) => void;
 
   public revenueChart!: Partial<revenueChart> | any;
   selectedType: any = 'Today';
@@ -116,6 +117,7 @@ export class AppRevenueUpdatesComponent implements OnInit, OnChanges {
   }
 
   btnClick(value: any) {
+    this.callbackFn2(value);
     // alert('hi');
     this.selectedType = value;
     // console.log('value', value);
@@ -444,7 +446,14 @@ export class AppRevenueUpdatesComponent implements OnInit, OnChanges {
         show: false,
       },
       xaxis: {
-        show: false,
+        show: true,
+        categories: [
+          0,
+          ...data.map(function (obj: any) {
+            return obj.date;
+          }),
+          0,
+        ],
         labels: {
           show: false,
         },

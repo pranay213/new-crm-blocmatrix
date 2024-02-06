@@ -57,7 +57,7 @@
           class="mat-subtitle-1 f-w-800"
           style="color: #6688f7; line-height: 22px; font-size: 15px !important"
         >
-          {{ profitData && profitData[0].profit }}
+          <!-- {{ profitData && profitData[0].profit }} -->
         </h5>
         <button
           mat-mini-fab
@@ -138,7 +138,7 @@
           class="mat-subtitle-1 f-w-800"
           style="color: #6688f7; line-height: 22px; font-size: 15px !important"
         >
-          {{ ggrData && ggrData[0].ggr }}
+          <!-- {{ ggrData && ggrData[0].ggr }} -->
         </h5>
         <button
           mat-mini-fab
@@ -220,7 +220,7 @@
           class="mat-subtitle-1 f-w-800"
           style="color: #6688f7; line-height: 22px; font-size: 15px !important"
         >
-          {{ playersData && playersData[0].live_players }}
+          <!-- {{ playersData && playersData[0].live_players }} -->
         </h5>
         <button
           mat-mini-fab
@@ -300,7 +300,7 @@
           class="mat-subtitle-1 f-w-800"
           style="color: #6688f7; line-height: 22px; font-size: 15px !important"
         >
-          {{ despositorData && despositorData[0].deposits }}
+          <!-- {{ despositorData && despositorData[0].deposits }} -->
         </h5>
         <button
           mat-mini-fab
@@ -380,11 +380,11 @@
           class="mat-subtitle-1 f-w-800"
           style="color: #6688f7; line-height: 22px; font-size: 15px !important"
         >
-          {{
+          <!-- {{
             ftdsData && ftdsData.length > 0 && ftdsData[0].ftd === 0
               ? "0"
               : ftdsData[0].ftd
-          }}
+          }} -->
         </h5>
         <button
           mat-mini-fab
@@ -427,6 +427,7 @@
     <app-revenue-updates
       *ngIf="selected === 'data'"
       (selectEvent)="selectedFn($event)"
+      [callbackFn2]="callbackfn"
       [data]="genralData"
     ></app-revenue-updates>
     <app-playerscompare
