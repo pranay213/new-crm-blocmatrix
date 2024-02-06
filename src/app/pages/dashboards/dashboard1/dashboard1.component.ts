@@ -1075,6 +1075,10 @@ export class AppDashboard1Component implements OnInit, DoCheck, OnChanges {
     // this.ngOnInit();
   }
 
+  callbackfn(arg: any) {
+    console.log('Function invoked 2', arg);
+  }
+
   constructor(
     private apiService: ApiService,
     private allApiService: AllApiService
