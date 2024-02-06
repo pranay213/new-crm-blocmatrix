@@ -112,16 +112,19 @@
 
   <div class="h-[100%] px-5 py-4">
     <div class="{{ selectedType === 'Table' ? '' : 'hidden' }}">
-      <table mat-table [dataSource]="tableData" class="w-full">
+      <table mat-table [dataSource]="tableData" class="w-full border">
         <!-- Position Column -->
         <ng-container [matColumnDef]="item" *ngFor="let item of tablesHeadings">
           <th
             mat-header-cell
             *matHeaderCellDef
             style="background-color: #ecf2ff; color: #11142b; font-weight: 600"
-            class="font-jakartha text-center text-sm"
+            class="font-jakartha text-center text-sm capitalize"
           >
-            {{ item }}
+            {{
+              item.replaceAll("_", " ")[0].toUpperCase() +
+                item.replaceAll("_", " ").substring(1)
+            }}
           </th>
           <td
             mat-cell
@@ -136,13 +139,15 @@
         <tr
           mat-header-row
           *matHeaderRowDef="tablesHeadings"
-          style="font-family: 'Roboto Condensed'"
+          class="font-jakartha"
         ></tr>
-        <tr
-          mat-row
-          *matRowDef="let row; columns: tablesHeadings"
-          style="font-family: 'Roboto Condensed'"
-        ></tr>
+        <tbody style="height: 20vh">
+          <tr
+            mat-row
+            *matRowDef="let row; columns: tablesHeadings"
+            class="font-jakartha"
+          ></tr>
+        </tbody>
       </table>
 
       <mat-paginator
@@ -154,8 +159,11 @@
       >
       </mat-paginator>
     </div>
-    <div *ngIf="selectedType === 'Chart'" class="">
-      <app-doughnut-pie [chartPoints]="tableData"></app-doughnut-pie>
+    <div
+      class=""
+      style="{{ selectedType === 'Chart' ? 'display:block' : 'display:none' }}"
+    >
+      <app-doughnut-pie [chartPoints]="newpiepoints"></app-doughnut-pie>
     </div>
   </div>
 </div>

@@ -10,6 +10,19 @@ import { authGuard } from './auth.guard';
 import { LiveReportComponent } from './pages/live-report/live-report.component';
 import { LiveDepositsComponent } from './pages/live-deposits/live-deposits.component';
 import { PlayersComponent } from './pages/players/players.component';
+import { GeneralReportComponent } from './pages/general-report/general-report.component';
+import { GameReportComponent } from './pages/game-report/game-report.component';
+import { AllTransactionsComponent } from './pages/all-transactions/all-transactions.component';
+import { DepositsComponent } from './pages/deposits/deposits.component';
+import { WithdrawsComponent } from './pages/withdraws/withdraws.component';
+import { GamesComponent } from './pages/games/games.component';
+import { CouponsComponent } from './pages/coupons/coupons.component';
+import { RetentionComponent } from './pages/retention/retention.component';
+import { SmsReportComponent } from './pages/sms-report/sms-report.component';
+import { SendComponent } from './icons/send/send.component';
+import { AffiliatesComponent } from './pages/affiliates/affiliates.component';
+import { CreativesComponent } from './pages/creatives/creatives.component';
+import { SendSmsComponent } from './pages/send-sms/send-sms.component';
 
 const routes: Routes = [
   {
@@ -109,43 +122,229 @@ const routes: Routes = [
       },
     ],
   },
+
   {
     path: 'live-report',
-    title: 'Live Report',
+    title: 'live-report',
     component: FullComponent,
-    data: {
-      title: 'Live Report',
-    },
+
     children: [
       {
         path: 'players',
         component: LiveReportComponent,
         data: {
-          title: 'Live Players',
+          title: 'All Transactions',
         },
       },
       {
         path: 'deposits',
         component: LiveDepositsComponent,
         data: {
-          title: 'Live Deposits',
+          title: 'Deposits',
         },
       },
     ],
   },
+
+  // {
+  //   path: 'live-report',
+  //   title: 'live-report',
+  //   component: FullComponent,
+  //   children: [
+  //     {
+  //       path: 'players',
+  //       component: LiveReportComponent,
+  //       data: {
+  //         title: 'Live Players',
+  //       },
+  //     },
+  //     {
+  //       path: 'deposits',
+  //       component: LiveDepositsComponent,
+  //       data: {
+  //         title: 'Live Deposits',
+  //       },
+  //     },
+  //   ],
+  // },
   {
     path: 'players',
-    title: 'Players',
     component: FullComponent,
-    data: {
-      title: 'Players',
-    },
     children: [
       {
         path: '',
         component: PlayersComponent,
         data: {
           title: ' Players',
+        },
+      },
+    ],
+  },
+  {
+    path: 'report',
+    component: FullComponent,
+    children: [
+      {
+        path: 'general',
+        component: GeneralReportComponent,
+        data: {
+          title: ' General Report',
+        },
+      },
+      {
+        path: 'games',
+        component: GameReportComponent,
+        data: {
+          title: ' Game Report',
+        },
+      },
+    ],
+  },
+  {
+    path: 'transactions',
+    title: 'transactions',
+    component: FullComponent,
+
+    children: [
+      {
+        path: 'all',
+        component: AllTransactionsComponent,
+        data: {
+          title: 'All Transactions',
+        },
+      },
+      {
+        path: 'deposits',
+        component: DepositsComponent,
+        data: {
+          title: 'Deposits',
+        },
+      },
+      {
+        path: 'withdraws',
+        component: WithdrawsComponent,
+        data: {
+          title: 'Withdraw Requests',
+        },
+      },
+    ],
+  },
+  {
+    path: 'games',
+    title: 'Games',
+
+    component: FullComponent,
+    children: [
+      {
+        path: '',
+        component: GamesComponent,
+        data: {
+          title: 'Games',
+        },
+      },
+    ],
+  },
+  {
+    path: 'coupons',
+    title: 'Coupons',
+    data: {
+      title: 'Coupons',
+    },
+    component: FullComponent,
+    children: [
+      {
+        path: '',
+        component: CouponsComponent,
+        data: {
+          title: 'coupons',
+        },
+      },
+    ],
+  },
+  {
+    path: 'retention',
+    title: 'Retention',
+    data: {
+      title: 'retention',
+    },
+    component: FullComponent,
+    children: [
+      {
+        path: '',
+        component: RetentionComponent,
+        data: {
+          title: 'retention',
+        },
+      },
+    ],
+  },
+  {
+    path: 'sms',
+    title: 'SMS Report',
+    data: {
+      title: 'SMS Report',
+    },
+    component: FullComponent,
+    children: [
+      {
+        path: 'report',
+        component: SmsReportComponent,
+        data: {
+          title: 'SMS Report',
+        },
+      },
+      {
+        path: 'send',
+        component: SendSmsComponent,
+        data: {
+          title: 'SEND SMS',
+        },
+      },
+    ],
+  },
+
+  {
+    path: 'market',
+    title: 'Market',
+    data: {
+      title: 'Market',
+    },
+    component: FullComponent,
+    children: [
+      {
+        path: 'affiliates',
+        component: AffiliatesComponent,
+        data: {
+          title: 'Affiliates',
+        },
+      },
+      {
+        path: 'creatives',
+        component: CreativesComponent,
+        data: {
+          title: 'Creatives',
+        },
+      },
+    ],
+  },
+  {
+    path: 'report',
+    title: 'Report',
+
+    component: FullComponent,
+    children: [
+      {
+        path: 'general',
+        component: GeneralReportComponent,
+        data: {
+          title: 'General Report',
+        },
+      },
+      {
+        path: 'games',
+        component: GameReportComponent,
+        data: {
+          title: ' Game Report',
         },
       },
     ],

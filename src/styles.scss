@@ -153,3 +153,10 @@ input[type="checkbox"]:checked:before {
         }
     }
 }
+
+.mdc-data-table__content {}
+
+.table-responsive td {
+    white-space: normal !important;
+
+}

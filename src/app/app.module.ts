@@ -29,7 +29,7 @@ import { NumberCounterModule } from 'ng-number-counter';
 import { CountUpModule } from 'ngx-countup';
 import { ToastComponent } from './components/toast/toast.component';
 import { ApiErrorDialogComponent } from './api-error-dialog/api-error-dialog.component';
-import { CommonModule, NgFor } from '@angular/common';
+import { CommonModule, DatePipe, NgFor } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 // import { MarketerDashboardModule } from './pages/marketer-dashboard.module';
 import { NgHttpLoaderModule } from 'ng-http-loader';
@@ -38,6 +38,7 @@ import { PreloaderComponent } from './preloader/preloader.component';
 import { TableModule } from 'primeng/table';
 import { TabViewModule } from 'primeng/tabview';
 import { CardModule } from 'primeng/card';
+import { CountryPickerService } from 'ngx-country-picker';
 
 export function HttpLoaderFactory(http: HttpClient): any {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -79,6 +80,6 @@ export function HttpLoaderFactory(http: HttpClient): any {
   ],
   exports: [TablerIconsModule],
   bootstrap: [AppComponent],
-  providers: [ApiErrorDialogComponent],
+  providers: [ApiErrorDialogComponent, DatePipe, CountryPickerService],
 })
 export class AppModule {}

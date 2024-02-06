@@ -14,13 +14,13 @@ export const navItems: NavItem[] = [
   {
     displayName: 'Internal Page',
     iconName: 'app-window',
-    route: 'internal-page',
+    route: '/internal-page',
   },
 
   {
     displayName: 'Live Report',
     iconName: 'report-analytics',
-    route: 'live-report',
+    route: '/live-report',
     children: [
       {
         displayName: 'Live Players',
@@ -39,27 +39,26 @@ export const navItems: NavItem[] = [
     iconName: 'users-group',
     route: 'players',
   },
+
   {
     displayName: 'Transactions',
     iconName: 'transfer',
-    route: 'live-report',
+    route: 'transactions',
     children: [
       {
         displayName: 'All Transactions',
         iconName: 'businessplan',
-        route: 'apps/blog/post',
+        route: 'transactions/all',
       },
       {
         displayName: 'Deposits',
         iconName: 'arrow-big-down',
-        route:
-          'apps/blog/detail/Early Black Friday Amazon deals: cheap TVs, headphones, laptops',
+        route: 'transactions/deposits',
       },
       {
         displayName: 'Withdraw Requests',
         iconName: 'arrow-big-up',
-        route:
-          'apps/blog/detail/Early Black Friday Amazon deals: cheap TVs, headphones, laptops',
+        route: 'transactions/withdraws',
       },
     ],
   },
@@ -81,12 +80,12 @@ export const navItems: NavItem[] = [
       {
         displayName: 'General',
         iconName: 'file-neutral',
-        route: 'general',
+        route: 'report/general',
       },
       {
         displayName: 'Game',
         iconName: 'device-gamepad-2',
-        route: 'game',
+        route: 'report/games',
       },
     ],
   },
@@ -103,12 +102,12 @@ export const navItems: NavItem[] = [
       {
         displayName: 'SMS Report',
         iconName: 'message-report',
-        route: 'report',
+        route: 'sms/report',
       },
       {
         displayName: 'Send SMS',
         iconName: 'message-plus',
-        route: 'send-sms',
+        route: 'sms/send',
       },
     ],
   },
@@ -120,12 +119,12 @@ export const navItems: NavItem[] = [
       {
         displayName: 'Affiliates',
         iconName: 'affiliate',
-        route: 'affiliates',
+        route: 'market/affiliates',
       },
       {
         displayName: 'Creatives',
         iconName: 'bulb',
-        route: 'creatives',
+        route: 'market/creatives',
       },
     ],
   },

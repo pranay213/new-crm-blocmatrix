@@ -25,7 +25,8 @@ export class NotificationService {
     this.alertType = alertType || 'Error';
 
     // this.errorsSubject$.next(message);
-    if (error.statusText === 'Unauthorized') {
+
+    if (error.statusText === 'Unauthorized' || error?.error) {
       this.errdata =
         'Unauthorized login . Please login With correct credentials';
 
@@ -34,6 +35,7 @@ export class NotificationService {
         this._router.navigate(['login']);
       }, 2000);
     }
+    console.log('error====', error);
 
     this.dialog.open(ApiErrorDialogComponent, {
       data: { title: this.alertType, data: this.errdata },
