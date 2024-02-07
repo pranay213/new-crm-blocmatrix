@@ -268,7 +268,7 @@ export class AppDashboard1Component implements OnInit, DoCheck, OnChanges {
   // elementGameData = ELEMENT_DATA;
 
   getData() {
-    this.allApiService.getDashboardData().then((res) => {
+    this.apiService.getDashboardData().subscribe((res: any) => {
       this.fullData = res.data;
 
       this.top_depositors = res.data.top_depositors;
@@ -623,7 +623,7 @@ export class AppDashboard1Component implements OnInit, DoCheck, OnChanges {
   }
 
   upDateData(arg1: any, arg2: any) {
-    this.allApiService.getData(arg2, arg1).then((res) => {
+    this.apiService.getData(arg2, arg1).subscribe((res: any) => {
       this.fullData = { ...this.fullData, ...res.data };
       if ((arg1 = 'PSP')) {
         this.piePoints = this.fullData?.payment_gateways.slice(0, 5);
@@ -632,7 +632,7 @@ export class AppDashboard1Component implements OnInit, DoCheck, OnChanges {
   }
 
   updateSelectionData(param1: any, param2: any) {
-    this.allApiService.getData(param1, param2).then((res) => {
+    this.apiService.getData(param1, param2).subscribe((res: any) => {
       // this.fullData = { ...this.fullData, ...res.data };
       let data = res.data;
       if (param2 === 'PROFIT') {
@@ -1044,7 +1044,7 @@ export class AppDashboard1Component implements OnInit, DoCheck, OnChanges {
     // this.ngOnInit();
   }
   newPlayerDatafn(arg1: any, arg2: any): any {
-    this.allApiService.getData(arg1, arg2).then((res: any) => {
+    this.apiService.getData(arg1, arg2).subscribe((res: any) => {
       if (this.selected === 'data') this.genralData = res.data.general_data;
       else this.conpareData = res.data?.comparison;
     });

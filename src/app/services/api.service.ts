@@ -9,7 +9,6 @@ import { default as config } from '../../../config';
 })
 export class ApiService {
   apiUrl = config.BRM_URL;
-  dashBoarUrl = config.ADMIN_URL;
   public userData: any;
   public jwtToken: any;
   public userSearchData: string = '';
@@ -58,8 +57,22 @@ export class ApiService {
     );
   }
 
+  getDashboardData() {
+    let headers = new HttpHeaders({ 'x-api-jwt': this.jwtToken });
+    return this.http.get(`${this.apiUrl}/dashboard?p=TODAY&r=ALL`, {
+      headers: headers,
+    });
+  }
+
+  getData(param1: any, param2: any) {
+    let headers = new HttpHeaders({ 'x-api-jwt': this.jwtToken });
+    return this.http.get(`${this.apiUrl}/dashboard?p=${param1}&r=${param2}`, {
+      headers: headers,
+    });
+  }
+
   getdashboradData() {
-    return this.http.get('admin/dashboard/egamesplay?p=TODAY&r=ALL');
+    return this.http.get('dashboard?p=TODAY&r=ALL');
   }
   changePassword(Password: string, AdminID: string) {
     //let token = this.localStorageService.get("token");

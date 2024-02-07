@@ -66,12 +66,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "Modernize:build:production",
-              "proxyConfig": "proxy.conf.json"
+              "browserTarget": "Modernize:build:production"
             },
             "development": {
-              "browserTarget": "Modernize:build:development",
-              "proxyConfig": "proxy.conf.json"
+              "browserTarget": "Modernize:build:development"
             }
           },
           "defaultConfiguration": "development"
