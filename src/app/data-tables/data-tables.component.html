@@ -159,11 +159,8 @@
       >
       </mat-paginator>
     </div>
-    <div
-      class=""
-      style="{{ selectedType === 'Chart' ? 'display:block' : 'display:none' }}"
-    >
-      <app-doughnut-pie [chartPoints]="newpiepoints"></app-doughnut-pie>
+    <div class="" *ngIf="selectedType === 'Chart'">
+      <app-doughnut-pie [chartPoints]="piePoints"></app-doughnut-pie>
     </div>
   </div>
 </div>

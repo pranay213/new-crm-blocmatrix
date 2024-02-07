@@ -4,7 +4,6 @@ import {
   ViewChild,
   Input,
   OnInit,
-  DoCheck,
 } from '@angular/core';
 import {
   ApexAxisChartSeries,
@@ -47,102 +46,121 @@ export type ChartOptions = {
   imports: [NgApexchartsModule, MaterialModule],
   templateUrl: './doughnut-pie.component.html',
 })
-export class AppDoughnutpieChartComponent implements OnInit, DoCheck {
-  @Input() chartPoints: any;
+export class AppDoughnutpieChartComponent implements OnInit {
   @ViewChild('chart') chart: ChartComponent = Object.create(null);
   public doughnutChartOptions: Partial<ChartOptions> | any;
-  chartOptions: any;
+  public pieChartOptions: Partial<ChartOptions> | any;
+  @Input() chartPoints: any;
 
   constructor() {
-    this.chartOptions = {
-      series: [44, 55, 13, 43, 22],
-      chart: {
-        width: 400,
-        type: 'donut',
-        fontFamily: "'Plus Jakarta Sans'",
-      },
-      labels: [
-        'Payment Gateway A',
-        'Payment Gateway B',
-        'Payment Gateway C',
-        'Payment Gateway D',
-        'Payment Gateway E',
-      ],
-      responsive: [
-        {
-          breakpoint: 480,
-          options: {
-            chart: {
-              width: 300,
-            },
-            legend: {
-              position: 'bottom',
-            },
-          },
-        },
-      ],
-    };
-  }
-  ngOnInit(): void {
-    console.log('chartPoints', this.chartPoints);
-    let series = this.chartPoints.map(function (obj: any) {
-      return obj.count;
-    });
-    let lables = this.chartPoints.map(function (obj: any) {
-      return obj.payment_gateway;
-    });
-
-    this.chartOptions = {
-      series: series,
-      chart: {
-        width: 400,
-        type: 'donut',
-        fontFamily: "'Plus Jakarta Sans'",
-      },
-      labels: lables,
-      responsive: [
-        {
-          breakpoint: 480,
-          options: {
-            chart: {
-              width: 300,
-            },
-            legend: {
-              position: 'bottom',
-            },
-          },
-        },
-      ],
-    };
-  }
-  ngDoCheck(): void {
-    // let series = this.chartPoints?.map(function (obj: any) {
-    //   return obj.count;
-    // });
-    // let lables = this.chartPoints?.map(function (obj: any) {
-    //   return obj.payment_gateway;
-    // });
-    // this.chartOptions = {
-    //   series: series,
+    //doughnut chart.
+    // this.doughnutChartOptions = {
+    //   series: [45, 15, 27, 18, 35],
     //   chart: {
-    //     width: 400,
+    //     id: 'donut-chart',
     //     type: 'donut',
-    //     fontFamily: "'Plus Jakarta Sans'",
+    //     height: 350,
+    //     fontFamily: "'Plus Jakarta Sans', sans-serif",
+    //     foreColor: '#adb0bb',
     //   },
-    //   labels: lables,
-    //   responsive: [
-    //     {
-    //       breakpoint: 480,
-    //       options: {
-    //         chart: {
-    //           width: 300,
-    //         },
-    //         legend: {
-    //           position: 'bottom',
-    //         },
+    //   dataLabels: {
+    //     enabled: false,
+    //   },
+    //   plotOptions: {
+    //     pie: {
+    //       donut: {
+    //         size: '70px',
     //       },
     //     },
-    //   ],
+    //   },
+    //   legend: {
+    //     show: true,
+    //     position: 'bottom',
+    //     width: '50px',
+    //   },
+    //   colors: ['#5D87FF', '#ECF2FF', '#49BEFF', '#E8F7FF', '#FFAE1F'],
+    //   tooltip: {
+    //     theme: 'dark',
+    //     fillSeriesColor: false,
+    //   },
     // };
+
+    this.doughnutChartOptions = {};
+
+    //pie chart.
+    // this.pieChartOptions = {
+    //   series: [45, 15, 27, 18, 35],
+    //   chart: {
+    //     id: 'pie-chart',
+    //     type: 'pie',
+    //     height: 350,
+    //     fontFamily: "'Plus Jakarta Sans', sans-serif",
+    //     foreColor: '#adb0bb',
+    //     toolbar: {
+    //       show: false,
+    //     },
+    //   },
+    //   dataLabels: {
+    //     enabled: false,
+    //   },
+    //   plotOptions: {
+    //     pie: {
+    //       donut: {
+    //         size: '70px',
+    //       },
+    //     },
+    //   },
+    //   legend: {
+    //     show: true,
+    //     position: 'bottom',
+    //     width: '50px',
+    //   },
+    //   colors: ['#5D87FF', '#ECF2FF', '#49BEFF', '#E8F7FF', '#FFAE1F'],
+    //   tooltip: {
+    //     fillSeriesColor: false,
+    //   },
+    // };
+  }
+  ngOnInit(): void {
+    console.log('Changes++++++++++', this.chartPoints);
+    let series = this.chartPoints.map(function (obj: any) {
+      return Number(obj.count);
+    });
+    let labels = this.chartPoints.map(function (obj: any) {
+      return obj.payment_gateway;
+    });
+    console.log('labels----', labels);
+    this.doughnutChartOptions = {
+      series: series,
+      labels: labels,
+      chart: {
+        id: 'donut-chart',
+        type: 'donut',
+        height: 350,
+        fontFamily: "'Plus Jakarta Sans', sans-serif",
+        foreColor: '#adb0bb',
+      },
+
+      dataLabels: {
+        enabled: true,
+      },
+      plotOptions: {
+        pie: {
+          donut: {
+            size: '70px',
+          },
+        },
+      },
+      legend: {
+        show: true,
+        position: 'bottom',
+        width: '50px',
+      },
+      colors: ['#5D87FF', '#ECF2FF', '#49BEFF', '#E8F7FF', '#FFAE1F'],
+      tooltip: {
+        theme: 'dark',
+        fillSeriesColor: false,
+      },
+    };
   }
 }
