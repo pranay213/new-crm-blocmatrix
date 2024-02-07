@@ -64,7 +64,7 @@ export class AppRevenueUpdatesComponent implements OnInit, OnChanges {
   @ViewChild('chart') chart: ChartComponent = Object.create(null);
   @Output() selectEvent = new EventEmitter<string>();
   @Input() data: any;
-  @Input() callbackFn2: (arg: any) => void;
+  @Input() callbackFunction: (args: any) => void;
 
   public revenueChart!: Partial<revenueChart> | any;
   selectedType: any = 'Today';
@@ -117,83 +117,179 @@ export class AppRevenueUpdatesComponent implements OnInit, OnChanges {
   }
 
   btnClick(value: any) {
-    this.callbackFn2(value);
-    // alert('hi');
     this.selectedType = value;
-    // console.log('value', value);
-    this.revenueChart = {
-      series: [
-        {
-          name: 'New Players',
-          data: this.dataPointsFn(this.selectedType),
-          color: '#5DcdFF',
-        },
-        {
-          name: 'Recurring Players',
-          data: this.dataPointsFn(this.selectedType),
-          color: '#00f',
-        },
-      ],
+    this.callbackFunction(this.selectedType);
+    console.log(this.data, 'adflajkklf-----------');
 
-      chart: {
-        type: 'bar',
-        fontFamily: "'Plus Jakarta Sans', sans-serif;",
-        foreColor: '#adb0bb',
-        toolbar: {
-          show: true,
-        },
-        height: 300,
-        stacked: true,
-      },
+    // this.revenueChart = {
+    //   series: [
+    //     {
+    //       name: 'New Players',
+    //       data: [
+    //         0,
+    //         ...this.data.map(function (obj: any) {
+    //           return obj.new_users;
+    //         }),
+    //         0,
+    //       ],
+    //       color: '#5DcdFF',
+    //     },
+    //     {
+    //       name: 'Recurring Players',
+    //       data: [
+    //         0,
+    //         ...this.data.map(function (obj: any) {
+    //           return obj.recurring_users;
+    //         }),
+    //         0,
+    //       ],
 
-      plotOptions: {
-        bar: {
-          horizontal: false,
-          borderRadius: 20,
-          columnWidth: '20%',
-          borderRadiusApplication: 'end',
-          borderRadiusWhenStacked: 'all',
-        },
-      },
+    //       color: '#00f',
+    //     },
+    //   ],
 
-      stroke: {
-        show: false,
-      },
-      dataLabels: {
-        enabled: false,
-      },
-      legend: {
-        show: false,
-      },
-      grid: {
-        borderColor: 'rgba(0,0,0,0.1)',
-        strokeDashArray: 3,
-        xaxis: {
-          lines: {
-            show: false,
-          },
-        },
-      },
-      yaxis: {
-        show: false,
-      },
-      xaxis: {
-        show: false,
-        labels: {
-          show: false,
-        },
-        axisBorder: {
-          show: false,
-        },
-        axisTicks: {
-          show: false,
-        },
-      },
-      tooltip: {
-        theme: 'dark',
-        fillSeriesColor: false,
-      },
-    };
+    //   chart: {
+    //     type: 'bar',
+    //     fontFamily: "'Plus Jakarta Sans', sans-serif;",
+    //     foreColor: '#adb0bb',
+    //     toolbar: {
+    //       show: true,
+    //     },
+    //     height: 300,
+    //     stacked: true,
+    //   },
+
+    //   plotOptions: {
+    //     bar: {
+    //       horizontal: false,
+    //       borderRadius: 20,
+    //       columnWidth: '20%',
+    //       borderRadiusApplication: 'end',
+    //       borderRadiusWhenStacked: 'all',
+    //     },
+    //   },
+
+    //   stroke: {
+    //     show: false,
+    //   },
+    //   dataLabels: {
+    //     enabled: false,
+    //   },
+    //   legend: {
+    //     show: false,
+    //   },
+    //   grid: {
+    //     borderColor: 'rgba(0,0,0,0.1)',
+    //     strokeDashArray: 3,
+    //     xaxis: {
+    //       lines: {
+    //         show: false,
+    //       },
+    //     },
+    //   },
+    //   yaxis: {
+    //     show: false,
+    //   },
+    //   xaxis: {
+    //     show: true,
+    //     categories: [
+    //       0,
+    //       ...data.map(function (obj: any) {
+    //         return obj.date;
+    //       }),
+    //       0,
+    //     ],
+    //     labels: {
+    //       show: false,
+    //     },
+    //     axisBorder: {
+    //       show: false,
+    //     },
+    //     axisTicks: {
+    //       show: false,
+    //     },
+    //   },
+    //   tooltip: {
+    //     theme: 'dark',
+    //     fillSeriesColor: false,
+    //   },
+    // };
+
+    // alert('hi');
+    // // console.log('value', value);
+    // this.revenueChart = {
+    //   series: [
+    //     {
+    //       name: 'New Players',
+    //       data: this.dataPointsFn(this.selectedType),
+    //       color: '#5DcdFF',
+    //     },
+    //     {
+    //       name: 'Recurring Players',
+    //       data: this.dataPointsFn(this.selectedType),
+    //       color: '#00f',
+    //     },
+    //   ],
+
+    //   chart: {
+    //     type: 'bar',
+    //     fontFamily: "'Plus Jakarta Sans', sans-serif;",
+    //     foreColor: '#adb0bb',
+    //     toolbar: {
+    //       show: true,
+    //     },
+    //     height: 300,
+    //     stacked: true,
+    //   },
+
+    //   plotOptions: {
+    //     bar: {
+    //       horizontal: false,
+    //       borderRadius: 20,
+    //       columnWidth: '20%',
+    //       borderRadiusApplication: 'end',
+    //       borderRadiusWhenStacked: 'all',
+    //     },
+    //   },
+
+    //   stroke: {
+    //     show: false,
+    //   },
+    //   dataLabels: {
+    //     enabled: false,
+    //   },
+    //   legend: {
+    //     show: false,
+    //   },
+    //   grid: {
+    //     borderColor: 'rgba(0,0,0,0.1)',
+    //     strokeDashArray: 3,
+    //     xaxis: {
+    //       lines: {
+    //         show: false,
+    //       },
+    //     },
+    //   },
+    //   yaxis: {
+    //     show: false,
+    //   },
+    //   xaxis: {
+    //     show: false,
+    //     labels: {
+    //       show: false,
+    //     },
+    //     axisBorder: {
+    //       show: false,
+    //     },
+    //     axisTicks: {
+    //       show: false,
+    //     },
+    //   },
+    //   tooltip: {
+    //     theme: 'dark',
+    //     fillSeriesColor: false,
+    //   },
+    // };
   }
   todayPoints = {};
 
@@ -373,31 +469,39 @@ export class AppRevenueUpdatesComponent implements OnInit, OnChanges {
     // };
   }
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes['data'].currentValue, '---------');
+    // console.log(changes['data'].currentValue, '---------');
+
     let data = changes['data'].currentValue;
+    let datapoints =
+      data &&
+      data.length > 0 &&
+      data.map(function (obj: any) {
+        return obj.new_users;
+      });
+    let recurring_points =
+      data &&
+      data.length > 0 &&
+      data.map(function (obj: any) {
+        return obj.recurring_users;
+      });
+
+    let categories =
+      data &&
+      data.length > 0 &&
+      data.map(function (obj: any) {
+        return obj.date;
+      });
 
     this.revenueChart = {
       series: [
         {
           name: 'New Players',
-          data: [
-            0,
-            ...data.map(function (obj: any) {
-              return obj.new_users;
-            }),
-            0,
-          ],
+          data: [0, ...datapoints, 0],
           color: '#5DcdFF',
         },
         {
           name: 'Recurring Players',
-          data: [
-            0,
-            ...data.map(function (obj: any) {
-              return obj.recurring_users;
-            }),
-            0,
-          ],
+          data: [0, ...recurring_points, 0],
 
           color: '#00f',
         },
@@ -447,13 +551,7 @@ export class AppRevenueUpdatesComponent implements OnInit, OnChanges {
       },
       xaxis: {
         show: true,
-        categories: [
-          0,
-          ...data.map(function (obj: any) {
-            return obj.date;
-          }),
-          0,
-        ],
+        categories: [0, ...categories, 0],
         labels: {
           show: false,
         },

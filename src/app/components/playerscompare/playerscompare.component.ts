@@ -1,4 +1,12 @@
-import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
 import {
   ApexChart,
   ChartComponent,
@@ -51,10 +59,12 @@ export interface revenueChart {
   ],
   templateUrl: './playerscompare.component.html',
 })
-export class PlayerscompareComponent {
+export class PlayerscompareComponent implements OnChanges {
   @ViewChild('chart') chart: ChartComponent = Object.create(null);
-  selectedType: any = 'Today Vs Yesterday';
+  selectedType: any = 'Today';
   @Output() selectEvent = new EventEmitter<string>();
+  @Input() callbackFunction: (args: any) => void;
+  @Input() data: any;
 
   selectFN(value: any) {
     this.selectEvent.emit(value);
@@ -65,10 +75,10 @@ export class PlayerscompareComponent {
     Math.floor(Math.random() * (max - min + 1) + min);
 
   months: month[] = [
-    { value: 'Today Vs Yesterday', viewValue: 'Today Vs Yesterday' },
-    { value: 'This Week Vs Last Week', viewValue: 'This Week Vs Last Week' },
+    { value: 'Today', viewValue: 'Today Vs Yesterday' },
+    { value: 'This Week', viewValue: 'This Week Vs Last Week' },
     {
-      value: 'This Month Vs Last Month',
+      value: 'This Month',
       viewValue: 'This Month Vs Last Month',
     },
   ];
@@ -84,26 +94,26 @@ export class PlayerscompareComponent {
 
   getNameFn(selectedType: any): any {
     switch (selectedType) {
-      case 'Today Vs Yesterday':
+      case 'Today':
         return 'Today';
         break;
-      case 'This Week Vs Last Week':
+      case 'This Week':
         return 'This Week';
         break;
-      case 'This Month Vs Last Month':
+      case 'This Month':
         return 'This Month';
         break;
     }
   }
   getNameFn2(selectedType: any): any {
     switch (selectedType) {
-      case 'Today Vs Yesterday':
+      case 'Today':
         return 'Yesterday';
         break;
-      case 'This Week Vs Last Week':
+      case 'This Week':
         return 'Last Week';
         break;
-      case 'This Month Vs Last Month':
+      case 'This Month':
         return 'Last Month';
         break;
     }
@@ -143,102 +153,228 @@ export class PlayerscompareComponent {
   btnClick(value: any) {
     // alert('hi');
     this.selectedType = value;
+    this.callbackFunction(this.selectedType);
     // console.log('value', value);
-    this.revenueChart = {
-      series: [
-        {
-          name: this.getNameFn(this.selectedType) + ' New Players',
-          data: this.dataPointsFn(this.selectedType),
-          group: this.getNameFn(this.selectedType),
-          // data: [11, 0],
+    // this.revenueChart = {
+    //   series: [
+    //     {
+    //       name: this.getNameFn(this.selectedType) + ' New Players',
+    //       data: this.dataPointsFn(this.selectedType),
+    //       group: this.getNameFn(this.selectedType),
+    //       // data: [11, 0],
 
-          color: '#5DcdFF',
-        },
-        {
-          name: this.getNameFn(this.selectedType) + ' Recurring Players',
-          data: this.dataPointsFn(this.selectedType),
-          group: this.getNameFn(this.selectedType),
-          // data: [20, 0],
-          color: '#00f',
-        },
-        {
-          name: this.getNameFn2(this.selectedType) + ' New Players',
-          data: this.dataPointsFn2(this.selectedType),
-          group: this.getNameFn2(this.selectedType),
-          // data: [11, 0],
-          color: 'rgba(250, 137, 107,0.5)',
-        },
-        {
-          name: this.getNameFn2(this.selectedType) + ' Recurring Players',
-          data: this.dataPointsFn2(this.selectedType),
-          group: this.getNameFn2(this.selectedType),
-          // data: [20, 0],
-          color: '#763EBD',
-        },
-      ],
-      chart: {
-        type: 'bar',
-        height: 300,
-        stacked: true,
-      },
+    //       color: '#5DcdFF',
+    //     },
+    //     {
+    //       name: this.getNameFn(this.selectedType) + ' Recurring Players',
+    //       data: this.dataPointsFn(this.selectedType),
+    //       group: this.getNameFn(this.selectedType),
+    //       // data: [20, 0],
+    //       color: '#00f',
+    //     },
+    //     {
+    //       name: this.getNameFn2(this.selectedType) + ' New Players',
+    //       data: this.dataPointsFn2(this.selectedType),
+    //       group: this.getNameFn2(this.selectedType),
+    //       // data: [11, 0],
+    //       color: 'rgba(250, 137, 107,0.5)',
+    //     },
+    //     {
+    //       name: this.getNameFn2(this.selectedType) + ' Recurring Players',
+    //       data: this.dataPointsFn2(this.selectedType),
+    //       group: this.getNameFn2(this.selectedType),
+    //       // data: [20, 0],
+    //       color: '#763EBD',
+    //     },
+    //   ],
+    //   chart: {
+    //     type: 'bar',
+    //     height: 300,
+    //     stacked: true,
+    //   },
 
-      plotOptions: {
-        bar: {
-          horizontal: false,
-          borderRadius: 20,
-          columnWidth: '50%',
-          borderRadiusApplication: 'end',
-          borderRadiusWhenStacked: 'all',
-        },
-      },
+    //   plotOptions: {
+    //     bar: {
+    //       horizontal: false,
+    //       borderRadius: 20,
+    //       columnWidth: '50%',
+    //       borderRadiusApplication: 'end',
+    //       borderRadiusWhenStacked: 'all',
+    //     },
+    //   },
 
-      stroke: {
-        show: false,
-      },
-      dataLabels: {
-        enabled: false,
-      },
-      legend: {
-        show: false,
-      },
-      grid: {
-        borderColor: 'rgba(0,0,0,0.1)',
-        strokeDashArray: 3,
-        xaxis: {
-          show: false,
-          lines: {
-            show: false,
-          },
-        },
-      },
-      yaxis: {
-        show: false,
-      },
-      xaxis: {
-        show: false,
-        labels: {
-          show: false,
-        },
-        axisBorder: {
-          show: false,
-        },
-        axisTicks: {
-          show: false,
-        },
-      },
-      tooltip: {
-        theme: 'dark',
-        fillSeriesColor: false,
-      },
-    };
+    //   stroke: {
+    //     show: false,
+    //   },
+    //   dataLabels: {
+    //     enabled: false,
+    //   },
+    //   legend: {
+    //     show: false,
+    //   },
+    //   grid: {
+    //     borderColor: 'rgba(0,0,0,0.1)',
+    //     strokeDashArray: 3,
+    //     xaxis: {
+    //       show: false,
+    //       lines: {
+    //         show: false,
+    //       },
+    //     },
+    //   },
+    //   yaxis: {
+    //     show: false,
+    //   },
+    //   xaxis: {
+    //     show: false,
+    //     labels: {
+    //       show: false,
+    //     },
+    //     axisBorder: {
+    //       show: false,
+    //     },
+    //     axisTicks: {
+    //       show: false,
+    //     },
+    //   },
+    //   tooltip: {
+    //     theme: 'dark',
+    //     fillSeriesColor: false,
+    //   },
+    // };
   }
 
   constructor() {
+    this.revenueChart = {};
+    // this.revenueChart = {
+    //   series: [
+    //     {
+    //       name: this.getNameFn(this.selectedType) + ' New Players',
+    //       data: this.dataPointsFn(this.selectedType),
+    //       group: this.getNameFn(this.selectedType),
+    //       // data: [11, 0],
+
+    //       color: '#5DcdFF',
+    //     },
+    //     {
+    //       name: this.getNameFn(this.selectedType) + ' Recurring Players',
+    //       data: this.dataPointsFn(this.selectedType),
+    //       group: this.getNameFn(this.selectedType),
+    //       // data: [20, 0],
+    //       color: '#00f',
+    //     },
+    //     {
+    //       name: this.getNameFn2(this.selectedType) + ' New Players',
+    //       data: this.dataPointsFn2(this.selectedType),
+    //       group: this.getNameFn2(this.selectedType),
+    //       // data: [11, 0],
+    //       color: 'rgba(250, 137, 107,0.5)',
+    //     },
+    //     {
+    //       name: this.getNameFn2(this.selectedType) + ' Recurring Players',
+    //       data: this.dataPointsFn2(this.selectedType),
+    //       group: this.getNameFn2(this.selectedType),
+    //       // data: [20, 0],
+    //       color: '#763EBD',
+    //     },
+    //   ],
+    //   chart: {
+    //     type: 'bar',
+    //     height: 300,
+    //     stacked: true,
+    //   },
+
+    //   plotOptions: {
+    //     bar: {
+    //       horizontal: false,
+    //       borderRadius: 20,
+    //       columnWidth: '50%',
+    //       borderRadiusApplication: 'end',
+    //       borderRadiusWhenStacked: 'all',
+    //     },
+    //   },
+
+    //   stroke: {
+    //     show: false,
+    //   },
+    //   dataLabels: {
+    //     enabled: false,
+    //   },
+    //   legend: {
+    //     show: false,
+    //   },
+    //   grid: {
+    //     borderColor: 'rgba(0,0,0,0.1)',
+    //     strokeDashArray: 3,
+    //     xaxis: {
+    //       show: false,
+    //       lines: {
+    //         show: false,
+    //       },
+    //     },
+    //   },
+    //   yaxis: {
+    //     show: false,
+    //   },
+    //   xaxis: {
+    //     show: false,
+    //     labels: {
+    //       show: false,
+    //     },
+    //     axisBorder: {
+    //       show: false,
+    //     },
+    //     axisTicks: {
+    //       show: false,
+    //     },
+    //   },
+    //   tooltip: {
+    //     theme: 'dark',
+    //     fillSeriesColor: false,
+    //   },
+    // };
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    // console.log(changes['data'].currentValue, '---------');
+
+    let data = changes['data'].currentValue;
+    console.log(data, '---------');
+    let datapoints1 =
+      data &&
+      data.length &&
+      data[0].map(function (obj: any) {
+        return obj.new_users;
+      });
+    let recurring_points1 =
+      data &&
+      data.length &&
+      data[0].map(function (obj: any) {
+        return obj.recurring_users;
+      });
+    let datapoints2 =
+      data &&
+      data.length == 2 &&
+      data[1].map(function (obj: any) {
+        return obj.new_users;
+      });
+    let recurring_points2 =
+      data &&
+      data.length == 2 &&
+      data[1].map(function (obj: any) {
+        return obj.recurring_users;
+      });
+
+    let categories =
+      data &&
+      data[0].map(function (obj: any) {
+        return obj.date;
+      });
+
     this.revenueChart = {
       series: [
         {
           name: this.getNameFn(this.selectedType) + ' New Players',
-          data: this.dataPointsFn(this.selectedType),
+          data: [...datapoints1],
           group: this.getNameFn(this.selectedType),
           // data: [11, 0],
 
@@ -246,28 +382,34 @@ export class PlayerscompareComponent {
         },
         {
           name: this.getNameFn(this.selectedType) + ' Recurring Players',
-          data: this.dataPointsFn(this.selectedType),
+          data: [...recurring_points1],
           group: this.getNameFn(this.selectedType),
           // data: [20, 0],
           color: '#00f',
         },
         {
           name: this.getNameFn2(this.selectedType) + ' New Players',
-          data: this.dataPointsFn2(this.selectedType),
+          data: [...datapoints2],
           group: this.getNameFn2(this.selectedType),
           // data: [11, 0],
           color: 'rgba(250, 137, 107,0.5)',
         },
         {
           name: this.getNameFn2(this.selectedType) + ' Recurring Players',
-          data: this.dataPointsFn2(this.selectedType),
+          data: [...recurring_points2],
           group: this.getNameFn2(this.selectedType),
           // data: [20, 0],
           color: '#763EBD',
         },
       ],
+
       chart: {
         type: 'bar',
+        fontFamily: "'Plus Jakarta Sans', sans-serif;",
+        foreColor: '#adb0bb',
+        toolbar: {
+          show: true,
+        },
         height: 300,
         stacked: true,
       },
@@ -276,7 +418,7 @@ export class PlayerscompareComponent {
         bar: {
           horizontal: false,
           borderRadius: 20,
-          columnWidth: '50%',
+          columnWidth: '20%',
           borderRadiusApplication: 'end',
           borderRadiusWhenStacked: 'all',
         },
@@ -295,7 +437,6 @@ export class PlayerscompareComponent {
         borderColor: 'rgba(0,0,0,0.1)',
         strokeDashArray: 3,
         xaxis: {
-          show: false,
           lines: {
             show: false,
           },
@@ -305,7 +446,8 @@ export class PlayerscompareComponent {
         show: false,
       },
       xaxis: {
-        show: false,
+        show: true,
+        categories: [0, ...categories, 0],
         labels: {
           show: false,
         },

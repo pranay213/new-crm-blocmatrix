@@ -58,6 +58,7 @@
           style="color: #6688f7; line-height: 22px; font-size: 15px !important"
         >
           <!-- {{ profitData && profitData[0].profit }} -->
+          {{ profitvalue }}
         </h5>
         <button
           mat-mini-fab
@@ -139,6 +140,7 @@
           style="color: #6688f7; line-height: 22px; font-size: 15px !important"
         >
           <!-- {{ ggrData && ggrData[0].ggr }} -->
+          {{ ggrvalue }}
         </h5>
         <button
           mat-mini-fab
@@ -221,6 +223,7 @@
           style="color: #6688f7; line-height: 22px; font-size: 15px !important"
         >
           <!-- {{ playersData && playersData[0].live_players }} -->
+          {{ liveValue }}
         </h5>
         <button
           mat-mini-fab
@@ -301,6 +304,7 @@
           style="color: #6688f7; line-height: 22px; font-size: 15px !important"
         >
           <!-- {{ despositorData && despositorData[0].deposits }} -->
+          {{ depositValue }}
         </h5>
         <button
           mat-mini-fab
@@ -385,6 +389,8 @@
               ? "0"
               : ftdsData[0].ftd
           }} -->
+
+          {{ ftdvalue }}
         </h5>
         <button
           mat-mini-fab
@@ -427,12 +433,14 @@
     <app-revenue-updates
       *ngIf="selected === 'data'"
       (selectEvent)="selectedFn($event)"
-      [callbackFn2]="callbackfn"
+      [callbackFunction]="callbackfn"
       [data]="genralData"
     ></app-revenue-updates>
     <app-playerscompare
       *ngIf="selected === 'compare'"
       (selectEvent)="selectedFn($event)"
+      [callbackFunction]="callbackfn"
+      [data]="conpareData"
     ></app-playerscompare>
   </div>
   <div class="col-lg-6 h-[85]">
