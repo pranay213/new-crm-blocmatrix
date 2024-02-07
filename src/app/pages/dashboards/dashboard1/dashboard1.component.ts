@@ -246,7 +246,7 @@ export class AppDashboard1Component implements OnInit, DoCheck, OnChanges {
       this.newPlayerDatafn('TODAY', 'PLALYERS');
     }
 
-    // console.log('this.selected', this.selected);
+    console.log('this.selected', this.selected);
   }
 
   myCallbackFunction = (arg1: any, arg2: any): void => {
@@ -356,11 +356,11 @@ export class AppDashboard1Component implements OnInit, DoCheck, OnChanges {
             color: '#7ebbf4',
             // color: '#59B259',
             data: [
-              0.1,
+              0,
               ...res.data?.profit_ggr.map(function (obj: any) {
                 return obj.profit;
               }),
-              0.1,
+              0,
             ],
           },
         ],
@@ -373,11 +373,11 @@ export class AppDashboard1Component implements OnInit, DoCheck, OnChanges {
         },
         xaxis: {
           categories: [
-            0.1,
+            0,
             ...res.data?.profit_ggr.map(function (obj: any) {
               return obj.date;
             }),
-            0.1,
+            0,
           ],
         },
         chart: {
@@ -419,11 +419,11 @@ export class AppDashboard1Component implements OnInit, DoCheck, OnChanges {
             color: '#7ebbf4',
             // color: '#59B259',
             data: [
-              0.1,
+              0,
               ...res.data.profit_ggr.map(function (obj: any) {
                 return obj.ggr;
               }),
-              0.1,
+              0,
             ],
           },
         ],
@@ -457,11 +457,11 @@ export class AppDashboard1Component implements OnInit, DoCheck, OnChanges {
         xaxis: {
           show: true,
           categories: [
-            0.1,
+            0,
             ...res.data.profit_ggr.map(function (obj: any) {
               return obj.date;
             }),
-            0.1,
+            0,
           ],
         },
         tooltip: {
@@ -625,7 +625,7 @@ export class AppDashboard1Component implements OnInit, DoCheck, OnChanges {
   upDateData(arg1: any, arg2: any) {
     this.apiService.getData(arg2, arg1).subscribe((res: any) => {
       this.fullData = { ...this.fullData, ...res.data };
-      if ((arg1 = 'PSP')) {
+      if (arg1 == 'PSP') {
         this.piePoints = this.fullData?.payment_gateways.slice(0, 5);
       }
     });
@@ -656,11 +656,11 @@ export class AppDashboard1Component implements OnInit, DoCheck, OnChanges {
               color: '#7ebbf4',
               // color: '#59B259',
               data: [
-                1,
+                0,
                 ...res.data?.profit_ggr.map(function (obj: any) {
                   return obj.profit;
                 }),
-                1,
+                0,
               ],
             },
           ],
@@ -694,11 +694,11 @@ export class AppDashboard1Component implements OnInit, DoCheck, OnChanges {
           xaxis: {
             show: true,
             categories: [
-              1,
+              0,
               ...res.data?.profit_ggr.map(function (obj: any) {
                 return obj.date;
               }),
-              1,
+              0,
             ],
           },
           tooltip: {
@@ -793,11 +793,11 @@ export class AppDashboard1Component implements OnInit, DoCheck, OnChanges {
               color: '#7ebbf4',
               // color: '#59B259',
               data: [
-                1,
+                0,
                 ...res.data?.live_players.map(function (obj: any) {
                   return obj.live_players;
                 }),
-                1,
+                0,
               ],
             },
           ],
@@ -831,11 +831,11 @@ export class AppDashboard1Component implements OnInit, DoCheck, OnChanges {
           xaxis: {
             show: true,
             categories: [
-              1,
+              0,
               ...res.data?.live_players.map(function (obj: any) {
                 return obj.date;
               }),
-              1,
+              0,
             ],
           },
           tooltip: {
@@ -890,11 +890,11 @@ export class AppDashboard1Component implements OnInit, DoCheck, OnChanges {
             xaxis: {
               show: true,
               categories: [
-                1,
+                0,
                 ...res.data?.deposits.map(function (obj: any) {
                   return obj.date;
                 }),
-                1,
+                0,
               ],
             },
             tooltip: {
@@ -924,11 +924,11 @@ export class AppDashboard1Component implements OnInit, DoCheck, OnChanges {
               color: '#7ebbf4',
               // color: '#59B259',
               data: [
-                1,
+                0,
                 ...res.data?.deposits.map(function (obj: any) {
                   return obj.deposits;
                 }),
-                1,
+                0,
               ],
             },
           ],
@@ -962,11 +962,11 @@ export class AppDashboard1Component implements OnInit, DoCheck, OnChanges {
           xaxis: {
             show: true,
             categories: [
-              1,
+              0,
               ...res.data?.deposits.map(function (obj: any) {
                 return obj.date;
               }),
-              1,
+              0,
             ],
           },
           tooltip: {
@@ -1051,7 +1051,7 @@ export class AppDashboard1Component implements OnInit, DoCheck, OnChanges {
   }
 
   callbackfn = (value: any): void => {
-    // console.log('Function invoked 2', value);
+    console.log('Function invoked 2', value);
     let playervalue;
     if (this.selected === 'data') {
       playervalue = 'PLAYERS';
@@ -1059,7 +1059,7 @@ export class AppDashboard1Component implements OnInit, DoCheck, OnChanges {
     if (this.selected === 'compare') {
       playervalue = 'PLAYERS-COMPARE';
     }
-    this.newPlayerDatafn('TODAY', playervalue);
+    this.newPlayerDatafn(value.toUpperCase().replace(' ', '-'), playervalue);
   };
   ngOnInit() {
     this.getData();
