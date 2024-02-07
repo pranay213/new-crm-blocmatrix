@@ -626,7 +626,9 @@ export class AppDashboard1Component implements OnInit, DoCheck, OnChanges {
     this.apiService.getData(arg2, arg1).subscribe((res: any) => {
       this.fullData = { ...this.fullData, ...res.data };
       if (arg1 == 'PSP') {
-        this.piePoints = this.fullData?.payment_gateways.slice(0, 5);
+        // this.piePoints = this.fullData?.payment_gateways.slice(0, 5);
+        this.piePoints = res.data?.payment_gateways?.slice(0, 5);
+        console.log('piePoints------', this.piePoints);
       }
     });
   }

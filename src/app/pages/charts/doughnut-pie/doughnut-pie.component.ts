@@ -4,6 +4,7 @@ import {
   ViewChild,
   Input,
   OnInit,
+  SimpleChanges,
 } from '@angular/core';
 import {
   ApexAxisChartSeries,
@@ -51,6 +52,39 @@ export class AppDoughnutpieChartComponent implements OnInit {
   public doughnutChartOptions: Partial<ChartOptions> | any;
   public pieChartOptions: Partial<ChartOptions> | any;
   @Input() chartPoints: any;
+
+  updateSeries() {
+    this.doughnutChartOptions = {
+      series: [45, 15, 27, 18, 35],
+      chart: {
+        id: 'donut-chart',
+        type: 'donut',
+        height: 350,
+        fontFamily: "'Plus Jakarta Sans', sans-serif",
+        foreColor: '#adb0bb',
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      plotOptions: {
+        pie: {
+          donut: {
+            size: '70px',
+          },
+        },
+      },
+      legend: {
+        show: true,
+        position: 'bottom',
+        width: '50px',
+      },
+      colors: ['#5D87FF', '#ECF2FF', '#49BEFF', '#E8F7FF', '#FFAE1F'],
+      tooltip: {
+        theme: 'dark',
+        fillSeriesColor: false,
+      },
+    };
+  }
 
   constructor() {
     //doughnut chart.
@@ -121,8 +155,8 @@ export class AppDoughnutpieChartComponent implements OnInit {
     //   },
     // };
   }
+
   ngOnInit(): void {
-    console.log('Changes++++++++++', this.chartPoints);
     let series = this.chartPoints.map(function (obj: any) {
       return Number(obj.count);
     });
