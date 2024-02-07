@@ -1,7 +1,0 @@
-{
-  "/admin": {
-    "target": "https://api.magicalcasino.co",
-    "secure": false,
-    "changeOrigin": true
-  }
-}
