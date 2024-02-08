@@ -65,6 +65,9 @@ export class PlayerscompareComponent implements OnChanges {
   @Output() selectEvent = new EventEmitter<string>();
   @Input() callbackFunction: (args: any) => void;
   @Input() data: any;
+  TotalPlayers: any;
+  recurringPlayers: any;
+  newPlayers: any;
 
   selectFN(value: any) {
     this.selectEvent.emit(value);
@@ -343,26 +346,55 @@ export class PlayerscompareComponent implements OnChanges {
       data &&
       data.length &&
       data[0].map(function (obj: any) {
-        return obj.new_users;
+        return Number(obj.new_users);
       });
     let recurring_points1 =
       data &&
       data.length &&
       data[0].map(function (obj: any) {
-        return obj.recurring_users;
+        return Number(obj.recurring_users);
       });
     let datapoints2 =
       data &&
       data.length == 2 &&
       data[1].map(function (obj: any) {
-        return obj.new_users;
+        return Number(obj.new_users);
       });
     let recurring_points2 =
       data &&
       data.length == 2 &&
       data[1].map(function (obj: any) {
-        return obj.recurring_users;
+        return Number(obj.recurring_users);
       });
+    let newpoints = 0;
+    if (datapoints1.length > 0) {
+      newpoints = datapoints1.reduce(
+        (accumulator: any, currentValue: any) => accumulator + currentValue,
+        0
+      );
+    }
+    if (datapoints2.length > 0) {
+      newpoints += datapoints2.reduce(
+        (accumulator: any, currentValue: any) => accumulator + currentValue,
+        0
+      );
+    }
+    this.newPlayers = newpoints;
+    let newpoints2 = 0;
+    if (recurring_points1.length > 0) {
+      newpoints2 = recurring_points1.reduce(
+        (accumulator: any, currentValue: any) => accumulator + currentValue,
+        0
+      );
+    }
+    if (recurring_points2.length > 0) {
+      newpoints2 += recurring_points2.reduce(
+        (accumulator: any, currentValue: any) => accumulator + currentValue,
+        0
+      );
+    }
+    this.recurringPlayers = newpoints2;
+    this.TotalPlayers = newpoints + newpoints2;
 
     let categories =
       data &&

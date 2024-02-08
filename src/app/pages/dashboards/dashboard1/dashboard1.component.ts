@@ -243,7 +243,7 @@ export class AppDashboard1Component implements OnInit, DoCheck, OnChanges {
     }
     if (value == 'data') {
       let compare = 'PLALYER-COMPARE';
-      this.newPlayerDatafn('TODAY', 'PLALYERS');
+      this.newPlayerDatafn('TODAY', 'PLAYERS');
     }
 
     console.log('this.selected', this.selected);
