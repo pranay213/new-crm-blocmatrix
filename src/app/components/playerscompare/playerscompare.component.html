@@ -71,7 +71,7 @@
               class="mat-headline-5 m-b-4"
               style="color: #6688f7; font-size: 35px"
             >
-              100
+              {{ TotalPlayers || 0 }}
             </h5>
             <span class="mat-subtitle-2">Total Players</span>
           </div>
@@ -84,7 +84,7 @@
           ></i-tabler>
           <div class="m-l-12">
             <span class="mat-subtitle-2">Total Recurring Players </span>
-            <h3 class="mat-headline-6 m-t-4">60</h3>
+            <h3 class="mat-headline-6 m-t-4">{{ recurringPlayers || 0 }}</h3>
           </div>
         </div>
 
@@ -92,7 +92,7 @@
           <i-tabler name="circle-filled" class="text-accent icon-12"></i-tabler>
           <div class="m-l-12">
             <span class="mat-subtitle-2">Total New Players</span>
-            <h3 class="mat-headline-6 m-t-4">40</h3>
+            <h3 class="mat-headline-6 m-t-4">{{ newPlayers || 0 }}</h3>
           </div>
         </div>
 
