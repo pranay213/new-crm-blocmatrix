@@ -1,16 +1,26 @@
 <div class="">
   <mat-card class="cardWithShadow theme-card">
     <mat-card-content class="b-t-1">
-      <apx-chart
-        [series]="doughnutChartOptions?.series"
-        [chart]="doughnutChartOptions?.chart"
-        [labels]="doughnutChartOptions?.labels"
-        [plotOptions]="doughnutChartOptions?.plotOptions"
-        [legend]="doughnutChartOptions?.legend"
-        [colors]="doughnutChartOptions?.colors"
-        [tooltip]="doughnutChartOptions?.tooltip"
+      <div *ngIf="doughnutChartOptions?.series.length > 0">
+        <apx-chart
+          [series]="doughnutChartOptions?.series"
+          [chart]="doughnutChartOptions?.chart"
+          [labels]="doughnutChartOptions?.labels"
+          [plotOptions]="doughnutChartOptions?.plotOptions"
+          [legend]="doughnutChartOptions?.legend"
+          [colors]="doughnutChartOptions?.colors"
+          [tooltip]="doughnutChartOptions?.tooltip"
+        >
+        </apx-chart>
+      </div>
+      <div
+        class="w-full m-auto"
+        *ngIf="doughnutChartOptions?.series.length == 0"
       >
-      </apx-chart>
+        <p class="text-center font-bold font-[#000] text-lg">
+          No records Found
+        </p>
+      </div>
     </mat-card-content>
   </mat-card>
 </div>
