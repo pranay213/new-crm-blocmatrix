@@ -338,7 +338,7 @@ export class PlayerscompareComponent implements OnChanges {
     // console.log(changes['data'].currentValue, '---------');
 
     let data = changes['data'].currentValue;
-    console.log(data, '---------');
+    console.log(data, '---------fjasdldkfjaslfjals');
     let datapoints1 =
       data &&
       data.length &&
@@ -431,7 +431,7 @@ export class PlayerscompareComponent implements OnChanges {
         enabled: false,
       },
       legend: {
-        show: false,
+        show: true,
       },
       grid: {
         borderColor: 'rgba(0,0,0,0.1)',
@@ -446,8 +446,9 @@ export class PlayerscompareComponent implements OnChanges {
         show: false,
       },
       xaxis: {
+        tickPlacement: 'on',
         show: true,
-        categories: [0, ...categories, 0],
+        categories: [...categories, 0],
         labels: {
           show: false,
         },

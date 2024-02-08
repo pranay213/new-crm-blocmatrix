@@ -1,68 +1,4 @@
-<!-- <div
-  class="mat-elevation-z8"
-  style="
-    box-shadow: 5px 5px 0px 0px rgba(0, 0, 0, 0.65);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(4px);
-    border: 5px solid rgba(255, 255, 255, 0.5);
-  "
->
-  <mat-card-header>
-    <div class="d-flex flex-col w-100 mb-2">
-      <div class="w-full my-0">
-        <mat-card-title
-          class="text-[#000096] font-bold"
-          style="
-            
-            font-weight: 600;
-            font-size: 18px;
-          "
-          >{{ title }}</mat-card-title
-        >
-      </div>
-    </div>
-  </mat-card-header>
-
-  <div class="relative overflow-x-auto">
-    <table
-      class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 h-[46vh]"
-    >
-      <thead class="text-xs text-gray-700 uppercase bg-gray-50">
-        <tr class="border">
-          <th
-            scope="col"
-            class="text-[10px] h-[40px] px-2 text-[#000096]"
-            *ngFor="let item of tablesHeadings"
-          >
-            {{ item }}
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr
-          class="bg-white border-b dark:bg-gray-800"
-          *ngFor="let item of tableData"
-        >
-          <td
-            class="text-[10px] px-2 text-black text-center"
-            *ngFor="let heads of tablesHeadings"
-          >
-            {{ item[heads] }}
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <mat-paginator
-    [pageSizeOptions]="[5]"
-    showFirstLastButtons
-    aria-label="Select page of periodic elements"
-  >
-  </mat-paginator>
-</div> -->
-
-<div class="border table-responsive rounded-md mb-4">
+<div class="table-responsive rounded-md" style="margin: 0">
   <mat-card-header
     class="border bg-[#7EBBF4] flex items-center justify-between p-0 rounded-t-md"
   >
@@ -112,7 +48,7 @@
 
   <div class="h-[100%] px-5 py-4">
     <div class="{{ selectedType === 'Table' ? '' : 'hidden' }}">
-      <table mat-table [dataSource]="tableData" class="w-full border">
+      <table mat-table [dataSource]="tableData" class="border">
         <!-- Position Column -->
         <ng-container [matColumnDef]="item" *ngFor="let item of tablesHeadings">
           <th

@@ -107,14 +107,15 @@ input[type="checkbox"]:checked:before {
     border: 1px solid #E7EAEE
 }
 
-// ::-webkit-scrollbar {
-//     height: 10px;
-//     // /* height of horizontal scrollbar ← You're missing this */
-//     // width: 4px;
+::-webkit-scrollbar {
+    height: 4px;
+    // /* height of horizontal scrollbar ← You're missing this */
+    width: 4px;
 
-//     /* width of vertical scrollbar */
-//     // border: 1px solid #000;
-// }
+    /* width of vertical scrollbar */
+    // border: 1px solid #000;
+    background-color: #c1c1c1;
+}
 
 :host ::ng-deep .pi-sort-alt:before {
     content: "\F0DC";
