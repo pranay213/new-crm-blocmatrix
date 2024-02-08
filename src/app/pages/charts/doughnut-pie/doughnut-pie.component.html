@@ -1,7 +1,7 @@
 <div class="">
   <mat-card class="cardWithShadow theme-card">
     <mat-card-content class="b-t-1">
-      <div *ngIf="doughnutChartOptions?.series.length > 0">
+      <div *ngIf="doughnutChartOptions.series.length > 0">
         <apx-chart
           [series]="doughnutChartOptions?.series"
           [chart]="doughnutChartOptions?.chart"
@@ -15,7 +15,7 @@
       </div>
       <div
         class="w-full m-auto"
-        *ngIf="doughnutChartOptions?.series.length == 0"
+        *ngIf="doughnutChartOptions?.series?.length == 0"
       >
         <p class="text-center font-bold font-[#000] text-lg">
           No records Found
