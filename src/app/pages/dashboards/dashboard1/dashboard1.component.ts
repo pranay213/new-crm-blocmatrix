@@ -268,379 +268,23 @@ export class AppDashboard1Component implements OnInit, DoCheck, OnChanges {
   // elementGameData = ELEMENT_DATA;
 
   getData() {
-    this.apiService.getDashboardData().subscribe((res: any) => {
-      this.fullData = res.data;
+    try {
+      this.apiService.getDashboardData().subscribe((res: any) => {
+        this.fullData = res.data;
 
-      this.top_depositors = res.data.top_depositors;
-      this.genralData = res.data.general_data;
+        this.top_depositors = res.data.top_depositors;
+        this.genralData = res.data.general_data;
 
-      this.profitData = res.data?.profit_ggr;
-      this.profitvalue = res.data.profit_ggr?.[0].profit || 0;
-
-      this.ggrvalue = res.data.profit_ggr?.[0].ggr || 0;
-      this.liveValue = res.data.live_players?.[0].live_players || 0;
-      this.depositValue = res.data.deposits?.[0].deposits || 0;
-      this.ftdvalue = res.data.ftd?.[0].ftd || 0;
-
-      // this.profitvalue =
-      //   (this.profitData?.profit.length > 0 && this.profitData?.profit[0]) || 0;
-      this.profitPercentage =
-        (
-          ((this.profitData[0].profit -
-            this.profitData[this.profitData.length - 1].profit) *
-            100) /
-          (this.profitData[this.profitData.length - 1].profit === 0
-            ? 1
-            : this.profitData[this.profitData.length - 1].profit)
-        ).toFixed(1) || 0;
-
-      this.ggrData = res.data.profit_ggr;
-      // this.ggrvalue = this.ggrData?.ggr.length > 0 && this.ggrData?.ggr[0];
-
-      this.ggrPercentage = (
-        ((this.ggrData[0].ggr - this.ggrData[this.ggrData.length - 1].ggr) *
-          100) /
-        (this.ggrData[this.ggrData.length - 1].ggr === 0
-          ? 1
-          : this.ggrData[this.ggrData.length - 1].ggr)
-      ).toFixed(1);
-
-      this.playersData = res.data.live_players;
-
-      // this.liveValue =
-      //   this.playersData?.live_players.length > 0 && this.playersData?.ggr[0];
-
-      this.playersPercentage = (
-        ((this.playersData[0].live_players -
-          this.playersData[this.playersData.length - 1].live_players) *
-          100) /
-        (this.playersData[this.playersData.length - 1].live_players === 0
-          ? 1
-          : this.playersData[this.playersData.length - 1].live_players)
-      ).toFixed(1);
-
-      this.despositorData = res.data.deposits;
-      this.depositValue = res.data.deposits?.[0].deposits || 0;
-
-      this.despositPercentage =
-        (
-          ((this.despositorData[0].deposits -
-            this.despositorData[this.despositorData.length - 1].deposits) *
-            100) /
-          (this.despositorData[this.despositorData.length - 1].deposits === 0
-            ? 1
-            : this.despositorData[this.despositorData.length - 1].deposits)
-        ).toFixed(1) || 0;
-
-      this.ftdsData = res.data.ftd;
-
-      this.ftdvalue = res.data.ftd?.[0].ftd || 0;
-      this.ftdsPercentage =
-        (
-          ((this.ftdsData[0].ftd -
-            this.ftdsData[this.ftdsData.length - 1].ftd) *
-            100) /
-          (this.ftdsData[this.ftdsData.length - 1].ftd === 0
-            ? 1
-            : this.ftdsData[this.ftdsData.length - 1].ftd)
-        ).toFixed(1) || 0;
-      if (isNaN(this.ftdsPercentage)) {
-        this.ftdsPercentage = 0;
-      }
-
-      this.profitPoints = {
-        series: [
-          {
-            name: ['Profit'],
-            // color: this.newitem?.color,
-            color: '#7ebbf4',
-            // color: '#59B259',
-            data: [
-              0,
-              ...res.data?.profit_ggr.map(function (obj: any) {
-                return obj.profit;
-              }),
-              0,
-            ],
-          },
-        ],
-        dataLabels: {
-          enabled: false,
-          style: {
-            colors: ['#333'],
-          },
-          offsetX: 30,
-        },
-        xaxis: {
-          categories: [
-            0,
-            ...res.data?.profit_ggr.map(function (obj: any) {
-              return obj.date;
-            }),
-            0,
-          ],
-        },
-        chart: {
-          type: 'area',
-          fontFamily: "'Plus Jakarta Sans', sans-serif;",
-          foreColor: '#adb0bb',
-          toolbar: {
-            show: false,
-          },
-          height: 80,
-          sparkline: {
-            enabled: true,
-          },
-          group: 'sparklines',
-        },
-        stroke: {
-          curve: 'smooth',
-          width: 2,
-        },
-        fill: {
-          colors: ['#6688F7'],
-          type: 'solid',
-          opacity: 0.05,
-        },
-        markers: {
-          size: 0,
-        },
-
-        tooltip: {
-          theme: 'dark',
-          fillSeriesColor: false,
-        },
-      };
-      this.ggrPoints = {
-        series: [
-          {
-            name: 'GGR',
-            // color: this.newitem?.color,
-            color: '#7ebbf4',
-            // color: '#59B259',
-            data: [
-              0,
-              ...res.data.profit_ggr.map(function (obj: any) {
-                return obj.ggr;
-              }),
-              0,
-            ],
-          },
-        ],
-
-        chart: {
-          type: 'area',
-          fontFamily: "'Plus Jakarta Sans', sans-serif;",
-          foreColor: '#adb0bb',
-          toolbar: {
-            show: false,
-          },
-          height: 80,
-          sparkline: {
-            enabled: true,
-          },
-          group: 'sparklines',
-        },
-        stroke: {
-          curve: 'smooth',
-          width: 2,
-        },
-        fill: {
-          colors: ['#6688F7'],
-          type: 'solid',
-          opacity: 0.05,
-        },
-        markers: {
-          size: 0,
-        },
-
-        xaxis: {
-          show: true,
-          categories: [
-            0,
-            ...res.data.profit_ggr.map(function (obj: any) {
-              return obj.date;
-            }),
-            0,
-          ],
-        },
-        tooltip: {
-          theme: 'dark',
-          fillSeriesColor: false,
-        },
-      };
-      this.livePlayerPoints = {
-        series: [
-          {
-            name: 'Live Players',
-            // color: this.newitem?.color,
-            color: '#7ebbf4',
-            // color: '#59B259',
-            data: res.data.live_players.map(function (obj: any) {
-              return obj.live_players;
-            }),
-          },
-        ],
-
-        chart: {
-          type: 'area',
-          fontFamily: "'Plus Jakarta Sans', sans-serif;",
-          foreColor: '#adb0bb',
-          toolbar: {
-            show: false,
-          },
-          height: 80,
-          sparkline: {
-            enabled: true,
-          },
-          group: 'sparklines',
-        },
-        stroke: {
-          curve: 'smooth',
-          width: 2,
-        },
-        fill: {
-          colors: ['#6688F7'],
-          type: 'solid',
-          opacity: 0.05,
-        },
-        markers: {
-          size: 0,
-        },
-
-        xaxis: {
-          show: true,
-          categories: res.data.live_players.map(function (obj: any) {
-            return obj.date;
-          }),
-        },
-        tooltip: {
-          theme: 'dark',
-          fillSeriesColor: false,
-        },
-      };
-      this.depositsPoints = {
-        series: [
-          {
-            name: 'Deposits',
-            // color: this.newitem?.color,
-            color: '#7ebbf4',
-            // color: '#59B259',
-            data: res.data.deposits.map(function (obj: any) {
-              return obj.deposits;
-            }),
-          },
-        ],
-
-        chart: {
-          type: 'area',
-          fontFamily: "'Plus Jakarta Sans', sans-serif;",
-          foreColor: '#adb0bb',
-          toolbar: {
-            show: false,
-          },
-          height: 80,
-          sparkline: {
-            enabled: true,
-          },
-          group: 'sparklines',
-        },
-        stroke: {
-          curve: 'smooth',
-          width: 2,
-        },
-        fill: {
-          colors: ['#6688F7'],
-          type: 'solid',
-          opacity: 0.05,
-        },
-        markers: {
-          size: 0,
-        },
-
-        xaxis: {
-          show: true,
-          categories: res.data.deposits.map(function (obj: any) {
-            return obj.date;
-          }),
-        },
-        tooltip: {
-          theme: 'dark',
-          fillSeriesColor: false,
-        },
-      };
-      this.ftdsPoints = {
-        series: [
-          {
-            name: 'FTDS',
-            // color: this.newitem?.color,
-            color: '#7ebbf4',
-            // color: '#59B259',
-            data: res.data.ftd.map(function (obj: any) {
-              return obj.ftd;
-            }),
-          },
-        ],
-
-        chart: {
-          type: 'area',
-          fontFamily: "'Plus Jakarta Sans', sans-serif;",
-          foreColor: '#adb0bb',
-          toolbar: {
-            show: false,
-          },
-          height: 80,
-          sparkline: {
-            enabled: true,
-          },
-          group: 'sparklines',
-        },
-        stroke: {
-          curve: 'smooth',
-          width: 2,
-        },
-        fill: {
-          colors: ['#6688F7'],
-          type: 'solid',
-          opacity: 0.05,
-        },
-        markers: {
-          size: 0,
-        },
-
-        xaxis: {
-          show: true,
-          categories: res.data.ftd.map(function (obj: any) {
-            return obj.date;
-          }),
-        },
-        tooltip: {
-          theme: 'dark',
-          fillSeriesColor: false,
-        },
-      };
-    });
-  }
-
-  upDateData(arg1: any, arg2: any) {
-    this.apiService.getData(arg2, arg1).subscribe((res: any) => {
-      this.fullData = { ...this.fullData, ...res.data };
-      if (arg1 == 'PSP') {
-        // this.piePoints = this.fullData?.payment_gateways.slice(0, 5);
-        this.piePoints = res.data?.payment_gateways?.slice(0, 5);
-        console.log('piePoints------', this.piePoints);
-      }
-    });
-  }
-
-  updateSelectionData(param1: any, param2: any) {
-    this.apiService.getData(param1, param2).subscribe((res: any) => {
-      // this.fullData = { ...this.fullData, ...res.data };
-      let data = res.data;
-      if (param2 === 'PROFIT') {
-        this.profitData = data?.profit_ggr;
+        this.profitData = res.data?.profit_ggr;
         this.profitvalue = res.data.profit_ggr?.[0].profit || 0;
 
+        this.ggrvalue = res.data.profit_ggr?.[0].ggr || 0;
+        this.liveValue = res.data.live_players?.[0].live_players || 0;
+        this.depositValue = res.data.deposits?.[0].deposits || 0;
+        this.ftdvalue = res.data.ftd?.[0].ftd || 0;
+
+        // this.profitvalue =
+        //   (this.profitData?.profit.length > 0 && this.profitData?.profit[0]) || 0;
         this.profitPercentage =
           (
             ((this.profitData[0].profit -
@@ -649,11 +293,66 @@ export class AppDashboard1Component implements OnInit, DoCheck, OnChanges {
             (this.profitData[this.profitData.length - 1].profit === 0
               ? 1
               : this.profitData[this.profitData.length - 1].profit)
-          ).toFixed(2) || 0;
+          ).toFixed(1) || 0;
+
+        this.ggrData = res.data.profit_ggr;
+        // this.ggrvalue = this.ggrData?.ggr.length > 0 && this.ggrData?.ggr[0];
+
+        this.ggrPercentage = (
+          ((this.ggrData[0].ggr - this.ggrData[this.ggrData.length - 1].ggr) *
+            100) /
+          (this.ggrData[this.ggrData.length - 1].ggr === 0
+            ? 1
+            : this.ggrData[this.ggrData.length - 1].ggr)
+        ).toFixed(1);
+
+        this.playersData = res.data.live_players;
+
+        // this.liveValue =
+        //   this.playersData?.live_players.length > 0 && this.playersData?.ggr[0];
+
+        this.playersPercentage = (
+          ((this.playersData[0].live_players -
+            this.playersData[this.playersData.length - 1].live_players) *
+            100) /
+          (this.playersData[this.playersData.length - 1].live_players === 0
+            ? 1
+            : this.playersData[this.playersData.length - 1].live_players)
+        ).toFixed(1);
+
+        this.despositorData = res.data.deposits;
+        this.depositValue = res.data.deposits?.[0].deposits || 0;
+
+        this.despositPercentage =
+          (
+            ((this.despositorData[0].deposits -
+              this.despositorData[this.despositorData.length - 1].deposits) *
+              100) /
+            (this.despositorData[this.despositorData.length - 1].deposits === 0
+              ? 1
+              : this.despositorData[this.despositorData.length - 1].deposits)
+          ).toFixed(1) || 0;
+
+        this.ftdsData = res.data.ftd;
+
+        this.ftdvalue = res.data.ftd?.[0].ftd || 0;
+        this.ftdsPercentage =
+          (
+            ((this.ftdsData[0].ftd -
+              this.ftdsData[this.ftdsData.length - 1].ftd) *
+              100) /
+            (this.ftdsData[this.ftdsData.length - 1].ftd === 0
+              ? 1
+              : this.ftdsData[this.ftdsData.length - 1].ftd)
+          ).toFixed(1) || 0;
+        if (isNaN(this.ftdsPercentage)) {
+          this.ftdsPercentage = 0;
+        }
+
         this.profitPoints = {
           series: [
             {
-              name: 'Profit',
+              name: ['Profit'],
               // color: this.newitem?.color,
               color: '#7ebbf4',
               // color: '#59B259',
@@ -666,35 +365,14 @@ export class AppDashboard1Component implements OnInit, DoCheck, OnChanges {
               ],
             },
           ],
-
-          chart: {
-            type: 'area',
-            fontFamily: "'Plus Jakarta Sans', sans-serif;",
-            foreColor: '#adb0bb',
-            toolbar: {
-              show: false,
+          dataLabels: {
+            enabled: false,
+            style: {
+              colors: ['#333'],
             },
-            height: 80,
-            sparkline: {
-              enabled: true,
-            },
-            group: 'sparklines',
+            offsetX: 30,
           },
-          stroke: {
-            curve: 'smooth',
-            width: 2,
-          },
-          fill: {
-            colors: ['#6688F7'],
-            type: 'solid',
-            opacity: 0.05,
-          },
-          markers: {
-            size: 0,
-          },
-
           xaxis: {
-            show: true,
             categories: [
               0,
               ...res.data?.profit_ggr.map(function (obj: any) {
@@ -703,38 +381,6 @@ export class AppDashboard1Component implements OnInit, DoCheck, OnChanges {
               0,
             ],
           },
-          tooltip: {
-            theme: 'dark',
-            fillSeriesColor: false,
-          },
-        };
-      }
-      if (param2 === 'GGR') {
-        this.ggrData = res.data?.profit_ggr;
-        this.ggrvalue = res.data.profit_ggr?.[0].ggr || 0;
-
-        this.ggrPercentage =
-          (
-            ((this.ggrData[0].ggr - this.ggrData[this.ggrData.length - 1].ggr) *
-              100) /
-            (this.ggrData[this.ggrData.length - 1].ggr === 0
-              ? 1
-              : this.ggrData[this.ggrData.length - 1].ggr)
-          ).toFixed(1) || 0;
-
-        this.ggrPoints = {
-          series: [
-            {
-              name: 'GGR',
-              // color: this.newitem?.color,
-              color: '#7ebbf4',
-              // color: '#59B259',
-              data: res.data?.profit_ggr.map(function (obj: any) {
-                return obj.ggr;
-              }),
-            },
-          ],
-
           chart: {
             type: 'area',
             fontFamily: "'Plus Jakarta Sans', sans-serif;",
@@ -761,43 +407,22 @@ export class AppDashboard1Component implements OnInit, DoCheck, OnChanges {
             size: 0,
           },
 
-          xaxis: {
-            show: true,
-            categories: res.data?.profit_ggr.map(function (obj: any) {
-              return obj.date;
-            }),
-          },
           tooltip: {
             theme: 'dark',
             fillSeriesColor: false,
           },
         };
-      }
-      if (param2 === 'LIVE-PLAYERS') {
-        this.playersData = res.data?.live_players;
-        this.liveValue = res.data.live_players?.[0].live_players || 0;
-
-        this.playersPercentage =
-          (
-            ((this.playersData[0].live_players -
-              this.playersData[this.playersData.length - 1].live_players) *
-              100) /
-            (this.playersData[this.playersData.length - 1].live_players === 0
-              ? 1
-              : this.playersData[this.playersData.length - 1].live_players)
-          ).toFixed(1) || 0;
-
-        this.livePlayerPoints = {
+        this.ggrPoints = {
           series: [
             {
-              name: 'Live Players',
+              name: 'GGR',
               // color: this.newitem?.color,
               color: '#7ebbf4',
               // color: '#59B259',
               data: [
                 0,
-                ...res.data?.live_players.map(function (obj: any) {
-                  return obj.live_players;
+                ...res.data.profit_ggr.map(function (obj: any) {
+                  return obj.ggr;
                 }),
                 0,
               ],
@@ -834,7 +459,7 @@ export class AppDashboard1Component implements OnInit, DoCheck, OnChanges {
             show: true,
             categories: [
               0,
-              ...res.data?.live_players.map(function (obj: any) {
+              ...res.data.profit_ggr.map(function (obj: any) {
                 return obj.date;
               }),
               0,
@@ -845,7 +470,464 @@ export class AppDashboard1Component implements OnInit, DoCheck, OnChanges {
             fillSeriesColor: false,
           },
         };
+        this.livePlayerPoints = {
+          series: [
+            {
+              name: 'Live Players',
+              // color: this.newitem?.color,
+              color: '#7ebbf4',
+              // color: '#59B259',
+              data: res.data.live_players.map(function (obj: any) {
+                return obj.live_players;
+              }),
+            },
+          ],
+
+          chart: {
+            type: 'area',
+            fontFamily: "'Plus Jakarta Sans', sans-serif;",
+            foreColor: '#adb0bb',
+            toolbar: {
+              show: false,
+            },
+            height: 80,
+            sparkline: {
+              enabled: true,
+            },
+            group: 'sparklines',
+          },
+          stroke: {
+            curve: 'smooth',
+            width: 2,
+          },
+          fill: {
+            colors: ['#6688F7'],
+            type: 'solid',
+            opacity: 0.05,
+          },
+          markers: {
+            size: 0,
+          },
+
+          xaxis: {
+            show: true,
+            categories: res.data.live_players.map(function (obj: any) {
+              return obj.date;
+            }),
+          },
+          tooltip: {
+            theme: 'dark',
+            fillSeriesColor: false,
+          },
+        };
+        this.depositsPoints = {
+          series: [
+            {
+              name: 'Deposits',
+              // color: this.newitem?.color,
+              color: '#7ebbf4',
+              // color: '#59B259',
+              data: res.data.deposits.map(function (obj: any) {
+                return obj.deposits;
+              }),
+            },
+          ],
+
+          chart: {
+            type: 'area',
+            fontFamily: "'Plus Jakarta Sans', sans-serif;",
+            foreColor: '#adb0bb',
+            toolbar: {
+              show: false,
+            },
+            height: 80,
+            sparkline: {
+              enabled: true,
+            },
+            group: 'sparklines',
+          },
+          stroke: {
+            curve: 'smooth',
+            width: 2,
+          },
+          fill: {
+            colors: ['#6688F7'],
+            type: 'solid',
+            opacity: 0.05,
+          },
+          markers: {
+            size: 0,
+          },
+
+          xaxis: {
+            show: true,
+            categories: res.data.deposits.map(function (obj: any) {
+              return obj.date;
+            }),
+          },
+          tooltip: {
+            theme: 'dark',
+            fillSeriesColor: false,
+          },
+        };
+        this.ftdsPoints = {
+          series: [
+            {
+              name: 'FTDS',
+              // color: this.newitem?.color,
+              color: '#7ebbf4',
+              // color: '#59B259',
+              data: res.data.ftd.map(function (obj: any) {
+                return obj.ftd;
+              }),
+            },
+          ],
+
+          chart: {
+            type: 'area',
+            fontFamily: "'Plus Jakarta Sans', sans-serif;",
+            foreColor: '#adb0bb',
+            toolbar: {
+              show: false,
+            },
+            height: 80,
+            sparkline: {
+              enabled: true,
+            },
+            group: 'sparklines',
+          },
+          stroke: {
+            curve: 'smooth',
+            width: 2,
+          },
+          fill: {
+            colors: ['#6688F7'],
+            type: 'solid',
+            opacity: 0.05,
+          },
+          markers: {
+            size: 0,
+          },
+
+          xaxis: {
+            show: true,
+            categories: res.data.ftd.map(function (obj: any) {
+              return obj.date;
+            }),
+          },
+          tooltip: {
+            theme: 'dark',
+            fillSeriesColor: false,
+          },
+        };
+      });
+    } catch (err: any) {
+      console.log('err', err);
+    }
+  }
+
+  upDateData(arg1: any, arg2: any) {
+    try {
+      this.apiService.getData(arg2, arg1).subscribe((res: any) => {
+        this.fullData = { ...this.fullData, ...res.data };
+        if (arg1 == 'PSP') {
+          // this.piePoints = this.fullData?.payment_gateways.slice(0, 5);
+          this.piePoints = res.data?.payment_gateways?.slice(0, 5);
+        }
+      });
+    } catch (err) {
+      console.log('err', err);
+    }
+  }
+
+  updateSelectionData(param1: any, param2: any) {
+    try {
+      this.apiService.getData(param1, param2).subscribe((res: any) => {
+        // this.fullData = { ...this.fullData, ...res.data };
+        let data = res.data;
+        if (param2 === 'PROFIT') {
+          this.profitData = data?.profit_ggr;
+          this.profitvalue = res.data.profit_ggr?.[0].profit || 0;
+
+          this.profitPercentage =
+            (
+              ((this.profitData[0].profit -
+                this.profitData[this.profitData.length - 1].profit) *
+                100) /
+              (this.profitData[this.profitData.length - 1].profit === 0
+                ? 1
+                : this.profitData[this.profitData.length - 1].profit)
+            ).toFixed(2) || 0;
+          this.profitPoints = {
+            series: [
+              {
+                name: 'Profit',
+                // color: this.newitem?.color,
+                color: '#7ebbf4',
+                // color: '#59B259',
+                data: [
+                  0,
+                  ...res.data?.profit_ggr.map(function (obj: any) {
+                    return obj.profit;
+                  }),
+                  0,
+                ],
+              },
+            ],
+
+            chart: {
+              type: 'area',
+              fontFamily: "'Plus Jakarta Sans', sans-serif;",
+              foreColor: '#adb0bb',
+              toolbar: {
+                show: false,
+              },
+              height: 80,
+              sparkline: {
+                enabled: true,
+              },
+              group: 'sparklines',
+            },
+            stroke: {
+              curve: 'smooth',
+              width: 2,
+            },
+            fill: {
+              colors: ['#6688F7'],
+              type: 'solid',
+              opacity: 0.05,
+            },
+            markers: {
+              size: 0,
+            },
+
+            xaxis: {
+              show: true,
+              categories: [
+                0,
+                ...res.data?.profit_ggr.map(function (obj: any) {
+                  return obj.date;
+                }),
+                0,
+              ],
+            },
+            tooltip: {
+              theme: 'dark',
+              fillSeriesColor: false,
+            },
+          };
+        }
+        if (param2 === 'GGR') {
+          this.ggrData = res.data?.profit_ggr;
+          this.ggrvalue = res.data.profit_ggr?.[0].ggr || 0;
+
+          this.ggrPercentage =
+            (
+              ((this.ggrData[0].ggr -
+                this.ggrData[this.ggrData.length - 1].ggr) *
+                100) /
+              (this.ggrData[this.ggrData.length - 1].ggr === 0
+                ? 1
+                : this.ggrData[this.ggrData.length - 1].ggr)
+            ).toFixed(1) || 0;
+
+          this.ggrPoints = {
+            series: [
+              {
+                name: 'GGR',
+                // color: this.newitem?.color,
+                color: '#7ebbf4',
+                // color: '#59B259',
+                data: res.data?.profit_ggr.map(function (obj: any) {
+                  return obj.ggr;
+                }),
+              },
+            ],
+
+            chart: {
+              type: 'area',
+              fontFamily: "'Plus Jakarta Sans', sans-serif;",
+              foreColor: '#adb0bb',
+              toolbar: {
+                show: false,
+              },
+              height: 80,
+              sparkline: {
+                enabled: true,
+              },
+              group: 'sparklines',
+            },
+            stroke: {
+              curve: 'smooth',
+              width: 2,
+            },
+            fill: {
+              colors: ['#6688F7'],
+              type: 'solid',
+              opacity: 0.05,
+            },
+            markers: {
+              size: 0,
+            },
+
+            xaxis: {
+              show: true,
+              categories: res.data?.profit_ggr.map(function (obj: any) {
+                return obj.date;
+              }),
+            },
+            tooltip: {
+              theme: 'dark',
+              fillSeriesColor: false,
+            },
+          };
+        }
+        if (param2 === 'LIVE-PLAYERS') {
+          this.playersData = res.data?.live_players;
+          this.liveValue = res.data.live_players?.[0].live_players || 0;
+
+          this.playersPercentage =
+            (
+              ((this.playersData[0].live_players -
+                this.playersData[this.playersData.length - 1].live_players) *
+                100) /
+              (this.playersData[this.playersData.length - 1].live_players === 0
+                ? 1
+                : this.playersData[this.playersData.length - 1].live_players)
+            ).toFixed(1) || 0;
+
+          this.livePlayerPoints = {
+            series: [
+              {
+                name: 'Live Players',
+                // color: this.newitem?.color,
+                color: '#7ebbf4',
+                // color: '#59B259',
+                data: [
+                  0,
+                  ...res.data?.live_players.map(function (obj: any) {
+                    return obj.live_players;
+                  }),
+                  0,
+                ],
+              },
+            ],
+
+            chart: {
+              type: 'area',
+              fontFamily: "'Plus Jakarta Sans', sans-serif;",
+              foreColor: '#adb0bb',
+              toolbar: {
+                show: false,
+              },
+              height: 80,
+              sparkline: {
+                enabled: true,
+              },
+              group: 'sparklines',
+            },
+            stroke: {
+              curve: 'smooth',
+              width: 2,
+            },
+            fill: {
+              colors: ['#6688F7'],
+              type: 'solid',
+              opacity: 0.05,
+            },
+            markers: {
+              size: 0,
+            },
+
+            xaxis: {
+              show: true,
+              categories: [
+                0,
+                ...res.data?.live_players.map(function (obj: any) {
+                  return obj.date;
+                }),
+                0,
+              ],
+            },
+            tooltip: {
+              theme: 'dark',
+              fillSeriesColor: false,
+            },
+          };
+          if (param2 === 'DEPOSITS') {
+            this.depositsPoints = {
+              series: [
+                {
+                  name: 'Deposits',
+                  // color: this.newitem?.color,
+                  color: '#7ebbf4',
+                  // color: '#59B259',
+                  data: [
+                    1,
+                    ...res.data?.deposits.map(function (obj: any) {
+                      return obj.deposits;
+                    }),
+                    1,
+                  ],
+                },
+              ],
+
+              chart: {
+                type: 'area',
+                fontFamily: "'Plus Jakarta Sans', sans-serif;",
+                foreColor: '#adb0bb',
+                toolbar: {
+                  show: false,
+                },
+                height: 80,
+                sparkline: {
+                  enabled: true,
+                },
+                group: 'sparklines',
+              },
+              stroke: {
+                curve: 'smooth',
+                width: 2,
+              },
+              fill: {
+                colors: ['#6688F7'],
+                type: 'solid',
+                opacity: 0.05,
+              },
+              markers: {
+                size: 0,
+              },
+
+              xaxis: {
+                show: true,
+                categories: [
+                  0,
+                  ...res.data?.deposits.map(function (obj: any) {
+                    return obj.date;
+                  }),
+                  0,
+                ],
+              },
+              tooltip: {
+                theme: 'dark',
+                fillSeriesColor: false,
+              },
+            };
+          }
+        }
         if (param2 === 'DEPOSITS') {
+          this.despositorData = res.data?.deposits;
+          this.depositValue = res.data.deposits?.[0].deposits || 0;
+          this.despositPercentage =
+            (
+              ((this.despositorData[0].deposits -
+                this.despositorData[this.despositorData.length - 1].deposits) *
+                100) /
+              (this.despositorData[this.despositorData.length - 1].deposits ===
+              0
+                ? 1
+                : this.despositorData[this.despositorData.length - 1].deposits)
+            ).toFixed(1) || 0;
           this.depositsPoints = {
             series: [
               {
@@ -854,11 +936,11 @@ export class AppDashboard1Component implements OnInit, DoCheck, OnChanges {
                 color: '#7ebbf4',
                 // color: '#59B259',
                 data: [
-                  1,
+                  0,
                   ...res.data?.deposits.map(function (obj: any) {
                     return obj.deposits;
                   }),
-                  1,
+                  0,
                 ],
               },
             ],
@@ -905,151 +987,86 @@ export class AppDashboard1Component implements OnInit, DoCheck, OnChanges {
             },
           };
         }
-      }
-      if (param2 === 'DEPOSITS') {
-        this.despositorData = res.data?.deposits;
-        this.depositValue = res.data.deposits?.[0].deposits || 0;
-        this.despositPercentage =
-          (
-            ((this.despositorData[0].deposits -
-              this.despositorData[this.despositorData.length - 1].deposits) *
-              100) /
-            (this.despositorData[this.despositorData.length - 1].deposits === 0
-              ? 1
-              : this.despositorData[this.despositorData.length - 1].deposits)
-          ).toFixed(1) || 0;
-        this.depositsPoints = {
-          series: [
-            {
-              name: 'Deposits',
-              // color: this.newitem?.color,
-              color: '#7ebbf4',
-              // color: '#59B259',
-              data: [
-                0,
-                ...res.data?.deposits.map(function (obj: any) {
-                  return obj.deposits;
+        if (param2 === 'FTD') {
+          this.ftdsData = res.data.ftd;
+
+          this.ftdvalue = res.data.ftd?.[0].ftd || 0;
+          this.ftdsPercentage =
+            (
+              ((this.ftdsData[0].ftd -
+                this.ftdsData[this.ftdsData.length - 1].ftd) *
+                100) /
+              (this.ftdsData[this.ftdsData.length - 1].ftd === 0
+                ? 1
+                : this.ftdsData[this.ftdsData.length - 1].ftd)
+            ).toFixed(1) || 0;
+          if (isNaN(this.ftdsPercentage)) this.ftdsPercentage = 0;
+          this.ftdsPoints = {
+            series: [
+              {
+                name: 'FTDS',
+                // color: this.newitem?.color,
+                color: '#7ebbf4',
+                // color: '#59B259',
+                data: res.data?.ftd.map(function (obj: any) {
+                  return obj.ftd;
                 }),
-                0,
-              ],
-            },
-          ],
+              },
+            ],
 
-          chart: {
-            type: 'area',
-            fontFamily: "'Plus Jakarta Sans', sans-serif;",
-            foreColor: '#adb0bb',
-            toolbar: {
-              show: false,
+            chart: {
+              type: 'area',
+              fontFamily: "'Plus Jakarta Sans', sans-serif;",
+              foreColor: '#adb0bb',
+              toolbar: {
+                show: false,
+              },
+              height: 80,
+              sparkline: {
+                enabled: true,
+              },
+              group: 'sparklines',
             },
-            height: 80,
-            sparkline: {
-              enabled: true,
+            stroke: {
+              curve: 'smooth',
+              width: 2,
             },
-            group: 'sparklines',
-          },
-          stroke: {
-            curve: 'smooth',
-            width: 2,
-          },
-          fill: {
-            colors: ['#6688F7'],
-            type: 'solid',
-            opacity: 0.05,
-          },
-          markers: {
-            size: 0,
-          },
+            fill: {
+              colors: ['#6688F7'],
+              type: 'solid',
+              opacity: 0.05,
+            },
+            markers: {
+              size: 0,
+            },
 
-          xaxis: {
-            show: true,
-            categories: [
-              0,
-              ...res.data?.deposits.map(function (obj: any) {
+            xaxis: {
+              show: true,
+              categories: res.data?.ftd.map(function (obj: any) {
                 return obj.date;
               }),
-              0,
-            ],
-          },
-          tooltip: {
-            theme: 'dark',
-            fillSeriesColor: false,
-          },
-        };
-      }
-      if (param2 === 'FTD') {
-        this.ftdsData = res.data.ftd;
-
-        this.ftdvalue = res.data.ftd?.[0].ftd || 0;
-        this.ftdsPercentage =
-          (
-            ((this.ftdsData[0].ftd -
-              this.ftdsData[this.ftdsData.length - 1].ftd) *
-              100) /
-            (this.ftdsData[this.ftdsData.length - 1].ftd === 0
-              ? 1
-              : this.ftdsData[this.ftdsData.length - 1].ftd)
-          ).toFixed(1) || 0;
-        if (isNaN(this.ftdsPercentage)) this.ftdsPercentage = 0;
-        this.ftdsPoints = {
-          series: [
-            {
-              name: 'FTDS',
-              // color: this.newitem?.color,
-              color: '#7ebbf4',
-              // color: '#59B259',
-              data: res.data?.ftd.map(function (obj: any) {
-                return obj.ftd;
-              }),
             },
-          ],
-
-          chart: {
-            type: 'area',
-            fontFamily: "'Plus Jakarta Sans', sans-serif;",
-            foreColor: '#adb0bb',
-            toolbar: {
-              show: false,
+            tooltip: {
+              theme: 'dark',
+              fillSeriesColor: false,
             },
-            height: 80,
-            sparkline: {
-              enabled: true,
-            },
-            group: 'sparklines',
-          },
-          stroke: {
-            curve: 'smooth',
-            width: 2,
-          },
-          fill: {
-            colors: ['#6688F7'],
-            type: 'solid',
-            opacity: 0.05,
-          },
-          markers: {
-            size: 0,
-          },
-
-          xaxis: {
-            show: true,
-            categories: res.data?.ftd.map(function (obj: any) {
-              return obj.date;
-            }),
-          },
-          tooltip: {
-            theme: 'dark',
-            fillSeriesColor: false,
-          },
-        };
-      }
-    });
+          };
+        }
+      });
+    } catch (err) {
+      console.log('err', err);
+    }
     // this.ngOnInit();
   }
   newPlayerDatafn(arg1: any, arg2: any): any {
-    this.apiService.getData(arg1, arg2).subscribe((res: any) => {
-      if (this.selected === 'data') this.genralData = res.data.general_data;
-      else this.conpareData = res.data?.comparison;
-    });
+    try {
+      this.apiService.getData(arg1, arg2).subscribe((res: any) => {
+        if (this.selected === 'data') this.genralData = res.data.general_data;
+        else this.conpareData = res.data?.comparison;
+      });
+    } catch (err) {
+      console.log('err', err);
+    }
   }
 
   callbackfn = (value: any): void => {
