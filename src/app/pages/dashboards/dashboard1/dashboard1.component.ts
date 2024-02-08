@@ -206,7 +206,7 @@ export class AppDashboard1Component implements OnInit, DoCheck, OnChanges {
     'total_deposits',
     'total_withdrawals',
     'avg_deposits',
-    'created_at',
+    // 'created_at',
   ];
 
   displayedColumns3: string[] = [

@@ -26,7 +26,7 @@ import {
 } from 'ng-apexcharts';
 import { MaterialModule } from '../../../material.module';
 import { TablerIconsModule } from 'angular-tabler-icons';
-import { NgClass, NgForOf } from '@angular/common';
+import { NgClass, NgForOf, NgIf } from '@angular/common';
 
 interface month {
   value: string;
@@ -57,6 +57,7 @@ export interface revenueChart {
     TablerIconsModule,
     NgForOf,
     NgClass,
+    NgIf,
   ],
   templateUrl: './revenue-updates.component.html',
 })
@@ -65,6 +66,10 @@ export class AppRevenueUpdatesComponent implements OnInit, OnChanges {
   @Output() selectEvent = new EventEmitter<string>();
   @Input() data: any;
   @Input() callbackFunction: (args: any) => void;
+
+  totalRecurringPlayers: any;
+  totalNewPlayers: any;
+  public loading: boolean = false;
 
   public revenueChart!: Partial<revenueChart> | any;
   selectedType: any = 'Today';
@@ -470,20 +475,34 @@ export class AppRevenueUpdatesComponent implements OnInit, OnChanges {
   }
   ngOnChanges(changes: SimpleChanges): void {
     // console.log(changes['data'].currentValue, '---------');
+    this.loading = true;
 
     let data = changes['data'].currentValue;
     let datapoints =
       data &&
       data.length > 0 &&
       data.map(function (obj: any) {
-        return obj.new_users;
+        return Number(obj.new_users);
       });
+    if (datapoints.length > 0) {
+      this.totalNewPlayers = datapoints.reduce(
+        (accumulator: any, currentValue: any) => accumulator + currentValue,
+        0
+      );
+    }
     let recurring_points =
       data &&
       data.length > 0 &&
       data.map(function (obj: any) {
-        return obj.recurring_users;
+        return Number(obj.recurring_users);
       });
+
+    if (datapoints.length > 0) {
+      this.totalRecurringPlayers = recurring_points.reduce(
+        (accumulator: any, currentValue: any) => accumulator + currentValue,
+        0
+      );
+    }
 
     let categories =
       data &&
@@ -508,11 +527,37 @@ export class AppRevenueUpdatesComponent implements OnInit, OnChanges {
       ],
 
       chart: {
+        zoom: {
+          enabled: true,
+          type: 'x',
+          autoScaleYaxis: false,
+          zoomedArea: {
+            fill: {
+              color: '#90CAF9',
+              opacity: 0.4,
+            },
+            stroke: {
+              color: '#0D47A1',
+              opacity: 0.4,
+              width: 1,
+            },
+          },
+        },
         type: 'bar',
         fontFamily: "'Plus Jakarta Sans', sans-serif;",
         foreColor: '#adb0bb',
         toolbar: {
           show: true,
+          tools: {
+            download: true,
+            selection: true,
+            zoom: true,
+            zoomin: true,
+            zoomout: true,
+            pan: true,
+            reset: true,
+            customIcons: [],
+          },
         },
         height: 300,
         stacked: true,
@@ -529,13 +574,13 @@ export class AppRevenueUpdatesComponent implements OnInit, OnChanges {
       },
 
       stroke: {
-        show: false,
+        show: true,
       },
       dataLabels: {
         enabled: false,
       },
       legend: {
-        show: false,
+        show: true,
       },
       grid: {
         borderColor: 'rgba(0,0,0,0.1)',
@@ -550,6 +595,7 @@ export class AppRevenueUpdatesComponent implements OnInit, OnChanges {
         show: false,
       },
       xaxis: {
+        tickPlacement: 'on',
         show: true,
         categories: [0, ...categories, 0],
         labels: {
@@ -567,5 +613,9 @@ export class AppRevenueUpdatesComponent implements OnInit, OnChanges {
         fillSeriesColor: false,
       },
     };
+
+    setTimeout(() => {
+      this.loading = false;
+    }, 2000);
   }
 }

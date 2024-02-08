@@ -428,8 +428,10 @@
   </div>
 </div>
 
-<div class="row">
-  <div class="col-lg-6 h-[85]">
+<div class="flex flex-row items-center justify-between flex-wrap lg:space-x-2">
+  <div
+    class="border w-full lg:w-[48%] md:[h-50vh] lg:h-[500px] p-0 rounded-md my-2"
+  >
     <app-revenue-updates
       *ngIf="selected === 'data'"
       (selectEvent)="selectedFn($event)"
@@ -443,7 +445,9 @@
       [data]="conpareData"
     ></app-playerscompare>
   </div>
-  <div class="col-lg-6 h-[85]">
+  <div
+    class="border w-full lg:w-[48%] md:[h-50vh] lg:h-[500px] p-0 rounded-md my-2"
+  >
     <app-data-tables
       [title]="'Top Games'"
       [tableData]="topGamesData"
@@ -452,7 +456,9 @@
       [callbackFunction]="myCallbackFunction"
     ></app-data-tables>
   </div>
-  <div class="col-lg-6 h-[85]">
+  <div
+    class="border w-full lg:w-[48%] md:[h-50vh] lg:h-[500px] p-0 rounded-md my-2"
+  >
     <app-data-tables
       [title]="'Top Depositors'"
       [tableData]="topDepositorData"
@@ -461,7 +467,9 @@
       [callbackFunction]="myCallbackFunction"
     ></app-data-tables>
   </div>
-  <div class="col-lg-6 h-[85]">
+  <div
+    class="border w-full lg:w-[48%] md:[h-50vh] lg:h-[500px] p-0 rounded-md my-2"
+  >
     <app-data-tables
       [title]="'Payment Gateways'"
       [tableData]="paymentGateways"
