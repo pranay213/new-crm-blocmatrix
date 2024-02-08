@@ -8,6 +8,8 @@ import {
   OnChanges,
   DoCheck,
 } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
 import {
   ApexAxisChartSeries,
   ApexChart,
@@ -46,7 +48,7 @@ export type ChartOptions = {
 @Component({
   selector: 'app-doughnut-pie',
   standalone: true,
-  imports: [NgApexchartsModule, MaterialModule],
+  imports: [NgApexchartsModule, MaterialModule, CommonModule],
   templateUrl: './doughnut-pie.component.html',
 })
 export class AppDoughnutpieChartComponent
@@ -161,13 +163,9 @@ export class AppDoughnutpieChartComponent
   }
 
   ngOnInit(): void {
-    let series = this.chartPoints.map(function (obj: any) {
-      return Number(obj.count);
-    });
-    let labels = this.chartPoints.map(function (obj: any) {
-      return obj.payment_gateway;
-    });
-    console.log('labels----', labels);
+    let series = this.chartPoints?.series;
+    let labels = this.chartPoints?.labels;
+    console.log('labels----', this.chartPoints);
     this.doughnutChartOptions = {
       series: series,
       labels: labels,
@@ -208,5 +206,8 @@ export class AppDoughnutpieChartComponent
 
   ngDoCheck(): void {
     // this.doughnutChartOptions = {};
+    console.log('chartpoints', this.chartPoints);
+    this.doughnutChartOptions.series = this.chartPoints?.series;
+    this.doughnutChartOptions.labels = this.chartPoints?.labels;
   }
 }

@@ -357,11 +357,11 @@ export class AppDashboard1Component implements OnInit, DoCheck, OnChanges {
               color: '#7ebbf4',
               // color: '#59B259',
               data: [
-                0,
+                0.0,
                 ...res.data?.profit_ggr.map(function (obj: any) {
                   return obj.profit;
                 }),
-                0,
+                0.0,
               ],
             },
           ],
@@ -420,11 +420,11 @@ export class AppDashboard1Component implements OnInit, DoCheck, OnChanges {
               color: '#7ebbf4',
               // color: '#59B259',
               data: [
-                0,
+                0.0,
                 ...res.data.profit_ggr.map(function (obj: any) {
                   return obj.ggr;
                 }),
-                0,
+                0.0,
               ],
             },
           ],
@@ -631,8 +631,25 @@ export class AppDashboard1Component implements OnInit, DoCheck, OnChanges {
       this.apiService.getData(arg2, arg1).subscribe((res: any) => {
         this.fullData = { ...this.fullData, ...res.data };
         if (arg1 == 'PSP') {
-          // this.piePoints = this.fullData?.payment_gateways.slice(0, 5);
-          this.piePoints = res.data?.payment_gateways?.slice(0, 5);
+          let points = this.fullData?.payment_gateways.slice(0, 5);
+          if (points && points.length > 0) {
+            let series = points.map(function (obj: any) {
+              return Number(obj.count);
+            });
+            let labels = points.map(function (obj: any) {
+              return obj.payment_gateway;
+            });
+
+            this.piePoints = {
+              series: series,
+              labels: labels,
+            };
+          } else {
+            this.piePoints = {
+              series: [],
+              labels: [],
+            };
+          }
         }
       });
     } catch (err) {
@@ -1082,6 +1099,25 @@ export class AppDashboard1Component implements OnInit, DoCheck, OnChanges {
   };
   ngOnInit() {
     this.getData();
+    let points = this.fullData?.payment_gateways.slice(0, 5);
+    if (points && points.length > 0) {
+      let series: any = points.map(function (obj: any) {
+        return Number(obj.count);
+      });
+      let labels = points.map(function (obj: any) {
+        return obj.payment_gateway;
+      });
+
+      this.piePoints = {
+        series: series,
+        labels: labels,
+      };
+    } else {
+      this.piePoints = {
+        series: [],
+        labels: [],
+      };
+    }
   }
   ngDoCheck() {
     // console.log('hello ng docheck', this.fullData.top_games);
@@ -1100,7 +1136,6 @@ export class AppDashboard1Component implements OnInit, DoCheck, OnChanges {
     this.paymentGateways = new MatTableDataSource<PaymentGateElement>(
       paymentGateways
     );
-    this.piePoints = this.fullData?.payment_gateways.slice(0, 5);
 
     // console.log('profitData', this.profitData);
   }
