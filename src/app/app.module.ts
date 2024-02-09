@@ -1,7 +1,11 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import {
+  HttpClientModule,
+  HttpClient,
+  HTTP_INTERCEPTORS,
+} from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -39,6 +43,7 @@ import { TableModule } from 'primeng/table';
 import { TabViewModule } from 'primeng/tabview';
 import { CardModule } from 'primeng/card';
 import { CountryPickerService } from 'ngx-country-picker';
+import { HttpInterceptorService } from './http.interceptor';
 
 export function HttpLoaderFactory(http: HttpClient): any {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -80,6 +85,15 @@ export function HttpLoaderFactory(http: HttpClient): any {
   ],
   exports: [TablerIconsModule],
   bootstrap: [AppComponent],
-  providers: [ApiErrorDialogComponent, DatePipe, CountryPickerService],
+  providers: [
+    ApiErrorDialogComponent,
+    DatePipe,
+    CountryPickerService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpInterceptorService,
+      multi: true,
+    },
+  ],
 })
 export class AppModule {}

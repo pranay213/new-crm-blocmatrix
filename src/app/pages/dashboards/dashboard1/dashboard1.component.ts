@@ -477,9 +477,13 @@ export class AppDashboard1Component implements OnInit, DoCheck, OnChanges {
               // color: this.newitem?.color,
               color: '#7ebbf4',
               // color: '#59B259',
-              data: res.data.live_players.map(function (obj: any) {
-                return obj.live_players;
-              }),
+              data: [
+                0,
+                ...res.data.live_players.map(function (obj: any) {
+                  return obj.live_players;
+                }),
+                0,
+              ],
             },
           ],
 
@@ -511,9 +515,13 @@ export class AppDashboard1Component implements OnInit, DoCheck, OnChanges {
 
           xaxis: {
             show: true,
-            categories: res.data.live_players.map(function (obj: any) {
-              return obj.date;
-            }),
+            categories: [
+              0,
+              ...res.data.live_players.map(function (obj: any) {
+                return obj.date;
+              }),
+              0,
+            ],
           },
           tooltip: {
             theme: 'dark',
@@ -527,9 +535,13 @@ export class AppDashboard1Component implements OnInit, DoCheck, OnChanges {
               // color: this.newitem?.color,
               color: '#7ebbf4',
               // color: '#59B259',
-              data: res.data.deposits.map(function (obj: any) {
-                return obj.deposits;
-              }),
+              data: [
+                0,
+                ...res.data.deposits.map(function (obj: any) {
+                  return obj.deposits;
+                }),
+                0,
+              ],
             },
           ],
 
@@ -561,9 +573,13 @@ export class AppDashboard1Component implements OnInit, DoCheck, OnChanges {
 
           xaxis: {
             show: true,
-            categories: res.data.deposits.map(function (obj: any) {
-              return obj.date;
-            }),
+            categories: [
+              0,
+              ...res.data.deposits.map(function (obj: any) {
+                return obj.date;
+              }),
+              0,
+            ],
           },
           tooltip: {
             theme: 'dark',
@@ -577,9 +593,13 @@ export class AppDashboard1Component implements OnInit, DoCheck, OnChanges {
               // color: this.newitem?.color,
               color: '#7ebbf4',
               // color: '#59B259',
-              data: res.data.ftd.map(function (obj: any) {
-                return obj.ftd;
-              }),
+              data: [
+                0,
+                ...res.data.ftd.map(function (obj: any) {
+                  return obj.ftd;
+                }),
+                0,
+              ],
             },
           ],
 
@@ -611,9 +631,13 @@ export class AppDashboard1Component implements OnInit, DoCheck, OnChanges {
 
           xaxis: {
             show: true,
-            categories: res.data.ftd.map(function (obj: any) {
-              return obj.date;
-            }),
+            categories: [
+              0,
+              ...res.data.ftd.map(function (obj: any) {
+                return obj.date;
+              }),
+              0,
+            ],
           },
           tooltip: {
             theme: 'dark',
