@@ -27,8 +27,7 @@ export class NotificationService {
     // this.errorsSubject$.next(message);
 
     if (error.statusText === 'Unauthorized' || error?.error) {
-      this.errdata =
-        'Unauthorized login . Please login With correct credentials';
+      this.errdata = 'Something went wrong Please login again';
 
       localStorage.clear();
       setTimeout(() => {
